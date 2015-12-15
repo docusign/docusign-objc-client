@@ -1,0 +1,33 @@
+{
+  "name": "DocuSignClient",
+  "version": "1.0.0",
+  "summary": "DocuSign REST API",
+  "description": "The DocuSign REST API provides you with a powerful, convenient, and simple Web services API for interacting with DocuSign.",
+  "platforms": {
+    "ios": "7.0"
+  },
+  "requires_arc": true,
+  "frameworks": "SystemConfiguration",
+  "homepage": "https://github.com/swagger-api/swagger-codegen",
+  "license": "MIT",
+  "source": {
+    "git": "https://github.com/swagger-api/swagger-codegen.git",
+    "tag": "1.0.0"
+  },
+  "authors": {
+    "Swagger": "apiteam@swagger.io"
+  },
+  "source_files": "DocuSignClient/**/*",
+  "public_header_files": "DocuSignClient/**/*.h",
+  "dependencies": {
+    "AFNetworking": [
+      "~> 2.3"
+    ],
+    "JSONModel": [
+      "~> 1.1"
+    ],
+    "ISO8601": [
+      "~> 0.3"
+    ]
+  }
+}
