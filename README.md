@@ -34,12 +34,15 @@ $ pod install
 
 **DEPENDENCIES**
 
-This project has several external dependencies, you may need to add some additional JAR files to your project settings.  See the [/sdk/target/lib/](sdk/target/lib/) folder.
+* AFNetworking ~> 2.3
+* JSONModel ~> 1.1
+* ISO8601 ~> 0.3
 
 **SYSTEM REQUIREMENTS**
 
-This Client has been tested using: 
+This Client has been tested in following environment:  
 
+* iOS v7.0
 * Xcode Version 6.2 (6C131e)
 
 **EXAMPLES**
