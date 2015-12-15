@@ -45,4 +45,4 @@ This Client has been tested using:
 **EXAMPLES**
 
   1. Recipes (Code Walkthroughs) are available here: [CoreRecipes.m](test/Recipes/CoreRecipes.m)
-  2. Unit tests are available here: [SdkTestsTests.m](test/SdkTests/SdkTestsTests/SdkTestsTests.m).
+  2. Unit tests are available here: [SdkTestsTests.m](test/SDKTests/SDKTestsTests/SDKTestsTests.m)
