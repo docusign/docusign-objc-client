@@ -32,6 +32,17 @@ Then run the following command in the same directory as your podfile:
 $ pod install
 ```
 
+Once done installing close Xcode then open the newly created `.xcworkspace` project file and make sure you use this going forward! Then just add your `import` statements in your source, for example:
+
+```ruby
+#import <DocuSignESignClient/DSApiClient.h>
+#import <DocuSignESignClient/DSAuthenticationApi.h>
+#import <DocuSignESignClient/DSEnvelopesApi.h>
+
+...
+
+```
+
 **DEPENDENCIES**
 
 * AFNetworking ~> 2.3
