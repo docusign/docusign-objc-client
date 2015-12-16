@@ -11,7 +11,7 @@ The DocuSign Objective-C Client is a Swagger-based auto-generated library that c
 
 There are two main ways of using this client:  
 
-  1. Create a podfile, run pod install, then use the .xcworkspace project file moving forward.
+  1. Create a podfile, run pod install, then use the `.xcworkspace` project file moving forward.
   2. Copy the source files directly into your existing project’s source directories and `import`.
 
 For method #1 you can do the following:
