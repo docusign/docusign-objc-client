@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "DocuSignESign"
-    s.version          = "1.0.0"
+    s.version          = "2.0.0"
 
     s.summary          = "DocuSign REST API Client"
     s.description      = <<-DESC
@@ -21,17 +21,16 @@ Pod::Spec.new do |s|
 
     s.framework    = 'SystemConfiguration'
     
-    s.homepage     = "https://github.com/docusign/docusign-objc-client"
+    s.homepage     = "https://cocoapods.org/pods/DocuSignESign"
     s.license      = "LICENSE"
-    s.source       = { :git => "https://github.com/docusign/docusign-objc-client", :tag => "#{s.version}" }
+    s.source       = { :git => "https://github.com/docusign/docusign-objc-client.git", :tag => "#{s.version}" }
     s.author       = { "DocuSign" => "devcenter@docusign.com" }
 
-    s.source_files = 'DocuSignESign/*'
-    s.public_header_files = 'DocuSignESign/*.h'
+    s.source_files = 'sdk/DocuSignESign/*'
+    s.public_header_files = 'sdk/DocuSignESign/*.h'
 
     s.dependency 'AFNetworking', '~> 2.3'
     s.dependency 'JSONModel', '~> 1.1'
     s.dependency 'ISO8601', '~> 0.3'
-	s.deprecated = true
 end
 
