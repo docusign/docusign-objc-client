@@ -5,7 +5,7 @@ You can sign up for a free [developer sandbox](https://www.docusign.com/develope
 Requirements
 ============
 
-Xcode 6.2 and later.  
+Xcode 6.2 or later.  
 
 Installation
 ============
