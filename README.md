@@ -104,7 +104,7 @@ Unit tests are available here.
 Support
 =======
 
-Feel free to log [issues](https://github.com/docusign/docusign-objc-client/issues) against this client through GitHub.  We also have an active developer community on Stack Overflow, search the **[DocuSignAPI](http://stackoverflow.com/questions/tagged/docusignapi)** tag.
+Feel free to log issues against this client through GitHub.  We also have an active developer community on Stack Overflow, search the **[DocuSignAPI](http://stackoverflow.com/questions/tagged/docusignapi)** tag.
 
 Notes
 =======
