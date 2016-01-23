@@ -17,7 +17,7 @@ Create a podfile, run pod install, then use the `.xcworkspace` project file movi
    1. At the command line run the following RubyGems command to install cocoapods (note: this might require sudo):
    `$ gem install cocoapods`
 
-   2. Create a file in your root project directory called `Podfile` with the following content.  Make sure to replace the two references to PROJECT with your project name:
+   2. Create a file in your root project directory called `Podfile` with the following content.  Replace the two references to **PROJECT** below with your unique project name:
    
 ```
 	source 'https://github.com/CocoaPods/Specs.git'
