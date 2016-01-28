@@ -106,6 +106,11 @@ Support
 
 Feel free to log issues against this client through GitHub.  We also have an active developer community on Stack Overflow, search the [DocuSignAPI](http://stackoverflow.com/questions/tagged/docusignapi) tag.
 
+License
+=======
+
+The DocuSign Objc Client is licensed under the following [License](LICENSE).
+
 Notes
 =======
 
