@@ -10,7 +10,7 @@ Xcode 6.2 or later.
 Installation
 ============
 
-### Cocoapods Install
+### CocoaPods Install
 
 Create a podfile, run pod install, then use the `.xcworkspace` project file moving forward. To use the clients in this manner, do the following:
 
