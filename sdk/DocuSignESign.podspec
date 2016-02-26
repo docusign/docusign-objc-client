@@ -9,11 +9,11 @@
 
 Pod::Spec.new do |s|
     s.name             = "DocuSignESign"
-    s.version          = "1.0.0"
+    s.version          = "2.1.0"
 
-    s.summary          = "DocuSign REST API"
+    s.summary          = "DocuSign REST API Client"
     s.description      = <<-DESC
-                         The DocuSign REST API provides you with a powerful, convenient, and simple Web services API for interacting with DocuSign.
+                         The DocuSign CocoaPod library makes integrating DocuSign into your apps and websites a super fast and painless process. The library is open sourced on GitHub, look for the docusign-obj-client repository. Join the eSign revolution!
                          DESC
 
     s.platform     = :ios, '7.0'
@@ -21,13 +21,13 @@ Pod::Spec.new do |s|
 
     s.framework    = 'SystemConfiguration'
     
-    s.homepage     = "https://github.com/swagger-api/swagger-codegen"
-    s.license      = "MIT"
-    s.source       = { :git => "https://github.com/swagger-api/swagger-codegen.git", :tag => "#{s.version}" }
-    s.author       = { "Swagger" => "apiteam@swagger.io" }
+    s.homepage     = "https://cocoapods.org/pods/DocuSignESign"
+    s.license      = "LICENSE"
+    s.source       = { :git => "https://github.com/docusign/docusign-objc-client.git", :tag => "#{s.version}" }
+    s.author       = { "DocuSign" => "devcenter@docusign.com" }
 
-    s.source_files = 'DocuSignESign/**/*'
-    s.public_header_files = 'DocuSignESign/**/*.h'
+    s.source_files = 'sdk/DocuSignESign/*'
+    s.public_header_files = 'sdk/DocuSignESign/*.h'
 
     s.dependency 'AFNetworking', '~> 2.3'
     s.dependency 'JSONModel', '~> 1.1'
