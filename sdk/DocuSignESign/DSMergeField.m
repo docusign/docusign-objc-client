@@ -2,13 +2,24 @@
 
 @implementation DSMergeField
 
+- (instancetype)init {
+  self = [super init];
+
+  if (self) {
+    // initalise property's default value, if any
+    
+  }
+
+  return self;
+}
+
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper
 {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"configurationType": @"configurationType", @"path": @"path", @"writeBack": @"writeBack", @"allowSenderToEdit": @"allowSenderToEdit" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"configurationType": @"configurationType", @"path": @"path", @"writeBack": @"writeBack", @"allowSenderToEdit": @"allowSenderToEdit", @"row": @"row" }];
 }
 
 /**
@@ -18,7 +29,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName
 {
-  NSArray *optionalProperties = @[@"configurationType", @"path", @"writeBack", @"allowSenderToEdit"];
+  NSArray *optionalProperties = @[@"configurationType", @"path", @"writeBack", @"allowSenderToEdit", @"row"];
 
   if ([optionalProperties containsObject:propertyName]) {
     return YES;

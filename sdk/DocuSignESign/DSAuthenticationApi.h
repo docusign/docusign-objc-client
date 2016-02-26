@@ -20,10 +20,6 @@
 
 @interface DSAuthenticationApi_LoginOptions : DSObject
 /*
- * loginSettings Determines whether login settings are returned in the response.\n\nValid Values:\n\n* all -  All the login settings are returned. \n* none - no login settings are returned.
- */
-@property NSString* loginSettings;
-/*
  * apiPassword When set to **true**, shows the account API password in the response.
  */
 @property NSString* apiPassword;
@@ -31,6 +27,10 @@
  * includeAccountIdGuid When set to **true**, shows the account ID GUID in the response.
  */
 @property NSString* includeAccountIdGuid;
+/*
+ * loginSettings Determines whether login settings are returned in the response.\n\nValid Values:\n\n* all -  All the login settings are returned. \n* none - no login settings are returned.
+ */
+@property NSString* loginSettings;
 
 @end
 
@@ -73,13 +73,10 @@
 ///
 /// @param DSAuthenticationApi_LoginOptions  Options for modifying the request.
 /// @return DSLoginInformation*
-
--(NSNumber*) loginWithCompletionBlock : 
+-(NSNumber*) loginWithApiPassword:
      
     (DSAuthenticationApi_LoginOptions*) options
-    
-    completionHandler: (void (^)(DSLoginInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSLoginInformation* output, NSError* error)) handler;
 
 
 	

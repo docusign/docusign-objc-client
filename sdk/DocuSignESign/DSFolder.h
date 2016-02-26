@@ -7,9 +7,9 @@
  * Do not edit the class manually.
  */
 
+#import "DSErrorDetails.h"
 #import "DSFilter.h"
 #import "DSFolder.h"
-#import "DSErrorDetails.h"
 
 
 @protocol DSFolder

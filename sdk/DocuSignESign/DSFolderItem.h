@@ -72,6 +72,9 @@
 /* When set to **true**, indicates that this module is enabled on the account. [optional]
  */
 @property(nonatomic) NSString* is21CFRPart11;
+/*  [optional]
+ */
+@property(nonatomic) NSString* isUniversalSignatureEnvelope;
 /* An optional array of strings that allows the sender to provide custom data about the recipient. This information is returned in the envelope status but otherwise not used by DocuSign. Each customField string can be a maximum of 100 characters. [optional]
  */
 @property(nonatomic) NSArray<DSCustomFieldV2>* customFields;

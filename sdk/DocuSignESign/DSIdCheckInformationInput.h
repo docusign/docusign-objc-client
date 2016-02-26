@@ -7,10 +7,10 @@
  * Do not edit the class manually.
  */
 
-#import "DSSsn9InformationInput.h"
-#import "DSDobInformationInput.h"
 #import "DSAddressInformationInput.h"
+#import "DSDobInformationInput.h"
 #import "DSSsn4InformationInput.h"
+#import "DSSsn9InformationInput.h"
 
 
 @protocol DSIdCheckInformationInput

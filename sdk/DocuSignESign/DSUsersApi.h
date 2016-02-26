@@ -42,14 +42,10 @@
 ///
 ///
 /// @return DSUserSettingsInformation*
-
--(NSNumber*) getSettingsWithCompletionBlock :(NSString*) accountId 
-     userId:(NSString*) userId  
+-(NSNumber*) getSettingsWithAccountId:(NSString*) accountId  userId:(NSString*) userId 
      
     
-    
-    completionHandler: (void (^)(DSUserSettingsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSUserSettingsInformation* output, NSError* error)) handler;
 
 
 	

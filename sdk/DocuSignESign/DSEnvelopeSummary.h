@@ -20,7 +20,7 @@
 /*  [optional]
  */
 @property(nonatomic) NSString* uri;
-/*  [optional]
+/* The DateTime that the envelope changed status (i.e. was created or sent.) [optional]
  */
 @property(nonatomic) NSString* statusDateTime;
 /* Indicates the envelope status. Valid values are:\n\n* sent - The envelope is sent to the recipients. \n* created - The envelope is saved as a draft and can be modified and sent later. [optional]

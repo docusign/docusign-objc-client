@@ -17,7 +17,7 @@
 /*  [optional]
  */
 @property(nonatomic) NSArray* /* NSString */ envelopeIds;
-/*  [optional]
+/* A list of transaction Id's used to determining the status of envelopes sent asynchronously. See **transactionId** property on envelopes. [optional]
  */
 @property(nonatomic) NSArray* /* NSString */ transactionIds;
 

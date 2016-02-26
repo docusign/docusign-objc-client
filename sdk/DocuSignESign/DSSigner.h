@@ -7,19 +7,19 @@
  * Do not edit the class manually.
  */
 
-#import "DSRecipientPhoneAuthentication.h"
-#import "DSIdCheckInformationInput.h"
-#import "DSRecipientEmailNotification.h"
-#import "DSSocialAuthentication.h"
-#import "DSRecipientSAMLAuthentication.h"
-#import "DSOfflineAttributes.h"
-#import "DSUserInfo.h"
 #import "DSAttachment.h"
 #import "DSAuthenticationStatus.h"
-#import "DSTabs.h"
 #import "DSErrorDetails.h"
-#import "DSRecipientSignatureInformation.h"
+#import "DSIdCheckInformationInput.h"
+#import "DSOfflineAttributes.h"
+#import "DSRecipientEmailNotification.h"
+#import "DSRecipientPhoneAuthentication.h"
+#import "DSRecipientSAMLAuthentication.h"
 #import "DSRecipientSMSAuthentication.h"
+#import "DSRecipientSignatureInformation.h"
+#import "DSSocialAuthentication.h"
+#import "DSTabs.h"
+#import "DSUserInfo.h"
 
 
 @protocol DSSigner

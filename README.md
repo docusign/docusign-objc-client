@@ -20,23 +20,7 @@ Create a podfile, run pod install, then use the `.xcworkspace` project file movi
    2. Create a file in your root project directory called `Podfile` with the following content.  Replace the two references to **PROJECT** below with your unique project name:
    
 ```
-	source 'https://github.com/CocoaPods/Specs.git'
-	source 'https://github.com/Artsy/Specs.git'
-
-	platform :ios, '8.0'
-	inhibit_all_warnings!
-
-	target 'PROJECT’ do
-		xcodeproj 'PROJECT’
-
-		pod 'DocuSign.eSign', '~> 1.0.1'
-	end
-
-	post_install do |installer|
-		installer.pods_project.targets.each do |target|
-			puts "#{target.name}"
-		end
-	end
+	pod 'DocuSignESign', '~> 2.0.0'
 ```	
 
    3. Run the following command in the same directory as your Podfile:
@@ -60,28 +44,30 @@ Usage
 To initialize the client and make the Login API Call:
 
 ```objc
-#import <DocuSign.eSign/DSApiClient.h>
-#import <DocuSign.eSign/DSAuthenticationApi.h>
-#import <DocuSign.eSign/DSEnvelopesApi.h>
+#import <DocuSignESign/DSApiClient.h>
+#import <DocuSignESign/DSAuthenticationApi.h>
+#import <DocuSignESign/DSEnvelopesApi.h>
 
 int main(int argc, char * argv[]) {
         NSString *IntegratorKey = @"[INTEGRATOR_KEY]";
         NSString *username = @"[EMAIL]";
         NSString *password = @"[PASSWORD]";
+        NSString *host = @"[HOST]";
         
         // create authentication JSON string and header
         NSString *const DS_AUTH = [NSMutableString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\",\"IntegratorKey\":\"%@\"}", username, password, IntegratorKey];
         NSString *const DS_AUTH_HEADER = @"X-DocuSign-Authentication";
         
         // instantiate api client, configure environment URL and assign auth data
-        DSConfiguration *sharedConfig = [DSConfiguration sharedConfig];
-        sharedConfig.host = @"https://demo.docusign.net/restapi";  // for production change to www
-        DSAuthenticationApi *authApi = [[DSAuthenticationApi alloc]init];
+        DSApiClient* apiClient = [[DSApiClient alloc] initWithBaseURL:[[NSURL alloc] initWithString:self.host]]; 
+
+        DSAuthenticationApi *authApi = [[DSAuthenticationApi alloc] initWithApiClient:apiClient];
         [authApi addHeader:DS_AUTH forKey:DS_AUTH_HEADER];
+
         __block NSString *accountId = nil;
         
         // Login to get the account for the user (if you have the accountId then skip this part)
-        [authApi loginWithCompletionBlock:^(DSLoginInformation *output, NSError *error) {
+        [authApi loginWithApiPassword:loginOptions completionHandler:^(DSLoginInformation *output, NSError *error) {
             if (error) {
                 NSLog(@"got error %@", error);
             }
@@ -94,7 +80,7 @@ int main(int argc, char * argv[]) {
 }
 ```
 
-See [CoreRecipes.m](https://github.com/docusign/docusign-objc-client/blob/master/test/Recipes/CoreRecipes.m) for more examples.
+See [SdkTestsTests.m](https://github.com/docusign/docusign-objc-client/blob/master/test/SdkTests/SdkTestsTests/SdkTestsTests.m) for more examples.
 
 Testing
 =======

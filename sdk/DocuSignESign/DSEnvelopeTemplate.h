@@ -7,12 +7,12 @@
  * Do not edit the class manually.
  */
 
-#import "DSNotification.h"
-#import "DSLockInformation.h"
-#import "DSDocument.h"
 #import "DSCustomFields.h"
+#import "DSDocument.h"
 #import "DSEmailSettings.h"
 #import "DSEnvelopeTemplateDefinition.h"
+#import "DSLockInformation.h"
+#import "DSNotification.h"
 #import "DSRecipients.h"
 
 
@@ -30,7 +30,7 @@
 @property(nonatomic) DSRecipients* recipients;
 
 @property(nonatomic) DSCustomFields* customFields;
-/* Used to identify an envelope. The id is a sender-generated value and is valid in the DocuSign system for 7 days. It is recommended that a transaction ID is used for offline signing to ensure that an envelope is not sent multiple times. The `transactionId` property can be used determine if an envelope status (i.e. was created or not) for cases where an internet connection was lost before the envelope status could be returned. [optional]
+/* Used to identify an envelope. The id is a sender-generated value and is valid in the DocuSign system for 7 days. It is recommended that a transaction ID is used for offline signing to ensure that an envelope is not sent multiple times. The `transactionId` property can be used determine an envelope's status (i.e. was it created or not) in cases where the internet connection was lost before the envelope status was returned. [optional]
  */
 @property(nonatomic) NSString* transactionId;
 /* Indicates the envelope status. Valid values are:\n\n* sent - The envelope is sent to the recipients. \n* created - The envelope is saved as a draft and can be modified and sent later. [optional]
@@ -83,7 +83,7 @@
 /* When set to **true**, Document Markup is enabled for envelope. Account must have Document Markup enabled to use this [optional]
  */
 @property(nonatomic) NSString* allowMarkup;
-/*  [optional]
+/* When set to **true**, the recipient can redirect an envelope to a more appropriate recipient. [optional]
  */
 @property(nonatomic) NSString* allowReassign;
 /* Indicates the date and time the item was created. [optional]
@@ -131,6 +131,12 @@
 /* When set to **true**, prevents senders from changing, correcting, or deleting the recipient information for the envelope. [optional]
  */
 @property(nonatomic) NSString* recipientsLock;
+/*  [optional]
+ */
+@property(nonatomic) NSString* brandLock;
+/*  [optional]
+ */
+@property(nonatomic) NSString* brandId;
 /* When set to **true**, the disclosure is shown to recipients in accordance with the account’s Electronic Record and Signature Disclosure frequency setting. When set to **false**, the Electronic Record and Signature Disclosure is not shown to any envelope recipients. \n\nIf the `useDisclosure` property is not set, then the account's normal disclosure setting is used and the value of the `useDisclosure` property is not returned in responses when getting envelope information. [optional]
  */
 @property(nonatomic) NSString* useDisclosure;
@@ -144,5 +150,8 @@
 /* When set to **true**, indicates that this module is enabled on the account. [optional]
  */
 @property(nonatomic) NSString* is21CFRPart11;
+/*  [optional]
+ */
+@property(nonatomic) NSString* isUniversalSignatureEnvelope;
 
 @end

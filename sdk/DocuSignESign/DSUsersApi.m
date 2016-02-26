@@ -80,21 +80,16 @@ static DSUsersApi* singletonAPI = nil;
 ///
 /// Gets the user account settings for a specified user.
 /// Retrieves a list of the account settings and email notification information for the specified user.\n\nThe response returns the account setting name/value information and the email notification settings for the specified user. For more information about the different user settings, see the [ML:userSettings list].
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param userId The user ID of the user being accessed. Generally this is the user ID of the authenticated user, but if the authenticated user is an Admin on the account, this may be another user the Admin user is accessing.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param userId The user ID of the user being accessed. Generally this is the user ID of the authenticated user, but if the authenticated user is an Admin on the account, this may be another user the Admin user is accessing.
+/// 
+/// 
+/// 
 ///  @returns DSUserSettingsInformation*
--(NSNumber*) getSettingsWithCompletionBlock: (NSString*) accountId
-         userId: (NSString*) userId
-        
+-(NSNumber*) getSettingsWithAccountId:(NSString*) accountId  userId:(NSString*) userId 
      
-    		
-		
-        completionHandler: (void (^)(DSUserSettingsInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSUserSettingsInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -161,22 +156,21 @@ static DSUsersApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSUserSettingsInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSUserSettingsInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSUserSettingsInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSUserSettingsInformation*)data, error);
+                           }
           ];
 }
 

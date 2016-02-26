@@ -2,13 +2,24 @@
 
 @implementation DSEnvelopeDocument
 
+- (instancetype)init {
+  self = [super init];
+
+  if (self) {
+    // initalise property's default value, if any
+    
+  }
+
+  return self;
+}
+
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper
 {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"documentId": @"documentId", @"name": @"name", @"type": @"type", @"uri": @"uri", @"order": @"order", @"pages": @"pages", @"containsPdfFormFields": @"containsPdfFormFields", @"errorDetails": @"errorDetails" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"documentId": @"documentId", @"name": @"name", @"type": @"type", @"uri": @"uri", @"order": @"order", @"pages": @"pages", @"containsPdfFormFields": @"containsPdfFormFields", @"availableDocumentTypes": @"availableDocumentTypes", @"errorDetails": @"errorDetails" }];
 }
 
 /**
@@ -18,7 +29,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName
 {
-  NSArray *optionalProperties = @[@"documentId", @"name", @"type", @"uri", @"order", @"pages", @"containsPdfFormFields", @"errorDetails"];
+  NSArray *optionalProperties = @[@"documentId", @"name", @"type", @"uri", @"order", @"pages", @"containsPdfFormFields", @"availableDocumentTypes", @"errorDetails"];
 
   if ([optionalProperties containsObject:propertyName]) {
     return YES;

@@ -24,13 +24,13 @@
 
 @interface DSAccountsApi_GetAccountInformationOptions : DSObject
 /*
- * includeAccountSettings When set to **true**, includes the account settings for the account in the response.
- */
-@property NSString* includeAccountSettings;
-/*
  * op 
  */
 @property NSString* op;
+/*
+ * includeAccountSettings When set to **true**, includes the account settings for the account in the response.
+ */
+@property NSString* includeAccountSettings;
 
 @end
 
@@ -81,13 +81,10 @@
 ///
 /// @param DSAccountsApi_GetAccountInformationOptions  Options for modifying the request.
 /// @return DSAccountInformation*
-
--(NSNumber*) getAccountInformationWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) getAccountInformationWithAccountId:(NSString*) accountId 
      
      options:(DSAccountsApi_GetAccountInformationOptions*) options
-    
-    completionHandler: (void (^)(DSAccountInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSAccountInformation* output, NSError* error)) handler;
 
 
 	
@@ -105,13 +102,10 @@
 ///
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) listCustomFieldsWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listCustomFieldsWithAccountId:(NSString*) accountId 
      
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -129,13 +123,10 @@
 ///
 ///
 /// @return DSAccountSettingsInformation*
-
--(NSNumber*) listSettingsWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listSettingsWithAccountId:(NSString*) accountId 
      
     
-    
-    completionHandler: (void (^)(DSAccountSettingsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSAccountSettingsInformation* output, NSError* error)) handler;
 
 
 	
@@ -153,13 +144,10 @@
 /// @param accountSettingsInformation TBD Description 
 ///
 /// @return 
-
--(NSNumber*) updateSettingsWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) updateSettingsWithAccountId:(NSString*) accountId 
     accountSettingsInformation:(DSAccountSettingsInformation*) accountSettingsInformation 
     
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 	
@@ -177,13 +165,10 @@
 ///
 ///
 /// @return DSAccountSharedAccess*
-
--(NSNumber*) listSharedAccessWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listSharedAccessWithAccountId:(NSString*) accountId 
      
     
-    
-    completionHandler: (void (^)(DSAccountSharedAccess* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSAccountSharedAccess* output, NSError* error)) handler;
 
 
 	
@@ -201,13 +186,10 @@
 ///
 ///
 /// @return DSFileTypeList*
-
--(NSNumber*) listUnsupportedFileTypesWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listUnsupportedFileTypesWithAccountId:(NSString*) accountId 
      
     
-    
-    completionHandler: (void (^)(DSFileTypeList* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSFileTypeList* output, NSError* error)) handler;
 
 
 	

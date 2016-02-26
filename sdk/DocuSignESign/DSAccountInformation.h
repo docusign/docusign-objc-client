@@ -104,5 +104,8 @@
 /*  [optional]
  */
 @property(nonatomic) NSString* status21CFRPart11;
+/* When set to **true**, the transaction rooms feature exposed through the Workspaces API is enabled. [optional]
+ */
+@property(nonatomic) NSString* allowTransactionRooms;
 
 @end

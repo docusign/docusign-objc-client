@@ -7,28 +7,28 @@
  * Do not edit the class manually.
  */
 
-#import "DSSignerAttachment.h"
-#import "DSCompany.h"
-#import "DSFirstName.h"
-#import "DSNote.h"
-#import "DSEmail.h"
-#import "DSRadioGroup.h"
-#import "DSDateSigned.h"
-#import "DSSignHere.h"
-#import "DSInitialHere.h"
-#import "DSDecline.h"
-#import "DSTitle.h"
-#import "DSList.h"
-#import "DSFormulaTab.h"
-#import "DSCheckbox.h"
-#import "DSFullName.h"
-#import "DSZip.h"
-#import "DSSsn.h"
 #import "DSApprove.h"
-#import "DSLastName.h"
+#import "DSCheckbox.h"
+#import "DSCompany.h"
+#import "DSDateSigned.h"
+#import "DSDecline.h"
+#import "DSEmail.h"
 #import "DSEmailAddress.h"
-#import "DSText.h"
 #import "DSEnvelopeId.h"
+#import "DSFirstName.h"
+#import "DSFormulaTab.h"
+#import "DSFullName.h"
+#import "DSInitialHere.h"
+#import "DSLastName.h"
+#import "DSList.h"
+#import "DSNote.h"
+#import "DSRadioGroup.h"
+#import "DSSignHere.h"
+#import "DSSignerAttachment.h"
+#import "DSSsn.h"
+#import "DSText.h"
+#import "DSTitle.h"
+#import "DSZip.h"
 
 
 @protocol DSTemplateTabs
@@ -39,7 +39,7 @@
 /* A complex type the contains information about the tag that specifies where the recipient places their signature in the document. The \"optional\" parameter sets if the signature is required or optional. [optional]
  */
 @property(nonatomic) NSArray<DSSignHere>* signHereTabs;
-/* Specifies a tag to have a recipient place their initials in the document. The \"optional\" parameter sets if the initials are required or optional. [optional]
+/* Specifies a tag location in the document at which a recipient will place their initials. The `optional` parameter specifies whether the initials are required or optional. [optional]
  */
 @property(nonatomic) NSArray<DSInitialHere>* initialHereTabs;
 /* Specifies a tag on the document when you want the recipient to add supporting documents to an envelope. [optional]
@@ -54,7 +54,7 @@
 /* Specifies a tag on the document where you want the recipient's name to appear. [optional]
  */
 @property(nonatomic) NSArray<DSFullName>* fullNameTabs;
-/*  [optional]
+/* Specifies a tab on the document where the date the document was signed will automatically appear. [optional]
  */
 @property(nonatomic) NSArray<DSDateSigned>* dateSignedTabs;
 /* Specifies a tag on the document where you want the envelope ID for to appear. Recipients cannot enter or change the information in this tab, it is for informational purposes only. [optional]
@@ -84,7 +84,7 @@
 /* Specifies a tag on the document where you want the recipient to enter an email. Email tags are single-line fields that accept any characters. The system checks that a valid email format (i.e. xxx@yyy.zzz) is entered in the tag. It uses the same parameters as a Text tab, with the validation message and pattern set for email information.\n\nWhen getting information that includes this tab type, the original value of the tab when the associated envelope was sent is included in the response. [optional]
  */
 @property(nonatomic) NSArray<DSEmail>* emailTabs;
-/* Specifies a tag on the document where you want to place additional information, in the form of a note, on a document for a recipient. [optional]
+/* Specifies a location on the document where you want to place additional information, in the form of a note, for a recipient. [optional]
  */
 @property(nonatomic) NSArray<DSNote>* noteTabs;
 /* Specifies a tag on the document in a location where the recipient can select an option. [optional]
@@ -102,7 +102,7 @@
 /* Specifies a tag on a document where you want the recipient’s last name to appear. This tag takes the recipient’s name, as entered in the recipient information, splits it into sections based on spaces and uses the last section as the last name. [optional]
  */
 @property(nonatomic) NSArray<DSLastName>* lastNameTabs;
-/*  [optional]
+/* Specifies a location on the document where you want where you want the recipient’s email, as entered in the recipient information, to display. [optional]
  */
 @property(nonatomic) NSArray<DSEmailAddress>* emailAddressTabs;
 /* Specifies a tag that is used to add a calculated field to a document. Envelope recipients cannot directly enter information into the tag; the formula tab calculates and displays a new value when changes are made to the reference tag values. The reference tag information and calculation operations are entered in the \"formula\" element. See the [ML:Using the Calculated Fields Feature] quick start guide or [ML:DocuSign Service User Guide] for more information about formulas. [optional]

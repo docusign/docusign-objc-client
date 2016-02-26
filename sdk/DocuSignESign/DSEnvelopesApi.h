@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "DSEnvelopesInformation.h"
 #import "DSErrorDetails.h"
-#import "DSEnvelopeDefinition.h"
 #import "DSEnvelopeSummary.h"
+#import "DSEnvelopeDefinition.h"
 #import "DSEnvelopeIdsRequest.h"
 #import "DSEnvelope.h"
 #import "DSEnvelopeUpdateSummary.h"
@@ -45,29 +45,13 @@
 
 @interface DSEnvelopesApi_ListStatusChangesOptions : DSObject
 /*
- * block 
- */
-@property NSString* block;
-/*
- * powerformids 
- */
-@property NSString* powerformids;
-/*
- * orderBy 
- */
-@property NSString* orderBy;
-/*
- * intersectingFolderIds 
- */
-@property NSString* intersectingFolderIds;
-/*
- * fromDate The date/time setting that specifies the date/time when the request begins checking for status changes for envelopes in the account.\n\nThis is required unless &#39;envelopeId&#39;s are used.
- */
-@property NSString* fromDate;
-/*
  * acStatus Specifies the Authoritative Copy Status for the envelopes. The possible values are: Unknown, Original, Transferred, AuthoritativeCopy, AuthoritativeCopyExportPending, AuthoritativeCopyExported, DepositPending, Deposited, DepositedEO, or DepositFailed.
  */
 @property NSString* acStatus;
+/*
+ * block 
+ */
+@property NSString* block;
 /*
  * count 
  */
@@ -81,9 +65,9 @@
  */
 @property NSString* email;
 /*
- * userName 
+ * envelopeIds 
  */
-@property NSString* userName;
+@property NSString* envelopeIds;
 /*
  * exclude 
  */
@@ -97,9 +81,9 @@
  */
 @property NSString* folderTypes;
 /*
- * searchText 
+ * fromDate The date/time setting that specifies the date/time when the request begins checking for status changes for envelopes in the account.\n\nThis is required unless &#39;envelopeId&#39;s are used.
  */
-@property NSString* searchText;
+@property NSString* fromDate;
 /*
  * fromToStatus This is the status type checked for in the `from_date`/`to_date` period. If `changed` is specified, then envelopes that changed status during the period are found. If for example, `created` is specified, then envelopes created during the period are found. Default is `changed`. \n\nPossible values are: Voided, Changed, Created, Deleted, Sent, Delivered, Signed, Completed, Declined, TimedOut and Processing.
  */
@@ -109,37 +93,53 @@
  */
 @property NSString* include;
 /*
+ * intersectingFolderIds 
+ */
+@property NSString* intersectingFolderIds;
+/*
  * order 
  */
 @property NSString* order;
 /*
- * envelopeIds 
+ * orderBy 
  */
-@property NSString* envelopeIds;
+@property NSString* orderBy;
 /*
- * toDate Optional date/time setting that specifies the date/time when the request stops for status changes for envelopes in the account. If no entry, the system uses the time of the call as the `to_date`.
+ * powerformids 
  */
-@property NSString* toDate;
+@property NSString* powerformids;
 /*
- * userId 
+ * searchText 
  */
-@property NSString* userId;
-/*
- * status The list of current statuses to include in the response. By default, all envelopes found are returned. If values are specified, then of the envelopes found, only those with the current status specified are returned in the results. \n\nPossible values are: Voided, Created, Deleted, Sent, Delivered, Signed, Completed, Declined, TimedOut and Processing.
- */
-@property NSString* status;
+@property NSString* searchText;
 /*
  * startPosition 
  */
 @property NSString* startPosition;
 /*
- * transactionIds If included in the query string, this is a comma separated list of envelope `transactionId`s. \n\nIf included in the `request_body`, this is a list of envelope `transactionId`s. \n\n### Note: `transactionId`s are only valid in the DocuSign system for seven days.
+ * status The list of current statuses to include in the response. By default, all envelopes found are returned. If values are specified, then of the envelopes found, only those with the current status specified are returned in the results. \n\nPossible values are: Voided, Created, Deleted, Sent, Delivered, Signed, Completed, Declined, TimedOut and Processing.
+ */
+@property NSString* status;
+/*
+ * toDate Optional date/time setting that specifies the date/time when the request stops for status changes for envelopes in the account. If no entry, the system uses the time of the call as the `to_date`.
+ */
+@property NSString* toDate;
+/*
+ * transactionIds If included in the query string, this is a comma separated list of envelope `transactionId`s. \n\nIf included in the `request_body`, this is a list of envelope `transactionId`s. \n\n#### Note: `transactionId`s are only valid in the DocuSign system for seven days.
  */
 @property NSString* transactionIds;
 /*
  * userFilter 
  */
 @property NSString* userFilter;
+/*
+ * userId 
+ */
+@property NSString* userId;
+/*
+ * userName 
+ */
+@property NSString* userName;
 
 @end
 
@@ -147,13 +147,13 @@
 
 @interface DSEnvelopesApi_CreateEnvelopeOptions : DSObject
 /*
- * cdseMode 
- */
-@property NSString* cdseMode;
-/*
  * mergeRolesOnDraft When set to **true**, merges template roles and remove empty recipients when you create an envelope with multiple templates.
  */
 @property NSString* mergeRolesOnDraft;
+/*
+ * cdseMode 
+ */
+@property NSString* cdseMode;
 
 @end
 
@@ -264,13 +264,10 @@
 ///
 /// @param DSEnvelopesApi_ListStatusChangesOptions  Options for modifying the request.
 /// @return DSEnvelopesInformation*
-
--(NSNumber*) listStatusChangesWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listStatusChangesWithAccountId:(NSString*) accountId 
      
      options:(DSEnvelopesApi_ListStatusChangesOptions*) options
-    
-    completionHandler: (void (^)(DSEnvelopesInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopesInformation* output, NSError* error)) handler;
 
 
 	
@@ -279,7 +276,7 @@
 ///
 ///
 /// Creates an envelope.
-/// Creates an envelope. \n\nUsing this function you can:\n* Create an envelope and send it.\n* Create an envelope from an existing template and send it.\n\nIn either case, you can choose to save the envelope as a draft envelope instead of sending it by setting the `status` property in the request to `created` instead of `sent`.\n\n### Send an Envelope or Create a Draft Envelope\n\nThis is a multi-part/form request.\n\nEnvelope Event Notification: `eventNotification` is an optional property that specifies a set of envelope and recipient status codes, a URL, and some other options. When the envelope or recipient status changes to one of the specified status codes, DocuSign sends a message containing the updated status to the specified URL.\n\n### Note: DocuSign Connect must be enabled to use `eventNotification`, but Connect does not need to be configured for the account since the configuration is done for each envelope.\n\n### Send an Envelope from a Template\n\nWhen you create an envelope using a `templateId`, the `recipients` structure is used to assign recipients to template roles via the `roleName` property, override recipient settings that have been specified in the template and set values for tab fields that were defined in the template.\n\nWhen a template is added or applied to an envelope and the template has a locked email subject and message, that subject and message is used for the envelope and cannot be changed even if another locked template is subsequently added or applied to the envelope. If an email subject or message is entered before adding or applying a locked template, the email subject and message is overwritten with the email subject and message from the locked template.\n\n**Composite Templates**:\n\nYou can add Composite Templates structure to the  to create envelopes from a combination of DocuSign templates and PDF forms. The basic envelope remains the same, while the Composite Template adds new document and template overlays into the envelope. There can be any number of Composite Template structures in the envelope.\n\nEach Composite Template consists of server templates, inline templates, PDF Metadata templates, and documents.\n\n* Composite Template ID is an optional element used to identify the composite template. It is used as a reference when adding document object information. If used, the document content-disposition must include the `compositeTemplateId` to which the document should be added. If `compositeTemplateId` is not specified in the content-disposition, the document is applied based on the `documentId` only. If no document object is specified, the composite template inherits the first document.\n* Server Templates are server-side templates stored on the DocuSign server. If supplied they are overlaid into the envelope in the order of their Sequence value.\n* Inline Templates provide the container to pass inline XML properties. Inline templates allow you to add documents and, for PDF documents, transform the PDF fields into DocuSign tabs. If inline templates are supplied, they are overlaid into the envelope in the order of their Sequence value.\n* PDF Metadata Templates provide a container to embed design-time template information into a PDF document. DocuSign uses this information when processing the Envelope. This convention allows the document to carry the signing instructions with it, so that less information needs to be provided at run-time through an inline template or synchronized with an external structure like a server template. PDF Metadata templates are stored in the Metadata layer of a PDF in accordance with Acrobat's XMP specification. DocuSign will only find PDF Metadata templates inside documents passed in the Document object (see below). If supplied the PDF meta data template will be overlaid into the envelope in the order of their Sequence value.\n* Document objects are optional structures that provide a container to pass in a document or form. If this object is not passed, the composite template inherits the first document it finds from some other server template or inline template, starting with the lowest sequence value (discussed below).\n\nIf there are multiple composite templates, the document content-disposition can include the `compositeTemplateId` to which the document should be added. Using the `compositeTemplateId` sets which documents are associated with particular composite templates. An example of this usage is:\n\n```\n   --5cd3320a-5aac-4453-b3a4-cbb52a4cba5d\n\n   Content-Type: application/pdf\n\n   Content-Disposition: file; filename=\"eula.pdf\"; documentId=1; compositeTemplateId=\"1\"\n\n   Content-Transfer-Encoding: base64\n```\n\nAcrobat form objects are only extrapolated from the document object. DocuSign does not derive Acrobat form properties from server templates or inline templates. To instruct DocuSign to extrapolate objects from the Acrobat form, set `transformPdfFields` to \"true\" for the document. See the Transform PDF Fields section for more information about how fields are transformed into DocuSign tabs.\n\n*Sequence*\n\nEach type of template has a sequence property, which enables the templates to be over-laid in a particular order. This is significant because \"last-out\" wins in cases of the same property being specified in multiple places in the method schema.\n\n**Merge Recipient Roles for Draft Envelopes**\n\nWhen an envelope with multiple templates is sent, the recipients from the templates are merged according to template roles and empty recipients are removed. When creating an envelope with multiple templates, but not sending it (keeping it in a created state), duplicate recipients are not merged, which could cause leave duplicate recipients in the envelope.\n\nTo prevent this, the query parameter `merge_roles_on_draft` should be added when posting a draft envelope (status=created) with multiple templates. Doing this will merge template roles and remove empty recipients.\n\n### Note: DocuSign recommends that the merge roles query parameter be used anytime you are creating an envelope with multiple templates and keeping it in draft (created) status.\n\n**Template Email Subject Merge Fields**\n\nThis provides the ability to insert recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s `roleName`, are added to the `emailSubject` when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n\nIf merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\n* To add a recipient’s name in the subject line add the following text in the `emailSubject` when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_UserName]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\n* To add a recipient’s email address in the subject line add the following text in the emailSubject when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_Email]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\nIn both cases the <roleName> is the recipient’s `roleName` in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.\n\n*Rules for determining the `brandId` used in an envelope*\n\nThe following rules are used to determine the `brandId` used in an envelope:\n\n* If a `brandId` is specified in the envelope/template and that brandId is available to the account, that brand is used in the envelope.\n* If more than one template is used in an envelope and more than one `brandId` is specified, the first `brandId` specified is used throughout the envelope.\n* In cases where no brand is specified and the sender belongs to a Group; if there is only one brand associated with the Group, then that brand is used in the envelope. Otherwise, the account’s default signing brand is used.\n* For envelopes that do not meet any of the previous rules, the account's default signing brand is used in the envelope.\n\n### Important: The BCC Email address feature is designed to provide a copy of all email communications for external archiving purposes. DocuSign recommends that envelopes sent using the BCC for Email Archive feature, including the BCC Email Override option, include additional signer authentication options. To send a copy of the envelope to a recipient who does not need to sign, use a Carbon Copies or Certified Deliveries Recipient Type.
+/// Creates an envelope. \n\nUsing this function you can:\n* Create an envelope and send it.\n* Create an envelope from an existing template and send it.\n\nIn either case, you can choose to save the envelope as a draft envelope instead of sending it by setting the `status` property in the request to `created` instead of `sent`.\n\n### Send an Envelope or Create a Draft Envelope\n\nThis is a multi-part/form request.\n\nEnvelope Event Notification: `eventNotification` is an optional property that specifies a set of envelope and recipient status codes, a URL, and some other options. When the envelope or recipient status changes to one of the specified status codes, DocuSign sends a message containing the updated status to the specified URL.\n\n#### Note: DocuSign Connect must be enabled to use `eventNotification`, but Connect does not need to be configured for the account since the configuration is done for each envelope.\n\n### Send an Envelope from a Template\n\nWhen you create an envelope using a `templateId`, the `recipients` structure is used to assign recipients to template roles via the `roleName` property, override recipient settings that have been specified in the template and set values for tab fields that were defined in the template.\n\nWhen a template is added or applied to an envelope and the template has a locked email subject and message, that subject and message is used for the envelope and cannot be changed even if another locked template is subsequently added or applied to the envelope. If an email subject or message is entered before adding or applying a locked template, the email subject and message is overwritten with the email subject and message from the locked template.\n\n**Composite Templates**:\n\nYou can add Composite Templates structure to the  to create envelopes from a combination of DocuSign templates and PDF forms. The basic envelope remains the same, while the Composite Template adds new document and template overlays into the envelope. There can be any number of Composite Template structures in the envelope.\n\nEach Composite Template consists of server templates, inline templates, PDF Metadata templates, and documents.\n\n* Composite Template ID is an optional element used to identify the composite template. It is used as a reference when adding document object information. If used, the document content-disposition must include the `compositeTemplateId` to which the document should be added. If `compositeTemplateId` is not specified in the content-disposition, the document is applied based on the `documentId` only. If no document object is specified, the composite template inherits the first document.\n* Server Templates are server-side templates stored on the DocuSign server. If supplied they are overlaid into the envelope in the order of their Sequence value.\n* Inline Templates provide the container to pass inline XML properties. Inline templates allow you to add documents and, for PDF documents, transform the PDF fields into DocuSign tabs. If inline templates are supplied, they are overlaid into the envelope in the order of their Sequence value.\n* PDF Metadata Templates provide a container to embed design-time template information into a PDF document. DocuSign uses this information when processing the Envelope. This convention allows the document to carry the signing instructions with it, so that less information needs to be provided at run-time through an inline template or synchronized with an external structure like a server template. PDF Metadata templates are stored in the Metadata layer of a PDF in accordance with Acrobat's XMP specification. DocuSign will only find PDF Metadata templates inside documents passed in the Document object (see below). If supplied the PDF meta data template will be overlaid into the envelope in the order of their Sequence value.\n* Document objects are optional structures that provide a container to pass in a document or form. If this object is not passed, the composite template inherits the first document it finds from some other server template or inline template, starting with the lowest sequence value (discussed below).\n\nIf there are multiple composite templates, the document content-disposition can include the `compositeTemplateId` to which the document should be added. Using the `compositeTemplateId` sets which documents are associated with particular composite templates. An example of this usage is:\n\n```\n   --5cd3320a-5aac-4453-b3a4-cbb52a4cba5d\n\n   Content-Type: application/pdf\n\n   Content-Disposition: file; filename=\"eula.pdf\"; documentId=1; compositeTemplateId=\"1\"\n\n   Content-Transfer-Encoding: base64\n```\n\nAcrobat form objects are only extrapolated from the document object. DocuSign does not derive Acrobat form properties from server templates or inline templates. To instruct DocuSign to extrapolate objects from the Acrobat form, set `transformPdfFields` to \"true\" for the document. See the Transform PDF Fields section for more information about how fields are transformed into DocuSign tabs.\n\n*Sequence*\n\nEach type of template has a sequence property, which enables the templates to be over-laid in a particular order. This is significant because \"last-out\" wins in cases of the same property being specified in multiple places in the method schema.\n\n**Merge Recipient Roles for Draft Envelopes**\n\nWhen an envelope with multiple templates is sent, the recipients from the templates are merged according to template roles and empty recipients are removed. When creating an envelope with multiple templates, but not sending it (keeping it in a created state), duplicate recipients are not merged, which could cause leave duplicate recipients in the envelope.\n\nTo prevent this, the query parameter `merge_roles_on_draft` should be added when posting a draft envelope (status=created) with multiple templates. Doing this will merge template roles and remove empty recipients.\n\n#### Note: DocuSign recommends that the merge roles query parameter be used anytime you are creating an envelope with multiple templates and keeping it in draft (created) status.\n\n**Template Email Subject Merge Fields**\n\nThis provides the ability to insert recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s `roleName`, are added to the `emailSubject` when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n\nIf merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\n* To add a recipient’s name in the subject line add the following text in the `emailSubject` when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_UserName]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\n* To add a recipient’s email address in the subject line add the following text in the emailSubject when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_Email]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\nIn both cases the <roleName> is the recipient’s `roleName` in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.\n\n*Rules for determining the `brandId` used in an envelope*\n\nThe following rules are used to determine the `brandId` used in an envelope:\n\n* If a `brandId` is specified in the envelope/template and that brandId is available to the account, that brand is used in the envelope.\n* If more than one template is used in an envelope and more than one `brandId` is specified, the first `brandId` specified is used throughout the envelope.\n* In cases where no brand is specified and the sender belongs to a Group; if there is only one brand associated with the Group, then that brand is used in the envelope. Otherwise, the account’s default signing brand is used.\n* For envelopes that do not meet any of the previous rules, the account's default signing brand is used in the envelope.\n\n### Important: The BCC Email address feature is designed to provide a copy of all email communications for external archiving purposes. DocuSign recommends that envelopes sent using the BCC for Email Archive feature, including the BCC Email Override option, include additional signer authentication options. To send a copy of the envelope to a recipient who does not need to sign, use a Carbon Copies or Certified Deliveries Recipient Type.
 ///
 ///  @param accountId The external account number (int) or account ID Guid.
 ///
@@ -299,20 +296,17 @@
 ///
 ///
 /// Creates an envelope.
-/// Creates an envelope. \n\nUsing this function you can:\n* Create an envelope and send it.\n* Create an envelope from an existing template and send it.\n\nIn either case, you can choose to save the envelope as a draft envelope instead of sending it by setting the `status` property in the request to `created` instead of `sent`.\n\n### Send an Envelope or Create a Draft Envelope\n\nThis is a multi-part/form request.\n\nEnvelope Event Notification: `eventNotification` is an optional property that specifies a set of envelope and recipient status codes, a URL, and some other options. When the envelope or recipient status changes to one of the specified status codes, DocuSign sends a message containing the updated status to the specified URL.\n\n### Note: DocuSign Connect must be enabled to use `eventNotification`, but Connect does not need to be configured for the account since the configuration is done for each envelope.\n\n### Send an Envelope from a Template\n\nWhen you create an envelope using a `templateId`, the `recipients` structure is used to assign recipients to template roles via the `roleName` property, override recipient settings that have been specified in the template and set values for tab fields that were defined in the template.\n\nWhen a template is added or applied to an envelope and the template has a locked email subject and message, that subject and message is used for the envelope and cannot be changed even if another locked template is subsequently added or applied to the envelope. If an email subject or message is entered before adding or applying a locked template, the email subject and message is overwritten with the email subject and message from the locked template.\n\n**Composite Templates**:\n\nYou can add Composite Templates structure to the  to create envelopes from a combination of DocuSign templates and PDF forms. The basic envelope remains the same, while the Composite Template adds new document and template overlays into the envelope. There can be any number of Composite Template structures in the envelope.\n\nEach Composite Template consists of server templates, inline templates, PDF Metadata templates, and documents.\n\n* Composite Template ID is an optional element used to identify the composite template. It is used as a reference when adding document object information. If used, the document content-disposition must include the `compositeTemplateId` to which the document should be added. If `compositeTemplateId` is not specified in the content-disposition, the document is applied based on the `documentId` only. If no document object is specified, the composite template inherits the first document.\n* Server Templates are server-side templates stored on the DocuSign server. If supplied they are overlaid into the envelope in the order of their Sequence value.\n* Inline Templates provide the container to pass inline XML properties. Inline templates allow you to add documents and, for PDF documents, transform the PDF fields into DocuSign tabs. If inline templates are supplied, they are overlaid into the envelope in the order of their Sequence value.\n* PDF Metadata Templates provide a container to embed design-time template information into a PDF document. DocuSign uses this information when processing the Envelope. This convention allows the document to carry the signing instructions with it, so that less information needs to be provided at run-time through an inline template or synchronized with an external structure like a server template. PDF Metadata templates are stored in the Metadata layer of a PDF in accordance with Acrobat's XMP specification. DocuSign will only find PDF Metadata templates inside documents passed in the Document object (see below). If supplied the PDF meta data template will be overlaid into the envelope in the order of their Sequence value.\n* Document objects are optional structures that provide a container to pass in a document or form. If this object is not passed, the composite template inherits the first document it finds from some other server template or inline template, starting with the lowest sequence value (discussed below).\n\nIf there are multiple composite templates, the document content-disposition can include the `compositeTemplateId` to which the document should be added. Using the `compositeTemplateId` sets which documents are associated with particular composite templates. An example of this usage is:\n\n```\n   --5cd3320a-5aac-4453-b3a4-cbb52a4cba5d\n\n   Content-Type: application/pdf\n\n   Content-Disposition: file; filename=\"eula.pdf\"; documentId=1; compositeTemplateId=\"1\"\n\n   Content-Transfer-Encoding: base64\n```\n\nAcrobat form objects are only extrapolated from the document object. DocuSign does not derive Acrobat form properties from server templates or inline templates. To instruct DocuSign to extrapolate objects from the Acrobat form, set `transformPdfFields` to \"true\" for the document. See the Transform PDF Fields section for more information about how fields are transformed into DocuSign tabs.\n\n*Sequence*\n\nEach type of template has a sequence property, which enables the templates to be over-laid in a particular order. This is significant because \"last-out\" wins in cases of the same property being specified in multiple places in the method schema.\n\n**Merge Recipient Roles for Draft Envelopes**\n\nWhen an envelope with multiple templates is sent, the recipients from the templates are merged according to template roles and empty recipients are removed. When creating an envelope with multiple templates, but not sending it (keeping it in a created state), duplicate recipients are not merged, which could cause leave duplicate recipients in the envelope.\n\nTo prevent this, the query parameter `merge_roles_on_draft` should be added when posting a draft envelope (status=created) with multiple templates. Doing this will merge template roles and remove empty recipients.\n\n### Note: DocuSign recommends that the merge roles query parameter be used anytime you are creating an envelope with multiple templates and keeping it in draft (created) status.\n\n**Template Email Subject Merge Fields**\n\nThis provides the ability to insert recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s `roleName`, are added to the `emailSubject` when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n\nIf merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\n* To add a recipient’s name in the subject line add the following text in the `emailSubject` when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_UserName]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\n* To add a recipient’s email address in the subject line add the following text in the emailSubject when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_Email]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\nIn both cases the <roleName> is the recipient’s `roleName` in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.\n\n*Rules for determining the `brandId` used in an envelope*\n\nThe following rules are used to determine the `brandId` used in an envelope:\n\n* If a `brandId` is specified in the envelope/template and that brandId is available to the account, that brand is used in the envelope.\n* If more than one template is used in an envelope and more than one `brandId` is specified, the first `brandId` specified is used throughout the envelope.\n* In cases where no brand is specified and the sender belongs to a Group; if there is only one brand associated with the Group, then that brand is used in the envelope. Otherwise, the account’s default signing brand is used.\n* For envelopes that do not meet any of the previous rules, the account's default signing brand is used in the envelope.\n\n### Important: The BCC Email address feature is designed to provide a copy of all email communications for external archiving purposes. DocuSign recommends that envelopes sent using the BCC for Email Archive feature, including the BCC Email Override option, include additional signer authentication options. To send a copy of the envelope to a recipient who does not need to sign, use a Carbon Copies or Certified Deliveries Recipient Type.
+/// Creates an envelope. \n\nUsing this function you can:\n* Create an envelope and send it.\n* Create an envelope from an existing template and send it.\n\nIn either case, you can choose to save the envelope as a draft envelope instead of sending it by setting the `status` property in the request to `created` instead of `sent`.\n\n### Send an Envelope or Create a Draft Envelope\n\nThis is a multi-part/form request.\n\nEnvelope Event Notification: `eventNotification` is an optional property that specifies a set of envelope and recipient status codes, a URL, and some other options. When the envelope or recipient status changes to one of the specified status codes, DocuSign sends a message containing the updated status to the specified URL.\n\n#### Note: DocuSign Connect must be enabled to use `eventNotification`, but Connect does not need to be configured for the account since the configuration is done for each envelope.\n\n### Send an Envelope from a Template\n\nWhen you create an envelope using a `templateId`, the `recipients` structure is used to assign recipients to template roles via the `roleName` property, override recipient settings that have been specified in the template and set values for tab fields that were defined in the template.\n\nWhen a template is added or applied to an envelope and the template has a locked email subject and message, that subject and message is used for the envelope and cannot be changed even if another locked template is subsequently added or applied to the envelope. If an email subject or message is entered before adding or applying a locked template, the email subject and message is overwritten with the email subject and message from the locked template.\n\n**Composite Templates**:\n\nYou can add Composite Templates structure to the  to create envelopes from a combination of DocuSign templates and PDF forms. The basic envelope remains the same, while the Composite Template adds new document and template overlays into the envelope. There can be any number of Composite Template structures in the envelope.\n\nEach Composite Template consists of server templates, inline templates, PDF Metadata templates, and documents.\n\n* Composite Template ID is an optional element used to identify the composite template. It is used as a reference when adding document object information. If used, the document content-disposition must include the `compositeTemplateId` to which the document should be added. If `compositeTemplateId` is not specified in the content-disposition, the document is applied based on the `documentId` only. If no document object is specified, the composite template inherits the first document.\n* Server Templates are server-side templates stored on the DocuSign server. If supplied they are overlaid into the envelope in the order of their Sequence value.\n* Inline Templates provide the container to pass inline XML properties. Inline templates allow you to add documents and, for PDF documents, transform the PDF fields into DocuSign tabs. If inline templates are supplied, they are overlaid into the envelope in the order of their Sequence value.\n* PDF Metadata Templates provide a container to embed design-time template information into a PDF document. DocuSign uses this information when processing the Envelope. This convention allows the document to carry the signing instructions with it, so that less information needs to be provided at run-time through an inline template or synchronized with an external structure like a server template. PDF Metadata templates are stored in the Metadata layer of a PDF in accordance with Acrobat's XMP specification. DocuSign will only find PDF Metadata templates inside documents passed in the Document object (see below). If supplied the PDF meta data template will be overlaid into the envelope in the order of their Sequence value.\n* Document objects are optional structures that provide a container to pass in a document or form. If this object is not passed, the composite template inherits the first document it finds from some other server template or inline template, starting with the lowest sequence value (discussed below).\n\nIf there are multiple composite templates, the document content-disposition can include the `compositeTemplateId` to which the document should be added. Using the `compositeTemplateId` sets which documents are associated with particular composite templates. An example of this usage is:\n\n```\n   --5cd3320a-5aac-4453-b3a4-cbb52a4cba5d\n\n   Content-Type: application/pdf\n\n   Content-Disposition: file; filename=\"eula.pdf\"; documentId=1; compositeTemplateId=\"1\"\n\n   Content-Transfer-Encoding: base64\n```\n\nAcrobat form objects are only extrapolated from the document object. DocuSign does not derive Acrobat form properties from server templates or inline templates. To instruct DocuSign to extrapolate objects from the Acrobat form, set `transformPdfFields` to \"true\" for the document. See the Transform PDF Fields section for more information about how fields are transformed into DocuSign tabs.\n\n*Sequence*\n\nEach type of template has a sequence property, which enables the templates to be over-laid in a particular order. This is significant because \"last-out\" wins in cases of the same property being specified in multiple places in the method schema.\n\n**Merge Recipient Roles for Draft Envelopes**\n\nWhen an envelope with multiple templates is sent, the recipients from the templates are merged according to template roles and empty recipients are removed. When creating an envelope with multiple templates, but not sending it (keeping it in a created state), duplicate recipients are not merged, which could cause leave duplicate recipients in the envelope.\n\nTo prevent this, the query parameter `merge_roles_on_draft` should be added when posting a draft envelope (status=created) with multiple templates. Doing this will merge template roles and remove empty recipients.\n\n#### Note: DocuSign recommends that the merge roles query parameter be used anytime you are creating an envelope with multiple templates and keeping it in draft (created) status.\n\n**Template Email Subject Merge Fields**\n\nThis provides the ability to insert recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s `roleName`, are added to the `emailSubject` when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n\nIf merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\n* To add a recipient’s name in the subject line add the following text in the `emailSubject` when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_UserName]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\n* To add a recipient’s email address in the subject line add the following text in the emailSubject when creating the template or when sending an envelope from a template:\n\n   [[<roleName>_Email]]\n\n   Example:\n\n   `\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\nIn both cases the <roleName> is the recipient’s `roleName` in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.\n\n*Rules for determining the `brandId` used in an envelope*\n\nThe following rules are used to determine the `brandId` used in an envelope:\n\n* If a `brandId` is specified in the envelope/template and that brandId is available to the account, that brand is used in the envelope.\n* If more than one template is used in an envelope and more than one `brandId` is specified, the first `brandId` specified is used throughout the envelope.\n* In cases where no brand is specified and the sender belongs to a Group; if there is only one brand associated with the Group, then that brand is used in the envelope. Otherwise, the account’s default signing brand is used.\n* For envelopes that do not meet any of the previous rules, the account's default signing brand is used in the envelope.\n\n### Important: The BCC Email address feature is designed to provide a copy of all email communications for external archiving purposes. DocuSign recommends that envelopes sent using the BCC for Email Archive feature, including the BCC Email Override option, include additional signer authentication options. To send a copy of the envelope to a recipient who does not need to sign, use a Carbon Copies or Certified Deliveries Recipient Type.
 ///
 ///  @param accountId The external account number (int) or account ID Guid.
 ///
 /// @param envelopeDefinition TBD Description 
 /// @param DSEnvelopesApi_CreateEnvelopeOptions  Options for modifying the request.
 /// @return DSEnvelopeSummary*
-
--(NSNumber*) createEnvelopeWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) createEnvelopeWithAccountId:(NSString*) accountId 
     envelopeDefinition:(DSEnvelopeDefinition*) envelopeDefinition 
      options:(DSEnvelopesApi_CreateEnvelopeOptions*) options
-    
-    completionHandler: (void (^)(DSEnvelopeSummary* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeSummary* output, NSError* error)) handler;
 
 
 	
@@ -330,13 +324,10 @@
 /// @param envelopeIdsRequest TBD Description 
 ///
 /// @return DSEnvelopesInformation*
-
--(NSNumber*) listStatusWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listStatusWithAccountId:(NSString*) accountId 
     envelopeIdsRequest:(DSEnvelopeIdsRequest*) envelopeIdsRequest 
     
-    
-    completionHandler: (void (^)(DSEnvelopesInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopesInformation* output, NSError* error)) handler;
 
 
 	
@@ -375,14 +366,10 @@
 ///
 /// @param DSEnvelopesApi_GetEnvelopeOptions  Options for modifying the request.
 /// @return DSEnvelope*
-
--(NSNumber*) getEnvelopeWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) getEnvelopeWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
      options:(DSEnvelopesApi_GetEnvelopeOptions*) options
-    
-    completionHandler: (void (^)(DSEnvelope* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelope* output, NSError* error)) handler;
 
 
 	
@@ -391,7 +378,7 @@
 ///
 ///
 /// Send Draft Envelope/Void Envelope/Move/Purge Envelope/Modify draft
-/// The Put Envelopes endpoint provides the following functionality:\n\n* Sends the specified single draft envelope.\nAdd {\"status\":\"sent\"} to the request body to send the envelope.\n\n* Voids the specified in-process envelope.\nAdd {\"status\":\"voided\", \"voidedReason\":\"The reason for voiding the envelope\"} to the request body to void the envelope.\n\n* Replaces the current email subject and message for a draft envelope.\nAdd {\"emailSubject\":\"subject\",  \"emailBlurb\":\"message\"}  to the request body to modify the subject and message.\n\n* Place the envelope documents and envelope metadata in a purge queue so that this information is removed from the DocuSign system.\nAdd {\"purgeState\":\"purge type\"} to the request body.\n\n*Additional information on purging documents*\n\nThe purge request can only be used for completed envelopes that are not marked as the authoritative copy. The requesting user must have permission to purge documents and must be the sender (the requesting user can act as the sender using Send On Behalf Of).\n\n### Note: If you have set the Document Retention policy on your account, envelope documents are automatically placed in the purge queue and the warning emails are sent at the end of the retention period. \n### Note: You can set the Document Retention policy in the Classic DocuSign Experience by specifying the number of days to retain documents. \n### Note: Setting a Document Retention policy is the same as setting a schedule for purging documents.\n\nWhen the purge request is initiated the envelope documents, or documents and envelope metadata, are placed in a purge queue for deletion in 14 days. A warning email notification is sent to the sender and recipients associated with the envelope, notifying them that the envelope documents will be deleted in 14 days and providing a link to the documents. A second email is sent 7 days later with the same message. At the end of the 14-day period, the envelope documents are deleted from the system.\n\nIf `purgeState=\"documents_queued\"` is used in the request, then only the documents are deleted and any corresponding attachments and tabs remain in the DocuSign system. If `purgeState= \"documents_and_metadata_queued\"` is used in the request, then the documents, attachments, and tabs are deleted.
+/// The Put Envelopes endpoint provides the following functionality:\n\n* Sends the specified single draft envelope.\nAdd {\"status\":\"sent\"} to the request body to send the envelope.\n\n* Voids the specified in-process envelope.\nAdd {\"status\":\"voided\", \"voidedReason\":\"The reason for voiding the envelope\"} to the request body to void the envelope.\n\n* Replaces the current email subject and message for a draft envelope.\nAdd {\"emailSubject\":\"subject\",  \"emailBlurb\":\"message\"}  to the request body to modify the subject and message.\n\n* Place the envelope documents and envelope metadata in a purge queue so that this information is removed from the DocuSign system.\nAdd {\"purgeState\":\"purge type\"} to the request body.\n\n*Additional information on purging documents*\n\nThe purge request can only be used for completed envelopes that are not marked as the authoritative copy. The requesting user must have permission to purge documents and must be the sender (the requesting user can act as the sender using Send On Behalf Of).\n\n#### Note: If you have set the Document Retention policy on your account, envelope documents are automatically placed in the purge queue and the warning emails are sent at the end of the retention period. \n#### Note: You can set the Document Retention policy in the Classic DocuSign Experience by specifying the number of days to retain documents. \n#### Note: Setting a Document Retention policy is the same as setting a schedule for purging documents.\n\nWhen the purge request is initiated the envelope documents, or documents and envelope metadata, are placed in a purge queue for deletion in 14 days. A warning email notification is sent to the sender and recipients associated with the envelope, notifying them that the envelope documents will be deleted in 14 days and providing a link to the documents. A second email is sent 7 days later with the same message. At the end of the 14-day period, the envelope documents are deleted from the system.\n\nIf `purgeState=\"documents_queued\"` is used in the request, then only the documents are deleted and any corresponding attachments and tabs remain in the DocuSign system. If `purgeState= \"documents_and_metadata_queued\"` is used in the request, then the documents, attachments, and tabs are deleted.
 ///
 ///  @param accountId The external account number (int) or account ID Guid.
 ///  @param envelopeId The envelopeId Guid of the envelope being accessed.
@@ -413,7 +400,7 @@
 ///
 ///
 /// Send Draft Envelope/Void Envelope/Move/Purge Envelope/Modify draft
-/// The Put Envelopes endpoint provides the following functionality:\n\n* Sends the specified single draft envelope.\nAdd {\"status\":\"sent\"} to the request body to send the envelope.\n\n* Voids the specified in-process envelope.\nAdd {\"status\":\"voided\", \"voidedReason\":\"The reason for voiding the envelope\"} to the request body to void the envelope.\n\n* Replaces the current email subject and message for a draft envelope.\nAdd {\"emailSubject\":\"subject\",  \"emailBlurb\":\"message\"}  to the request body to modify the subject and message.\n\n* Place the envelope documents and envelope metadata in a purge queue so that this information is removed from the DocuSign system.\nAdd {\"purgeState\":\"purge type\"} to the request body.\n\n*Additional information on purging documents*\n\nThe purge request can only be used for completed envelopes that are not marked as the authoritative copy. The requesting user must have permission to purge documents and must be the sender (the requesting user can act as the sender using Send On Behalf Of).\n\n### Note: If you have set the Document Retention policy on your account, envelope documents are automatically placed in the purge queue and the warning emails are sent at the end of the retention period. \n### Note: You can set the Document Retention policy in the Classic DocuSign Experience by specifying the number of days to retain documents. \n### Note: Setting a Document Retention policy is the same as setting a schedule for purging documents.\n\nWhen the purge request is initiated the envelope documents, or documents and envelope metadata, are placed in a purge queue for deletion in 14 days. A warning email notification is sent to the sender and recipients associated with the envelope, notifying them that the envelope documents will be deleted in 14 days and providing a link to the documents. A second email is sent 7 days later with the same message. At the end of the 14-day period, the envelope documents are deleted from the system.\n\nIf `purgeState=\"documents_queued\"` is used in the request, then only the documents are deleted and any corresponding attachments and tabs remain in the DocuSign system. If `purgeState= \"documents_and_metadata_queued\"` is used in the request, then the documents, attachments, and tabs are deleted.
+/// The Put Envelopes endpoint provides the following functionality:\n\n* Sends the specified single draft envelope.\nAdd {\"status\":\"sent\"} to the request body to send the envelope.\n\n* Voids the specified in-process envelope.\nAdd {\"status\":\"voided\", \"voidedReason\":\"The reason for voiding the envelope\"} to the request body to void the envelope.\n\n* Replaces the current email subject and message for a draft envelope.\nAdd {\"emailSubject\":\"subject\",  \"emailBlurb\":\"message\"}  to the request body to modify the subject and message.\n\n* Place the envelope documents and envelope metadata in a purge queue so that this information is removed from the DocuSign system.\nAdd {\"purgeState\":\"purge type\"} to the request body.\n\n*Additional information on purging documents*\n\nThe purge request can only be used for completed envelopes that are not marked as the authoritative copy. The requesting user must have permission to purge documents and must be the sender (the requesting user can act as the sender using Send On Behalf Of).\n\n#### Note: If you have set the Document Retention policy on your account, envelope documents are automatically placed in the purge queue and the warning emails are sent at the end of the retention period. \n#### Note: You can set the Document Retention policy in the Classic DocuSign Experience by specifying the number of days to retain documents. \n#### Note: Setting a Document Retention policy is the same as setting a schedule for purging documents.\n\nWhen the purge request is initiated the envelope documents, or documents and envelope metadata, are placed in a purge queue for deletion in 14 days. A warning email notification is sent to the sender and recipients associated with the envelope, notifying them that the envelope documents will be deleted in 14 days and providing a link to the documents. A second email is sent 7 days later with the same message. At the end of the 14-day period, the envelope documents are deleted from the system.\n\nIf `purgeState=\"documents_queued\"` is used in the request, then only the documents are deleted and any corresponding attachments and tabs remain in the DocuSign system. If `purgeState= \"documents_and_metadata_queued\"` is used in the request, then the documents, attachments, and tabs are deleted.
 ///
 ///  @param accountId The external account number (int) or account ID Guid.
 ///  @param envelopeId The envelopeId Guid of the envelope being accessed.
@@ -421,14 +408,10 @@
 /// @param envelope TBD Description 
 /// @param DSEnvelopesApi_UpdateOptions  Options for modifying the request.
 /// @return DSEnvelopeUpdateSummary*
-
--(NSNumber*) updateWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) updateWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     envelope:(DSEnvelope*) envelope 
      options:(DSEnvelopesApi_UpdateOptions*) options
-    
-    completionHandler: (void (^)(DSEnvelopeUpdateSummary* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeUpdateSummary* output, NSError* error)) handler;
 
 
 	
@@ -447,14 +430,10 @@
 ///
 ///
 /// @return DSEnvelopeAuditEventResponse*
-
--(NSNumber*) listAuditEventsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) listAuditEventsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSEnvelopeAuditEventResponse* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeAuditEventResponse* output, NSError* error)) handler;
 
 
 	
@@ -473,14 +452,10 @@
 ///
 ///
 /// @return DSCustomFieldsEnvelope*
-
--(NSNumber*) listCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) listCustomFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSCustomFieldsEnvelope* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFieldsEnvelope* output, NSError* error)) handler;
 
 
 	
@@ -499,14 +474,10 @@
 /// @param customFields TBD Description 
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) updateCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) updateCustomFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     customFields:(DSCustomFields*) customFields 
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -525,14 +496,10 @@
 /// @param customFields TBD Description 
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) createCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createCustomFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     customFields:(DSCustomFields*) customFields 
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -551,14 +518,10 @@
 /// @param customFields TBD Description 
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) deleteCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) deleteCustomFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     customFields:(DSCustomFields*) customFields 
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -577,14 +540,10 @@
 ///
 ///
 /// @return DSEnvelopeDocumentsResult*
-
--(NSNumber*) listDocumentsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) listDocumentsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSEnvelopeDocumentsResult* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeDocumentsResult* output, NSError* error)) handler;
 
 
 	
@@ -603,14 +562,10 @@
 /// @param envelopeDefinition TBD Description 
 ///
 /// @return DSEnvelopeDocumentsResult*
-
--(NSNumber*) updateDocumentsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) updateDocumentsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     envelopeDefinition:(DSEnvelopeDefinition*) envelopeDefinition 
     
-    
-    completionHandler: (void (^)(DSEnvelopeDocumentsResult* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeDocumentsResult* output, NSError* error)) handler;
 
 
 	
@@ -629,14 +584,10 @@
 /// @param envelopeDefinition TBD Description 
 ///
 /// @return DSEnvelopeDocumentsResult*
-
--(NSNumber*) deleteDocumentsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) deleteDocumentsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     envelopeDefinition:(DSEnvelopeDefinition*) envelopeDefinition 
     
-    
-    completionHandler: (void (^)(DSEnvelopeDocumentsResult* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeDocumentsResult* output, NSError* error)) handler;
 
 
 	
@@ -656,15 +607,10 @@
 ///
 ///
 /// @return NSURL*
-
--(NSNumber*) getDocumentWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) getDocumentWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId 
      
     
-    
-    completionHandler: (void (^)(NSURL* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(NSURL* output, NSError* error)) handler;
 
 
 	
@@ -684,15 +630,10 @@
 ///
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) listDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) listDocumentFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId 
      
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -712,15 +653,10 @@
 /// @param documentFieldsInformation TBD Description 
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) updateDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) updateDocumentFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -740,15 +676,10 @@
 /// @param documentFieldsInformation TBD Description 
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) createDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) createDocumentFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -768,15 +699,10 @@
 /// @param documentFieldsInformation TBD Description 
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) deleteDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) deleteDocumentFieldsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -797,16 +723,10 @@
 ///
 ///
 /// @return 
-
--(NSNumber*) deleteDocumentPageWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId 
-     pageNumber:(NSString*) pageNumber  
+-(NSNumber*) deleteDocumentPageWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId  pageNumber:(NSString*) pageNumber 
      
     
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 	
@@ -826,15 +746,10 @@
 ///
 ///
 /// @return DSTemplateInformation*
-
--(NSNumber*) listTemplatesForDocumentWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) listTemplatesForDocumentWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId 
      
     
-    
-    completionHandler: (void (^)(DSTemplateInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTemplateInformation* output, NSError* error)) handler;
 
 
 	
@@ -854,15 +769,10 @@
 /// @param documentTemplateList TBD Description 
 ///
 /// @return DSDocumentTemplateList*
-
--(NSNumber*) applyTemplateToDocumentWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) applyTemplateToDocumentWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId 
     documentTemplateList:(DSDocumentTemplateList*) documentTemplateList 
     
-    
-    completionHandler: (void (^)(DSDocumentTemplateList* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentTemplateList* output, NSError* error)) handler;
 
 
 	
@@ -883,16 +793,10 @@
 ///
 ///
 /// @return 
-
--(NSNumber*) deleteTemplatesFromDocumentWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     documentId:(NSString*) documentId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) deleteTemplatesFromDocumentWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  documentId:(NSString*) documentId  templateId:(NSString*) templateId 
      
     
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 	
@@ -911,14 +815,10 @@
 ///
 ///
 /// @return DSEmailSettings*
-
--(NSNumber*) getEmailSettingsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) getEmailSettingsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSEmailSettings* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEmailSettings* output, NSError* error)) handler;
 
 
 	
@@ -937,14 +837,10 @@
 /// @param emailSettings TBD Description 
 ///
 /// @return DSEmailSettings*
-
--(NSNumber*) updateEmailSettingsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) updateEmailSettingsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     emailSettings:(DSEmailSettings*) emailSettings 
     
-    
-    completionHandler: (void (^)(DSEmailSettings* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEmailSettings* output, NSError* error)) handler;
 
 
 	
@@ -963,14 +859,10 @@
 /// @param emailSettings TBD Description 
 ///
 /// @return DSEmailSettings*
-
--(NSNumber*) createEmailSettingsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createEmailSettingsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     emailSettings:(DSEmailSettings*) emailSettings 
     
-    
-    completionHandler: (void (^)(DSEmailSettings* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEmailSettings* output, NSError* error)) handler;
 
 
 	
@@ -989,14 +881,10 @@
 ///
 ///
 /// @return DSEmailSettings*
-
--(NSNumber*) deleteEmailSettingsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) deleteEmailSettingsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSEmailSettings* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEmailSettings* output, NSError* error)) handler;
 
 
 	
@@ -1015,14 +903,10 @@
 ///
 ///
 /// @return DSLockInformation*
-
--(NSNumber*) getLockWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) getLockWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSLockInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSLockInformation* output, NSError* error)) handler;
 
 
 	
@@ -1041,14 +925,10 @@
 /// @param lockRequest TBD Description 
 ///
 /// @return DSLockInformation*
-
--(NSNumber*) updateLockWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) updateLockWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     lockRequest:(DSLockRequest*) lockRequest 
     
-    
-    completionHandler: (void (^)(DSLockInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSLockInformation* output, NSError* error)) handler;
 
 
 	
@@ -1067,14 +947,10 @@
 /// @param lockRequest TBD Description 
 ///
 /// @return DSLockInformation*
-
--(NSNumber*) createLockWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createLockWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     lockRequest:(DSLockRequest*) lockRequest 
     
-    
-    completionHandler: (void (^)(DSLockInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSLockInformation* output, NSError* error)) handler;
 
 
 	
@@ -1093,14 +969,10 @@
 ///
 ///
 /// @return DSLockInformation*
-
--(NSNumber*) deleteLockWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) deleteLockWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSLockInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSLockInformation* output, NSError* error)) handler;
 
 
 	
@@ -1119,14 +991,10 @@
 ///
 ///
 /// @return DSNotification*
-
--(NSNumber*) getNotificationSettingsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) getNotificationSettingsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSNotification* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSNotification* output, NSError* error)) handler;
 
 
 	
@@ -1145,14 +1013,10 @@
 ///
 ///
 /// @return DSRecipients*
-
--(NSNumber*) listRecipientsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) listRecipientsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -1171,14 +1035,10 @@
 /// @param recipients TBD Description 
 ///
 /// @return DSRecipientsUpdateSummary*
-
--(NSNumber*) updateRecipientsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) updateRecipientsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     recipients:(DSRecipients*) recipients 
     
-    
-    completionHandler: (void (^)(DSRecipientsUpdateSummary* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipientsUpdateSummary* output, NSError* error)) handler;
 
 
 	
@@ -1197,14 +1057,10 @@
 /// @param recipients TBD Description 
 ///
 /// @return DSRecipients*
-
--(NSNumber*) createRecipientWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createRecipientWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     recipients:(DSRecipients*) recipients 
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -1223,14 +1079,10 @@
 /// @param recipients TBD Description 
 ///
 /// @return DSRecipients*
-
--(NSNumber*) deleteRecipientsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) deleteRecipientsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     recipients:(DSRecipients*) recipients 
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -1250,15 +1102,10 @@
 ///
 ///
 /// @return DSRecipients*
-
--(NSNumber*) deleteRecipientWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) deleteRecipientWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  recipientId:(NSString*) recipientId 
      
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -1278,15 +1125,10 @@
 ///
 ///
 /// @return DSTabs*
-
--(NSNumber*) listTabsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) listTabsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  recipientId:(NSString*) recipientId 
      
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -1306,15 +1148,10 @@
 /// @param tabs TBD Description 
 ///
 /// @return DSTabs*
-
--(NSNumber*) updateTabsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) updateTabsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  recipientId:(NSString*) recipientId 
     tabs:(DSTabs*) tabs 
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -1334,15 +1171,10 @@
 /// @param tabs TBD Description 
 ///
 /// @return DSTabs*
-
--(NSNumber*) createTabsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) createTabsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  recipientId:(NSString*) recipientId 
     tabs:(DSTabs*) tabs 
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -1362,15 +1194,10 @@
 /// @param tabs TBD Description 
 ///
 /// @return DSTabs*
-
--(NSNumber*) deleteTabsWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) deleteTabsWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId  recipientId:(NSString*) recipientId 
     tabs:(DSTabs*) tabs 
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -1389,14 +1216,10 @@
 ///
 ///
 /// @return DSTemplateInformation*
-
--(NSNumber*) listTemplatesWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) listTemplatesWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    completionHandler: (void (^)(DSTemplateInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTemplateInformation* output, NSError* error)) handler;
 
 
 	
@@ -1415,14 +1238,10 @@
 /// @param documentTemplateList TBD Description 
 ///
 /// @return DSDocumentTemplateList*
-
--(NSNumber*) applyTemplateWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) applyTemplateWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     documentTemplateList:(DSDocumentTemplateList*) documentTemplateList 
     
-    
-    completionHandler: (void (^)(DSDocumentTemplateList* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentTemplateList* output, NSError* error)) handler;
 
 
 	
@@ -1441,14 +1260,10 @@
 /// @param correctViewRequest TBD Description 
 ///
 /// @return DSViewUrl*
-
--(NSNumber*) createCorrectViewWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createCorrectViewWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     correctViewRequest:(DSCorrectViewRequest*) correctViewRequest 
     
-    
-    completionHandler: (void (^)(DSViewUrl* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSViewUrl* output, NSError* error)) handler;
 
 
 	
@@ -1467,14 +1282,10 @@
 /// @param returnUrlRequest TBD Description 
 ///
 /// @return DSViewUrl*
-
--(NSNumber*) createEditViewWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createEditViewWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     returnUrlRequest:(DSReturnUrlRequest*) returnUrlRequest 
     
-    
-    completionHandler: (void (^)(DSViewUrl* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSViewUrl* output, NSError* error)) handler;
 
 
 	
@@ -1493,14 +1304,10 @@
 /// @param recipientViewRequest TBD Description 
 ///
 /// @return DSViewUrl*
-
--(NSNumber*) createRecipientViewWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createRecipientViewWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     recipientViewRequest:(DSRecipientViewRequest*) recipientViewRequest 
     
-    
-    completionHandler: (void (^)(DSViewUrl* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSViewUrl* output, NSError* error)) handler;
 
 
 	
@@ -1519,14 +1326,10 @@
 /// @param returnUrlRequest TBD Description 
 ///
 /// @return DSViewUrl*
-
--(NSNumber*) createSenderViewWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createSenderViewWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     returnUrlRequest:(DSReturnUrlRequest*) returnUrlRequest 
     
-    
-    completionHandler: (void (^)(DSViewUrl* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSViewUrl* output, NSError* error)) handler;
 
 
 	
@@ -1545,14 +1348,10 @@
 /// @param viewLinkRequest TBD Description 
 ///
 /// @return DSViewUrl*
-
--(NSNumber*) createViewLinkWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) createViewLinkWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
     viewLinkRequest:(DSViewLinkRequest*) viewLinkRequest 
     
-    
-    completionHandler: (void (^)(DSViewUrl* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSViewUrl* output, NSError* error)) handler;
 
 
 	
@@ -1571,14 +1370,10 @@
 ///
 ///
 /// @return 
-
--(NSNumber*) deleteViewLinkWithCompletionBlock :(NSString*) accountId 
-     envelopeId:(NSString*) envelopeId  
+-(NSNumber*) deleteViewLinkWithAccountId:(NSString*) accountId  envelopeId:(NSString*) envelopeId 
      
     
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 	
@@ -1596,13 +1391,10 @@
 /// @param consoleViewRequest TBD Description 
 ///
 /// @return DSViewUrl*
-
--(NSNumber*) createConsoleViewWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) createConsoleViewWithAccountId:(NSString*) accountId 
     consoleViewRequest:(DSConsoleViewRequest*) consoleViewRequest 
     
-    
-    completionHandler: (void (^)(DSViewUrl* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSViewUrl* output, NSError* error)) handler;
 
 
 	

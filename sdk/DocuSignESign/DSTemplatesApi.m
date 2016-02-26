@@ -2,8 +2,8 @@
 #import "DSQueryParamCollection.h"
 #import "DSErrorDetails.h"
 #import "DSEnvelopeTemplateResults.h"
-#import "DSEnvelopeTemplate.h"
 #import "DSTemplateSummary.h"
+#import "DSEnvelopeTemplate.h"
 #import "DSTemplateUpdateSummary.h"
 #import "DSCustomFields.h"
 #import "DSTemplateCustomFields.h"
@@ -15,8 +15,8 @@
 #import "DSNotification.h"
 #import "DSTemplateNotificationRequest.h"
 #import "DSRecipients.h"
-#import "DSTemplateRecipients.h"
 #import "DSRecipientsUpdateSummary.h"
+#import "DSTemplateRecipients.h"
 #import "DSTabs.h"
 #import "DSTemplateTabs.h"
 #import "DSGroupInformation.h"
@@ -98,19 +98,15 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets the definition of a template.
 /// Retrieves the list of templates for the specified account. The request can be limited to a specific folder.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+/// 
+/// 
+/// 
 ///  @returns DSEnvelopeTemplateResults*
--(NSNumber*) listTemplatesWithCompletionBlock: (NSString*) accountId
-        
+-(NSNumber*) listTemplatesWithAccountId:(NSString*) accountId 
      
-    		
-		
-        completionHandler: (void (^)(DSEnvelopeTemplateResults* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSEnvelopeTemplateResults* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -169,22 +165,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSEnvelopeTemplateResults*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSEnvelopeTemplateResults*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSEnvelopeTemplateResults*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSEnvelopeTemplateResults*)data, error);
+                           }
           ];
 }
 
@@ -193,20 +188,16 @@ static DSTemplatesApi* singletonAPI = nil;
 
 ///
 /// Creates an envelope from a template.
-/// Creates a template definition using a multipart request.\n\n###Template Email Subject Merge Fields\n\nCall this endpoint to insert a recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s role name, are added to the `emailSubject` property when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n### Note: If merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\nTo add a recipient’s name in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_UserName]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\nTo add a recipient’s email address in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_Email]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\n\nIn both cases the <roleName> is the recipient's contents of the `roleName` property in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///
-/// @param envelopeTemplate TBD Description 
-///
+/// Creates a template definition using a multipart request.\n\n###Template Email Subject Merge Fields\n\nCall this endpoint to insert a recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s role name, are added to the `emailSubject` property when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n#### Note: If merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\nTo add a recipient’s name in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_UserName]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\nTo add a recipient’s email address in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_Email]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\n\nIn both cases the <roleName> is the recipient's contents of the `roleName` property in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.
+///   @param accountId The external account number (int) or account ID Guid.
+/// 
+///  @param envelopeTemplate TBD Description 
+/// 
 ///  @returns DSTemplateSummary*
--(NSNumber*) createTemplateWithCompletionBlock: (NSString*) accountId
-        
+-(NSNumber*) createTemplateWithAccountId:(NSString*) accountId 
     envelopeTemplate:(DSEnvelopeTemplate*) envelopeTemplate 
-    		
-		
-        completionHandler: (void (^)(DSTemplateSummary* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTemplateSummary* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -265,22 +256,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTemplateSummary*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTemplateSummary*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTemplateSummary*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTemplateSummary*)data, error);
+                           }
           ];
 }
 
@@ -290,21 +280,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets a list of templates for a specified account.
 /// Retrieves the definition of the specified template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSEnvelopeTemplate*
--(NSNumber*) getWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) getWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
-    		
-		
-        completionHandler: (void (^)(DSEnvelopeTemplate* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSEnvelopeTemplate* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -371,22 +356,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSEnvelopeTemplate*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSEnvelopeTemplate*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSEnvelopeTemplate*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSEnvelopeTemplate*)data, error);
+                           }
           ];
 }
 
@@ -396,21 +380,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Updates an existing template.
 /// Updates an existing template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param envelopeTemplate TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param envelopeTemplate TBD Description 
+/// 
 ///  @returns DSTemplateUpdateSummary*
--(NSNumber*) updateWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) updateWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     envelopeTemplate:(DSEnvelopeTemplate*) envelopeTemplate 
-    		
-		
-        completionHandler: (void (^)(DSTemplateUpdateSummary* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTemplateUpdateSummary* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -477,22 +456,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTemplateUpdateSummary*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTemplateUpdateSummary*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTemplateUpdateSummary*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTemplateUpdateSummary*)data, error);
+                           }
           ];
 }
 
@@ -502,21 +480,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets the custom document fields from a template.
 /// Retrieves the custom document field information from an existing template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSCustomFields*
--(NSNumber*) listCustomFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) listCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
-    		
-		
-        completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -583,22 +556,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSCustomFields*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSCustomFields*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSCustomFields*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSCustomFields*)data, error);
+                           }
           ];
 }
 
@@ -608,21 +580,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Updates envelope custom fields in a template.
 /// Updates the custom fields in a template.\n\nEach custom field used in a template must have a unique name.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param templateCustomFields TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param templateCustomFields TBD Description 
+/// 
 ///  @returns DSCustomFields*
--(NSNumber*) updateCustomFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) updateCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateCustomFields:(DSTemplateCustomFields*) templateCustomFields 
-    		
-		
-        completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -689,22 +656,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSCustomFields*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSCustomFields*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSCustomFields*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSCustomFields*)data, error);
+                           }
           ];
 }
 
@@ -714,21 +680,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Creates custom document fields in an existing template document.
 /// Creates custom document fields in an existing template document.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param templateCustomFields TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param templateCustomFields TBD Description 
+/// 
 ///  @returns DSCustomFields*
--(NSNumber*) createCustomFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) createCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateCustomFields:(DSTemplateCustomFields*) templateCustomFields 
-    		
-		
-        completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -795,22 +756,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSCustomFields*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSCustomFields*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSCustomFields*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSCustomFields*)data, error);
+                           }
           ];
 }
 
@@ -820,21 +780,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Deletes envelope custom fields in a template.
 /// Deletes envelope custom fields in a template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param templateCustomFields TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param templateCustomFields TBD Description 
+/// 
 ///  @returns DSCustomFields*
--(NSNumber*) deleteCustomFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) deleteCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateCustomFields:(DSTemplateCustomFields*) templateCustomFields 
-    		
-		
-        completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -901,22 +856,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSCustomFields*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSCustomFields*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSCustomFields*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSCustomFields*)data, error);
+                           }
           ];
 }
 
@@ -926,21 +880,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets a list of documents associated with a template.
 /// Retrieves a list of documents associated with the specified template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSTemplateDocumentsResult*
--(NSNumber*) listDocumentsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) listDocumentsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
-    		
-		
-        completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1007,22 +956,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTemplateDocumentsResult*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTemplateDocumentsResult*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTemplateDocumentsResult*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTemplateDocumentsResult*)data, error);
+                           }
           ];
 }
 
@@ -1032,21 +980,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Adds documents to a template document.
 /// Adds one or more documents to an existing template document.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param envelopeDefinition TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param envelopeDefinition TBD Description 
+/// 
 ///  @returns DSTemplateDocumentsResult*
--(NSNumber*) updateDocumentsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) updateDocumentsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     envelopeDefinition:(DSEnvelopeDefinition*) envelopeDefinition 
-    		
-		
-        completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1113,22 +1056,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTemplateDocumentsResult*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTemplateDocumentsResult*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTemplateDocumentsResult*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTemplateDocumentsResult*)data, error);
+                           }
           ];
 }
 
@@ -1138,21 +1080,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Deletes documents from a template.
 /// Deletes one or more documents from an existing template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param envelopeDefinition TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param envelopeDefinition TBD Description 
+/// 
 ///  @returns DSTemplateDocumentsResult*
--(NSNumber*) deleteDocumentsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) deleteDocumentsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     envelopeDefinition:(DSEnvelopeDefinition*) envelopeDefinition 
-    		
-		
-        completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1219,22 +1156,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTemplateDocumentsResult*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTemplateDocumentsResult*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTemplateDocumentsResult*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTemplateDocumentsResult*)data, error);
+                           }
           ];
 }
 
@@ -1244,23 +1180,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets PDF documents from a template.
 /// Retrieves one or more PDF documents from the specified template.\n\nYou can specify the ID of the document to retrieve or can specify `combined` to retrieve all documents in the template as one pdf.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param documentId The ID of the document being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param documentId The ID of the document being accessed.
+/// 
+/// 
+/// 
 ///  @returns NSURL*
--(NSNumber*) getDocumentWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         documentId: (NSString*) documentId
-        
+-(NSNumber*) getDocumentWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
      
-    		
-		
-        completionHandler: (void (^)(NSURL* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(NSURL* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1335,22 +1265,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSURL*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSURL*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSURL*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSURL*)data, error);
+                           }
           ];
 }
 
@@ -1360,23 +1289,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets the custom document fields for a an existing template document.
 /// Retrieves the custom document fields for an existing template document.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param documentId The ID of the document being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param documentId The ID of the document being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSDocumentFieldsInformation*
--(NSNumber*) listDocumentFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         documentId: (NSString*) documentId
-        
+-(NSNumber*) listDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
      
-    		
-		
-        completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1451,22 +1374,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSDocumentFieldsInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSDocumentFieldsInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSDocumentFieldsInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSDocumentFieldsInformation*)data, error);
+                           }
           ];
 }
 
@@ -1476,23 +1398,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Updates existing custom document fields in an existing template document.
 /// Updates existing custom document fields in an existing template document.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param documentId The ID of the document being accessed.
-///
-/// @param documentFieldsInformation TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param documentId The ID of the document being accessed.
+/// 
+///  @param documentFieldsInformation TBD Description 
+/// 
 ///  @returns DSDocumentFieldsInformation*
--(NSNumber*) updateDocumentFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         documentId: (NSString*) documentId
-        
+-(NSNumber*) updateDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
-    		
-		
-        completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1567,22 +1483,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSDocumentFieldsInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSDocumentFieldsInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSDocumentFieldsInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSDocumentFieldsInformation*)data, error);
+                           }
           ];
 }
 
@@ -1592,23 +1507,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Creates custom document fields in an existing template document.
 /// Creates custom document fields in an existing template document.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param documentId The ID of the document being accessed.
-///
-/// @param documentFieldsInformation TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param documentId The ID of the document being accessed.
+/// 
+///  @param documentFieldsInformation TBD Description 
+/// 
 ///  @returns DSDocumentFieldsInformation*
--(NSNumber*) createDocumentFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         documentId: (NSString*) documentId
-        
+-(NSNumber*) createDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
-    		
-		
-        completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1683,22 +1592,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSDocumentFieldsInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSDocumentFieldsInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSDocumentFieldsInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSDocumentFieldsInformation*)data, error);
+                           }
           ];
 }
 
@@ -1708,23 +1616,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Deletes custom document fields from an existing template document.
 /// Deletes custom document fields from an existing template document.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param documentId The ID of the document being accessed.
-///
-/// @param documentFieldsInformation TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param documentId The ID of the document being accessed.
+/// 
+///  @param documentFieldsInformation TBD Description 
+/// 
 ///  @returns DSDocumentFieldsInformation*
--(NSNumber*) deleteDocumentFieldsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         documentId: (NSString*) documentId
-        
+-(NSNumber*) deleteDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
-    		
-		
-        completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1799,22 +1701,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSDocumentFieldsInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSDocumentFieldsInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSDocumentFieldsInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSDocumentFieldsInformation*)data, error);
+                           }
           ];
 }
 
@@ -1824,25 +1725,18 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Deletes a page from a document in an template.
 /// Deletes a page from a document in a template based on the page number.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param documentId The ID of the document being accessed.
-///  @param pageNumber The page number being accessed.
-///
-/// @param pageRequest TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param documentId The ID of the document being accessed.
+///   @param pageNumber The page number being accessed.
+/// 
+///  @param pageRequest TBD Description 
+/// 
 ///  @returns void
--(NSNumber*) deleteDocumentPageWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         documentId: (NSString*) documentId
-         pageNumber: (NSString*) pageNumber
-        
+-(NSNumber*) deleteDocumentPageWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId  pageNumber:(NSString*) pageNumber 
     pageRequest:(DSPageRequest*) pageRequest 
-    		
-		
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+    
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -1925,22 +1819,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -1949,22 +1842,17 @@ static DSTemplatesApi* singletonAPI = nil;
 
 ///
 /// Gets template lock information.
-/// Retrieves general information about the template lock.\n\nIf the call is made by the locked by user and the request has the same integrator key as original, then the `X-DocuSign-Edit` header and additional lock information is included in the response. This allows users to recover a lost editing session token and the `X-DocuSign-Edit` header.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-///
-///
+/// Retrieves general information about the template lock.\n\nIf the call is made by the user who has the lock and the request has the same integrator key as original, then the `X-DocuSign-Edit` header  field and additional lock information is included in the response. This allows users to recover a lost editing session token and the `X-DocuSign-Edit` header.
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSLockInformation*
--(NSNumber*) getLockWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) getLockWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
-    		
-		
-        completionHandler: (void (^)(DSLockInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSLockInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2031,22 +1919,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSLockInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSLockInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSLockInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSLockInformation*)data, error);
+                           }
           ];
 }
 
@@ -2056,21 +1943,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets template notification information.
 /// Retrieves the envelope notification, reminders and expirations, information for an existing template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSNotification*
--(NSNumber*) getNotificationSettingsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) getNotificationSettingsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
-    		
-		
-        completionHandler: (void (^)(DSNotification* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSNotification* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2137,22 +2019,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSNotification*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSNotification*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSNotification*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSNotification*)data, error);
+                           }
           ];
 }
 
@@ -2162,21 +2043,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Updates the notification  structure for an existing template.
 /// Updates the notification structure for an existing template. Use this endpoint to set reminder and expiration notifications.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param templateNotificationRequest TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param templateNotificationRequest TBD Description 
+/// 
 ///  @returns DSNotification*
--(NSNumber*) updateNotificationSettingsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) updateNotificationSettingsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateNotificationRequest:(DSTemplateNotificationRequest*) templateNotificationRequest 
-    		
-		
-        completionHandler: (void (^)(DSNotification* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSNotification* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2243,22 +2119,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSNotification*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSNotification*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSNotification*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSNotification*)data, error);
+                           }
           ];
 }
 
@@ -2268,21 +2143,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets recipient information from a template.
 /// Retrieves the information for all recipients in the specified template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSRecipients*
--(NSNumber*) listRecipientsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) listRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
-    		
-		
-        completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2349,22 +2219,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSRecipients*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSRecipients*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSRecipients*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSRecipients*)data, error);
+                           }
           ];
 }
 
@@ -2374,21 +2243,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Updates recipients in a template.
 /// Updates recipients in a template. \n\nYou can edit the following properties: `email`, `userName`, `routingOrder`, `faxNumber`, `deliveryMethod`, `accessCode`, and `requireIdLookup`.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param templateRecipients TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param templateRecipients TBD Description 
+/// 
 ///  @returns DSRecipientsUpdateSummary*
--(NSNumber*) updateRecipientsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) updateRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
-    		
-		
-        completionHandler: (void (^)(DSRecipientsUpdateSummary* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSRecipientsUpdateSummary* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2455,22 +2319,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSRecipientsUpdateSummary*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSRecipientsUpdateSummary*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSRecipientsUpdateSummary*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSRecipientsUpdateSummary*)data, error);
+                           }
           ];
 }
 
@@ -2480,21 +2343,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Adds tabs for a recipient.
 /// Adds one or more recipients to a template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param templateRecipients TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param templateRecipients TBD Description 
+/// 
 ///  @returns DSRecipients*
--(NSNumber*) createRecipientsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) createRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
-    		
-		
-        completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2561,22 +2419,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSRecipients*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSRecipients*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSRecipients*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSRecipients*)data, error);
+                           }
           ];
 }
 
@@ -2586,21 +2443,16 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Deletes recipients from a template.
 /// Deletes one or more recipients from a template. Recipients to be deleted are listed in the request, with the `recipientId` being used as the key for deleting recipients.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///
-/// @param templateRecipients TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+/// 
+///  @param templateRecipients TBD Description 
+/// 
 ///  @returns DSRecipients*
--(NSNumber*) deleteRecipientsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-        
+-(NSNumber*) deleteRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
-    		
-		
-        completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2667,22 +2519,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSRecipients*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSRecipients*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSRecipients*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSRecipients*)data, error);
+                           }
           ];
 }
 
@@ -2692,23 +2543,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Deletes the specified recipient file from a template.
 /// Deletes the specified recipient file from the specified template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param recipientId The ID of the recipient being accessed.
-///
-/// @param templateRecipients TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param recipientId The ID of the recipient being accessed.
+/// 
+///  @param templateRecipients TBD Description 
+/// 
 ///  @returns DSRecipients*
--(NSNumber*) deleteRecipientWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         recipientId: (NSString*) recipientId
-        
+-(NSNumber*) deleteRecipientWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
-    		
-		
-        completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2783,22 +2628,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSRecipients*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSRecipients*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSRecipients*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSRecipients*)data, error);
+                           }
           ];
 }
 
@@ -2808,23 +2652,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Gets the tabs information for a signer or sign-in-person recipient in a template.
 /// Gets the tabs information for a signer or sign-in-person recipient in a template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param recipientId The ID of the recipient being accessed.
-///
-/// @param tabs TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param recipientId The ID of the recipient being accessed.
+/// 
+///  @param tabs TBD Description 
+/// 
 ///  @returns DSTabs*
--(NSNumber*) listTabsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         recipientId: (NSString*) recipientId
-        
+-(NSNumber*) listTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     tabs:(DSTabs*) tabs 
-    		
-		
-        completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -2899,22 +2737,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabs*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabs*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabs*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabs*)data, error);
+                           }
           ];
 }
 
@@ -2924,23 +2761,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Updates the tabs for a recipient.
 /// Updates one or more tabs for a recipient in a template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param recipientId The ID of the recipient being accessed.
-///
-/// @param templateTabs TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param recipientId The ID of the recipient being accessed.
+/// 
+///  @param templateTabs TBD Description 
+/// 
 ///  @returns DSTabs*
--(NSNumber*) updateTabsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         recipientId: (NSString*) recipientId
-        
+-(NSNumber*) updateTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateTabs:(DSTemplateTabs*) templateTabs 
-    		
-		
-        completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -3015,22 +2846,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabs*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabs*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabs*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabs*)data, error);
+                           }
           ];
 }
 
@@ -3040,23 +2870,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Adds tabs for a recipient.
 /// Adds one or more tabs for a recipient.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param recipientId The ID of the recipient being accessed.
-///
-/// @param templateTabs TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param recipientId The ID of the recipient being accessed.
+/// 
+///  @param templateTabs TBD Description 
+/// 
 ///  @returns DSTabs*
--(NSNumber*) createTabsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         recipientId: (NSString*) recipientId
-        
+-(NSNumber*) createTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateTabs:(DSTemplateTabs*) templateTabs 
-    		
-		
-        completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -3131,22 +2955,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabs*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabs*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabs*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabs*)data, error);
+                           }
           ];
 }
 
@@ -3156,23 +2979,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Deletes the tabs associated with a recipient in a template.
 /// Deletes one or more tabs associated with a recipient in a template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param recipientId The ID of the recipient being accessed.
-///
-/// @param templateTabs TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param recipientId The ID of the recipient being accessed.
+/// 
+///  @param templateTabs TBD Description 
+/// 
 ///  @returns DSTabs*
--(NSNumber*) deleteTabsWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         recipientId: (NSString*) recipientId
-        
+-(NSNumber*) deleteTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateTabs:(DSTemplateTabs*) templateTabs 
-    		
-		
-        completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -3247,22 +3064,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabs*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabs*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabs*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabs*)data, error);
+                           }
           ];
 }
 
@@ -3272,23 +3088,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Shares a template with a group
 /// Shares a template with the specified members group.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param templatePart Currently, the only defined part is **groups**.
-///
-/// @param groupInformation TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param templatePart Currently, the only defined part is **groups**.
+/// 
+///  @param groupInformation TBD Description 
+/// 
 ///  @returns DSGroupInformation*
--(NSNumber*) updateGroupShareWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         templatePart: (NSString*) templatePart
-        
+-(NSNumber*) updateGroupShareWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  templatePart:(NSString*) templatePart 
     groupInformation:(DSGroupInformation*) groupInformation 
-    		
-		
-        completionHandler: (void (^)(DSGroupInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSGroupInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -3363,22 +3173,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSGroupInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSGroupInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSGroupInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSGroupInformation*)data, error);
+                           }
           ];
 }
 
@@ -3388,23 +3197,17 @@ static DSTemplatesApi* singletonAPI = nil;
 ///
 /// Removes a member group's sharing permissions for a template.
 /// Removes a member group's sharing permissions for a specified template.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param templateId The ID of the template being accessed.
-///  @param templatePart Currently, the only defined part is **groups**.
-///
-/// @param groupInformation TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param templateId The ID of the template being accessed.
+///   @param templatePart Currently, the only defined part is **groups**.
+/// 
+///  @param groupInformation TBD Description 
+/// 
 ///  @returns DSGroupInformation*
--(NSNumber*) deleteGroupShareWithCompletionBlock: (NSString*) accountId
-         templateId: (NSString*) templateId
-         templatePart: (NSString*) templatePart
-        
+-(NSNumber*) deleteGroupShareWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  templatePart:(NSString*) templatePart 
     groupInformation:(DSGroupInformation*) groupInformation 
-    		
-		
-        completionHandler: (void (^)(DSGroupInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSGroupInformation* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -3479,22 +3282,21 @@ static DSTemplatesApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSGroupInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSGroupInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSGroupInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSGroupInformation*)data, error);
+                           }
           ];
 }
 

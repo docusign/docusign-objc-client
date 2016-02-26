@@ -7,8 +7,8 @@
  * Do not edit the class manually.
  */
 
-#import "DSInlineTemplate.h"
 #import "DSDocument.h"
+#import "DSInlineTemplate.h"
 #import "DSServerTemplate.h"
 
 

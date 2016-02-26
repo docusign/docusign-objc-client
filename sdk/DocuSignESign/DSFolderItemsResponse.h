@@ -24,7 +24,7 @@
 /* The last position in the result set. [optional]
  */
 @property(nonatomic) NSString* endPosition;
-/* The total number of items available in the result set. This will always be greater than or equal to the value of the `resultSetSize` property. [optional]
+/* The total number of items available in the result set. This will always be greater than or equal to the value of the property returning the results in the in the response. [optional]
  */
 @property(nonatomic) NSString* totalSetSize;
 /* The postal code for the billing address. [optional]

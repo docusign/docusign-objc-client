@@ -71,5 +71,8 @@
 /* When set to **true**, indicates that this module is enabled on the account. [optional]
  */
 @property(nonatomic) NSString* is21CFRPart11;
+/*  [optional]
+ */
+@property(nonatomic) NSString* isUniversalSignatureEnvelope;
 
 @end

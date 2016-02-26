@@ -85,17 +85,14 @@ static DSDiagnosticsApi* singletonAPI = nil;
 ///
 /// Retrieves the available REST API versions.
 /// Retrieves the available REST API versions.\n\nDocuSign Production system: https://www.docusign.net/restapi/service_information\nDocuSign Demo system: https://demo.docusign.net/restapi/service_information\n\nYou do not need an integrator key to view the REST API versions and resources.
-///
-///
-///
-///
+/// 
+/// 
+/// 
 ///  @returns DSServiceInformation*
--(NSNumber*) getServiceWithCompletionBlock: 
+-(NSNumber*) getServiceWithCompletionHandler:
      
-    		
-		
-        (void (^)(DSServiceInformation* output, NSError* error))completionBlock { 
-        
+    
+    (void (^)(DSServiceInformation* output, NSError* error)) handler {
 
     
 
@@ -146,22 +143,21 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSServiceInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSServiceInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSServiceInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSServiceInformation*)data, error);
+                           }
           ];
 }
 
@@ -170,18 +166,15 @@ static DSDiagnosticsApi* singletonAPI = nil;
 
 ///
 /// Lists resources for REST version specified
-/// Retrieves the base resources available for the DocuSign REST APIs.\n\nYou do not need an integrator key to view the REST API versions and resources.\n\nExample: https://demo.docusign.net/restapi/v2 lists all of the base resources available in version 2 of the REST API on the DocuSign Demo system.\n\nTo view descriptions and samples of the service operations for all versions, remove the version number and add /help to the URL.\n\nExample: https://demo.docusign.net/restapi/help lists the REST API operations on the DocuSign Demo system with XML and json request and response samples.
-///
-///
-///
-///
+/// Retrieves the base resources available for the DocuSign REST APIs.\n\nYou do not need an integrator key to view the REST API versions and resources.\n\nExample: https://demo.docusign.net/restapi/v2 lists all of the base resources available in version 2 of the REST API on the DocuSign Demo system.\n\nTo view descriptions and samples of the service operations for all versions, remove the version number and add /help to the URL.\n\nExample: https://demo.docusign.net/restapi/help lists the REST API operations on the DocuSign Demo system with XML and JSON request and response samples.
+/// 
+/// 
+/// 
 ///  @returns DSResourceInformation*
--(NSNumber*) getResourcesWithCompletionBlock: 
+-(NSNumber*) getResourcesWithCompletionHandler:
      
-    		
-		
-        (void (^)(DSResourceInformation* output, NSError* error))completionBlock { 
-        
+    
+    (void (^)(DSResourceInformation* output, NSError* error)) handler {
 
     
 
@@ -232,22 +225,21 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSResourceInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSResourceInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSResourceInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSResourceInformation*)data, error);
+                           }
           ];
 }
 
@@ -313,7 +305,7 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
+    return [self.apiClient requestWithPath: resourcePath
                                                method: @"GET"
                                            pathParams: pathParams
                                           queryParams: queryParams
@@ -338,17 +330,14 @@ static DSDiagnosticsApi* singletonAPI = nil;
 ///
 /// Gets the API request logging log files.
 /// Retrieves a list of log entries as a JSON or xml object or as a zip file containing the entries.\n\nIf the Accept header is set to application/zip, the response is a zip file containing individual text files, each representing an API request.\n\nIf the Accept header is set to `application/json` or `application/xml`, the response returns list of log entries in either JSON or XML. An example JSON response body is shown below.
-///
-///
-///
-/// @param DSDiagnosticsApi_ListRequestLogsOptions  Options for modifying the request.
+/// 
+/// 
+///  @param DSDiagnosticsApi_ListRequestLogsOptions  Options for modifying the request.
 ///  @returns DSApiRequestLogsResult*
--(NSNumber*) listRequestLogsWithCompletionBlock: 
+-(NSNumber*) listRequestLogsWithEncoding:
      
-    (DSDiagnosticsApi_ListRequestLogsOptions*) options		
-		
-        completionHandler: (void (^)(DSApiRequestLogsResult* output, NSError* error))completionBlock { 
-        
+    (DSDiagnosticsApi_ListRequestLogsOptions*) options
+    completionHandler: (void (^)(DSApiRequestLogsResult* output, NSError* error)) handler {
 
     
 
@@ -407,22 +396,21 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSApiRequestLogsResult*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSApiRequestLogsResult*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSApiRequestLogsResult*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSApiRequestLogsResult*)data, error);
+                           }
           ];
 }
 
@@ -432,17 +420,14 @@ static DSDiagnosticsApi* singletonAPI = nil;
 ///
 /// Deletes the request log files.
 /// Deletes the request log files.
-///
-///
-///
-///
+/// 
+/// 
+/// 
 ///  @returns void
--(NSNumber*) deleteRequestLogsWithCompletionBlock: 
+-(NSNumber*) deleteRequestLogsWithCompletionHandler:
      
-    		
-		
-        
-        (void (^)(NSError* error))completionBlock { 
+    
+    (void (^)(NSError* error)) handler {
 
     
 
@@ -493,22 +478,21 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 
@@ -518,19 +502,15 @@ static DSDiagnosticsApi* singletonAPI = nil;
 ///
 /// Gets a request logging log file.
 /// Retrieves information for a single log entry.\n\n**Request**\nThe `requestLogfId` property can be retrieved by getting the list of log entries. The Content-Transfer-Encoding header can be set to base64 to retrieve the API request/response as base 64 string. Otherwise the bytes of the request/response are returned.\n\n**Response**\nIf the Content-Transfer-Encoding header was set to base64, the log is returned as a base64 string.
-///
-///  @param requestLogId 
-///
-///
-///
+///   @param requestLogId 
+/// 
+/// 
+/// 
 ///  @returns NSURL*
--(NSNumber*) getRequestLogWithCompletionBlock: (NSString*) requestLogId
-        
+-(NSNumber*) getRequestLogWithRequestLogId:(NSString*) requestLogId 
      
-    		
-		
-        completionHandler: (void (^)(NSURL* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(NSURL* output, NSError* error)) handler {
 
     
     // verify the required parameter 'requestLogId' is set
@@ -589,22 +569,21 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"NSURL*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((NSURL*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"NSURL*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((NSURL*)data, error);
+                           }
           ];
 }
 
@@ -614,17 +593,14 @@ static DSDiagnosticsApi* singletonAPI = nil;
 ///
 /// Gets the API request logging settings.
 /// Retrieves the current API request logging setting for the user and remaining log entries.\n\n**Response**\nThe response includes the current API request logging setting for the user, along with the maximum log entries and remaining log entries.
-///
-///
-///
-///
+/// 
+/// 
+/// 
 ///  @returns DSDiagnosticsSettingsInformation*
--(NSNumber*) getRequestLogSettingsWithCompletionBlock: 
+-(NSNumber*) getRequestLogSettingsWithCompletionHandler:
      
-    		
-		
-        (void (^)(DSDiagnosticsSettingsInformation* output, NSError* error))completionBlock { 
-        
+    
+    (void (^)(DSDiagnosticsSettingsInformation* output, NSError* error)) handler {
 
     
 
@@ -675,22 +651,21 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSDiagnosticsSettingsInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSDiagnosticsSettingsInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSDiagnosticsSettingsInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSDiagnosticsSettingsInformation*)data, error);
+                           }
           ];
 }
 
@@ -699,18 +674,15 @@ static DSDiagnosticsApi* singletonAPI = nil;
 
 ///
 /// Enables or disables API request logging for troubleshooting.
-/// Enables or disables API request logging for troubleshooting.\n\nWhen enabled (apiRequestLogging is set to true), REST API requests and responses for the user are added to a log. A log can have up to 50 requests/responses and the current number of log entries can be determined by getting the settings. Logging is automatically disabled when the log limit of 50 is reached.\n\nYou can call [ML:GetRequestLog] or [ML:GetRequestLogs] to download the log files (individually or as a zip file). Call [ML:DeleteRequestLogs] to clear the log by deleting current entries.\n\nPrivate information, such as passwords and integrator key information, which is normally located in the call header is omitted from the request/response log.\n\n### Note: API request logging only captures requests from the authenticated user. Any call that does not authenticate the user and resolve a userId isn't logged. Meaning that login_information, NewAccounts, or other distributor-credential calls are not logged.
-///
-///
-/// @param diagnosticsSettingsInformation TBD Description 
-///
+/// Enables or disables API request logging for troubleshooting.\n\nWhen enabled (`apiRequestLogging` is set to true), REST API requests and responses for the user are added to a log. A log can have up to 50 requests/responses and the current number of log entries can be determined by getting the settings. Logging is automatically disabled when the log limit of 50 is reached.\n\nYou can call [ML:GetRequestLog] or [ML:GetRequestLogs] to download the log files (individually or as a zip file). Call [ML:DeleteRequestLogs] to clear the log by deleting current entries.\n\nPrivate information, such as passwords and integrator key information, which is normally located in the call header is omitted from the request/response log.\n\n#### Note: API request logging only captures requests from the authenticated user. Any call that does not authenticate the user and resolve a userId isn't logged. Meaning that login_information, NewAccounts, or other distributor-credential calls are not logged.
+/// 
+///  @param diagnosticsSettingsInformation TBD Description 
+/// 
 ///  @returns DSDiagnosticsSettingsInformation*
--(NSNumber*) updateRequestLogSettingsWithCompletionBlock: 
+-(NSNumber*) updateRequestLogSettingsWithDiagnosticsSettingsInformation:
     (DSDiagnosticsSettingsInformation*) diagnosticsSettingsInformation 
-    		
-		
-        completionHandler: (void (^)(DSDiagnosticsSettingsInformation* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSDiagnosticsSettingsInformation* output, NSError* error)) handler {
 
     
 
@@ -761,22 +733,21 @@ static DSDiagnosticsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSDiagnosticsSettingsInformation*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSDiagnosticsSettingsInformation*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSDiagnosticsSettingsInformation*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSDiagnosticsSettingsInformation*)data, error);
+                           }
           ];
 }
 

@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "DSErrorDetails.h"
 #import "DSEnvelopeTemplateResults.h"
-#import "DSEnvelopeTemplate.h"
 #import "DSTemplateSummary.h"
+#import "DSEnvelopeTemplate.h"
 #import "DSTemplateUpdateSummary.h"
 #import "DSCustomFields.h"
 #import "DSTemplateCustomFields.h"
@@ -14,8 +14,8 @@
 #import "DSNotification.h"
 #import "DSTemplateNotificationRequest.h"
 #import "DSRecipients.h"
-#import "DSTemplateRecipients.h"
 #import "DSRecipientsUpdateSummary.h"
+#import "DSTemplateRecipients.h"
 #import "DSTabs.h"
 #import "DSTemplateTabs.h"
 #import "DSGroupInformation.h"
@@ -89,13 +89,10 @@
 ///
 ///
 /// @return DSEnvelopeTemplateResults*
-
--(NSNumber*) listTemplatesWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listTemplatesWithAccountId:(NSString*) accountId 
      
     
-    
-    completionHandler: (void (^)(DSEnvelopeTemplateResults* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeTemplateResults* output, NSError* error)) handler;
 
 
 	
@@ -106,20 +103,17 @@
 ///
 ///
 /// Creates an envelope from a template.
-/// Creates a template definition using a multipart request.\n\n###Template Email Subject Merge Fields\n\nCall this endpoint to insert a recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s role name, are added to the `emailSubject` property when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n### Note: If merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\nTo add a recipient’s name in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_UserName]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\nTo add a recipient’s email address in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_Email]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\n\nIn both cases the <roleName> is the recipient's contents of the `roleName` property in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.
+/// Creates a template definition using a multipart request.\n\n###Template Email Subject Merge Fields\n\nCall this endpoint to insert a recipient name and email address merge fields into the email subject line when creating or sending from a template.\n\nThe merge fields, based on the recipient’s role name, are added to the `emailSubject` property when the template is created or when the template is used to create an envelope. After a template sender adds the name and email information for the recipient and sends the envelope, the recipient information is automatically merged into the appropriate fields in the email subject line.\n\nBoth the sender and the recipients will see the information in the email subject line for any emails associated with the template. This provides an easy way for senders to organize their envelope emails without having to open an envelope to check the recipient.\n#### Note: If merging the recipient information into the subject line causes the subject line to exceed 100 characters, then any characters over the 100 character limit are not included in the subject line. For cases where the recipient name or email is expected to be long, you should consider placing the merge field at the start of the email subject.\n\nTo add a recipient’s name in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_UserName]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_UserName]], Please sign this NDA\",`\n\nTo add a recipient’s email address in the subject line add the following text in the `emailSubject` property when creating the template or when sending an envelope from a template:\n\n[[<roleName>_Email]]\n\nExample:\n\n`\"emailSubject\":\"[[Signer 1_Email]], Please sign this NDA\",`\n\n\nIn both cases the <roleName> is the recipient's contents of the `roleName` property in the template.\n\nFor cases where another recipient (such as an Agent, Editor, or Intermediary recipient) is entering the name and email information for the recipient included in the email subject, then [[<roleName>_UserName]] or [[<roleName>_Email]] is shown in the email subject.
 ///
 ///  @param accountId The external account number (int) or account ID Guid.
 ///
 /// @param envelopeTemplate TBD Description 
 ///
 /// @return DSTemplateSummary*
-
--(NSNumber*) createTemplateWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) createTemplateWithAccountId:(NSString*) accountId 
     envelopeTemplate:(DSEnvelopeTemplate*) envelopeTemplate 
     
-    
-    completionHandler: (void (^)(DSTemplateSummary* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTemplateSummary* output, NSError* error)) handler;
 
 
 	
@@ -138,14 +132,10 @@
 ///
 ///
 /// @return DSEnvelopeTemplate*
-
--(NSNumber*) getWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) getWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
     
-    
-    completionHandler: (void (^)(DSEnvelopeTemplate* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSEnvelopeTemplate* output, NSError* error)) handler;
 
 
 	
@@ -164,14 +154,10 @@
 /// @param envelopeTemplate TBD Description 
 ///
 /// @return DSTemplateUpdateSummary*
-
--(NSNumber*) updateWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) updateWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     envelopeTemplate:(DSEnvelopeTemplate*) envelopeTemplate 
     
-    
-    completionHandler: (void (^)(DSTemplateUpdateSummary* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTemplateUpdateSummary* output, NSError* error)) handler;
 
 
 	
@@ -190,14 +176,10 @@
 ///
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) listCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) listCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -216,14 +198,10 @@
 /// @param templateCustomFields TBD Description 
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) updateCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) updateCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateCustomFields:(DSTemplateCustomFields*) templateCustomFields 
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -242,14 +220,10 @@
 /// @param templateCustomFields TBD Description 
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) createCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) createCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateCustomFields:(DSTemplateCustomFields*) templateCustomFields 
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -268,14 +242,10 @@
 /// @param templateCustomFields TBD Description 
 ///
 /// @return DSCustomFields*
-
--(NSNumber*) deleteCustomFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) deleteCustomFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateCustomFields:(DSTemplateCustomFields*) templateCustomFields 
     
-    
-    completionHandler: (void (^)(DSCustomFields* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSCustomFields* output, NSError* error)) handler;
 
 
 	
@@ -294,14 +264,10 @@
 ///
 ///
 /// @return DSTemplateDocumentsResult*
-
--(NSNumber*) listDocumentsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) listDocumentsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
     
-    
-    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error)) handler;
 
 
 	
@@ -320,14 +286,10 @@
 /// @param envelopeDefinition TBD Description 
 ///
 /// @return DSTemplateDocumentsResult*
-
--(NSNumber*) updateDocumentsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) updateDocumentsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     envelopeDefinition:(DSEnvelopeDefinition*) envelopeDefinition 
     
-    
-    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error)) handler;
 
 
 	
@@ -346,14 +308,10 @@
 /// @param envelopeDefinition TBD Description 
 ///
 /// @return DSTemplateDocumentsResult*
-
--(NSNumber*) deleteDocumentsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) deleteDocumentsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     envelopeDefinition:(DSEnvelopeDefinition*) envelopeDefinition 
     
-    
-    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTemplateDocumentsResult* output, NSError* error)) handler;
 
 
 	
@@ -373,15 +331,10 @@
 ///
 ///
 /// @return NSURL*
-
--(NSNumber*) getDocumentWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) getDocumentWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
      
     
-    
-    completionHandler: (void (^)(NSURL* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(NSURL* output, NSError* error)) handler;
 
 
 	
@@ -401,15 +354,10 @@
 ///
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) listDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) listDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
      
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -429,15 +377,10 @@
 /// @param documentFieldsInformation TBD Description 
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) updateDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) updateDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -457,15 +400,10 @@
 /// @param documentFieldsInformation TBD Description 
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) createDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) createDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -485,15 +423,10 @@
 /// @param documentFieldsInformation TBD Description 
 ///
 /// @return DSDocumentFieldsInformation*
-
--(NSNumber*) deleteDocumentFieldsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     documentId:(NSString*) documentId  
+-(NSNumber*) deleteDocumentFieldsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId 
     documentFieldsInformation:(DSDocumentFieldsInformation*) documentFieldsInformation 
     
-    
-    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSDocumentFieldsInformation* output, NSError* error)) handler;
 
 
 	
@@ -514,16 +447,10 @@
 /// @param pageRequest TBD Description 
 ///
 /// @return 
-
--(NSNumber*) deleteDocumentPageWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     documentId:(NSString*) documentId 
-     pageNumber:(NSString*) pageNumber  
+-(NSNumber*) deleteDocumentPageWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  documentId:(NSString*) documentId  pageNumber:(NSString*) pageNumber 
     pageRequest:(DSPageRequest*) pageRequest 
     
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 	
@@ -534,7 +461,7 @@
 ///
 ///
 /// Gets template lock information.
-/// Retrieves general information about the template lock.\n\nIf the call is made by the locked by user and the request has the same integrator key as original, then the `X-DocuSign-Edit` header and additional lock information is included in the response. This allows users to recover a lost editing session token and the `X-DocuSign-Edit` header.
+/// Retrieves general information about the template lock.\n\nIf the call is made by the user who has the lock and the request has the same integrator key as original, then the `X-DocuSign-Edit` header  field and additional lock information is included in the response. This allows users to recover a lost editing session token and the `X-DocuSign-Edit` header.
 ///
 ///  @param accountId The external account number (int) or account ID Guid.
 ///  @param templateId The ID of the template being accessed.
@@ -542,14 +469,10 @@
 ///
 ///
 /// @return DSLockInformation*
-
--(NSNumber*) getLockWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) getLockWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
     
-    
-    completionHandler: (void (^)(DSLockInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSLockInformation* output, NSError* error)) handler;
 
 
 	
@@ -568,14 +491,10 @@
 ///
 ///
 /// @return DSNotification*
-
--(NSNumber*) getNotificationSettingsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) getNotificationSettingsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
     
-    
-    completionHandler: (void (^)(DSNotification* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSNotification* output, NSError* error)) handler;
 
 
 	
@@ -594,14 +513,10 @@
 /// @param templateNotificationRequest TBD Description 
 ///
 /// @return DSNotification*
-
--(NSNumber*) updateNotificationSettingsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) updateNotificationSettingsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateNotificationRequest:(DSTemplateNotificationRequest*) templateNotificationRequest 
     
-    
-    completionHandler: (void (^)(DSNotification* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSNotification* output, NSError* error)) handler;
 
 
 	
@@ -620,14 +535,10 @@
 ///
 ///
 /// @return DSRecipients*
-
--(NSNumber*) listRecipientsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) listRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
      
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -646,14 +557,10 @@
 /// @param templateRecipients TBD Description 
 ///
 /// @return DSRecipientsUpdateSummary*
-
--(NSNumber*) updateRecipientsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) updateRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
     
-    
-    completionHandler: (void (^)(DSRecipientsUpdateSummary* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipientsUpdateSummary* output, NSError* error)) handler;
 
 
 	
@@ -672,14 +579,10 @@
 /// @param templateRecipients TBD Description 
 ///
 /// @return DSRecipients*
-
--(NSNumber*) createRecipientsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) createRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -698,14 +601,10 @@
 /// @param templateRecipients TBD Description 
 ///
 /// @return DSRecipients*
-
--(NSNumber*) deleteRecipientsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId  
+-(NSNumber*) deleteRecipientsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -725,15 +624,10 @@
 /// @param templateRecipients TBD Description 
 ///
 /// @return DSRecipients*
-
--(NSNumber*) deleteRecipientWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) deleteRecipientWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateRecipients:(DSTemplateRecipients*) templateRecipients 
     
-    
-    completionHandler: (void (^)(DSRecipients* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSRecipients* output, NSError* error)) handler;
 
 
 	
@@ -753,15 +647,10 @@
 /// @param tabs TBD Description 
 ///
 /// @return DSTabs*
-
--(NSNumber*) listTabsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) listTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     tabs:(DSTabs*) tabs 
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -781,15 +670,10 @@
 /// @param templateTabs TBD Description 
 ///
 /// @return DSTabs*
-
--(NSNumber*) updateTabsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) updateTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateTabs:(DSTemplateTabs*) templateTabs 
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -809,15 +693,10 @@
 /// @param templateTabs TBD Description 
 ///
 /// @return DSTabs*
-
--(NSNumber*) createTabsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) createTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateTabs:(DSTemplateTabs*) templateTabs 
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -837,15 +716,10 @@
 /// @param templateTabs TBD Description 
 ///
 /// @return DSTabs*
-
--(NSNumber*) deleteTabsWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     recipientId:(NSString*) recipientId  
+-(NSNumber*) deleteTabsWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  recipientId:(NSString*) recipientId 
     templateTabs:(DSTemplateTabs*) templateTabs 
     
-    
-    completionHandler: (void (^)(DSTabs* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabs* output, NSError* error)) handler;
 
 
 	
@@ -865,15 +739,10 @@
 /// @param groupInformation TBD Description 
 ///
 /// @return DSGroupInformation*
-
--(NSNumber*) updateGroupShareWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     templatePart:(NSString*) templatePart  
+-(NSNumber*) updateGroupShareWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  templatePart:(NSString*) templatePart 
     groupInformation:(DSGroupInformation*) groupInformation 
     
-    
-    completionHandler: (void (^)(DSGroupInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSGroupInformation* output, NSError* error)) handler;
 
 
 	
@@ -893,15 +762,10 @@
 /// @param groupInformation TBD Description 
 ///
 /// @return DSGroupInformation*
-
--(NSNumber*) deleteGroupShareWithCompletionBlock :(NSString*) accountId 
-     templateId:(NSString*) templateId 
-     templatePart:(NSString*) templatePart  
+-(NSNumber*) deleteGroupShareWithAccountId:(NSString*) accountId  templateId:(NSString*) templateId  templatePart:(NSString*) templatePart 
     groupInformation:(DSGroupInformation*) groupInformation 
     
-    
-    completionHandler: (void (^)(DSGroupInformation* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSGroupInformation* output, NSError* error)) handler;
 
 
 	

@@ -30,7 +30,7 @@
 /* The value of the custom field. [optional]
  */
 @property(nonatomic) NSString* value;
-/*  [optional]
+/* If merge field's are being used, specifies the type of the merge field. The only  supported value is **salesforce**. [optional]
  */
 @property(nonatomic) NSString* configurationType;
 
