@@ -7,8 +7,8 @@
  * Do not edit the class manually.
  */
 
-#import "DSReminders.h"
 #import "DSExpirations.h"
+#import "DSReminders.h"
 
 
 @protocol DSTemplateNotificationRequest

@@ -149,7 +149,7 @@ static DSCustomTabsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
+    return [self.apiClient requestWithPath: resourcePath
                                                method: @"GET"
                                            pathParams: pathParams
                                           queryParams: queryParams
@@ -174,19 +174,15 @@ static DSCustomTabsApi* singletonAPI = nil;
 ///
 /// Gets a list of all account tabs.
 /// Retrieves a list of all tabs associated with the account.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///
-///
-/// @param DSCustomTabsApi_ListOptions  Options for modifying the request.
+///   @param accountId The external account number (int) or account ID Guid.
+/// 
+/// 
+///  @param DSCustomTabsApi_ListOptions  Options for modifying the request.
 ///  @returns DSTabMetadataList*
--(NSNumber*) listWithCompletionBlock: (NSString*) accountId
-        
+-(NSNumber*) listWithAccountId:(NSString*) accountId 
      
-    options:(DSCustomTabsApi_ListOptions*) options		
-		
-        completionHandler: (void (^)(DSTabMetadataList* output, NSError* error))completionBlock { 
-        
+     options:(DSCustomTabsApi_ListOptions*) options
+    completionHandler: (void (^)(DSTabMetadataList* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -253,22 +249,21 @@ static DSCustomTabsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabMetadataList*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabMetadataList*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabMetadataList*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabMetadataList*)data, error);
+                           }
           ];
 }
 
@@ -278,19 +273,15 @@ static DSCustomTabsApi* singletonAPI = nil;
 ///
 /// Creates a custom tab.
 /// Creates a tab with pre-defined properties, such as a text tab with a certain font type and validation pattern. Users can access the custom tabs when sending documents through the DocuSign web application.\n\nCustom tabs can be created for approve, checkbox, company, date, date signed, decline, email, email address, envelope ID, first name, formula, full name, initial here, last name, list, note, number, radio, sign here, signer attachment, SSN, text, title, and zip tabs.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///
-/// @param tabMetadata TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+/// 
+///  @param tabMetadata TBD Description 
+/// 
 ///  @returns DSTabMetadata*
--(NSNumber*) createWithCompletionBlock: (NSString*) accountId
-        
+-(NSNumber*) createWithAccountId:(NSString*) accountId 
     tabMetadata:(DSTabMetadata*) tabMetadata 
-    		
-		
-        completionHandler: (void (^)(DSTabMetadata* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -349,22 +340,21 @@ static DSCustomTabsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"POST"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabMetadata*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabMetadata*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"POST"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabMetadata*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabMetadata*)data, error);
+                           }
           ];
 }
 
@@ -374,21 +364,16 @@ static DSCustomTabsApi* singletonAPI = nil;
 ///
 /// Gets custom tab information.
 /// Retrieves information about the requested custom tab on the specified account.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param customTabId 
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param customTabId 
+/// 
+/// 
+/// 
 ///  @returns DSTabMetadata*
--(NSNumber*) getWithCompletionBlock: (NSString*) accountId
-         customTabId: (NSString*) customTabId
-        
+-(NSNumber*) getWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
      
-    		
-		
-        completionHandler: (void (^)(DSTabMetadata* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -455,22 +440,21 @@ static DSCustomTabsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabMetadata*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabMetadata*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabMetadata*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabMetadata*)data, error);
+                           }
           ];
 }
 
@@ -480,21 +464,16 @@ static DSCustomTabsApi* singletonAPI = nil;
 ///
 /// Updates custom tab information.
 /// Updates the information in a custom tab for the specified account.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param customTabId 
-///
-/// @param tabMetadata TBD Description 
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param customTabId 
+/// 
+///  @param tabMetadata TBD Description 
+/// 
 ///  @returns DSTabMetadata*
--(NSNumber*) updateWithCompletionBlock: (NSString*) accountId
-         customTabId: (NSString*) customTabId
-        
+-(NSNumber*) updateWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
     tabMetadata:(DSTabMetadata*) tabMetadata 
-    		
-		
-        completionHandler: (void (^)(DSTabMetadata* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -561,22 +540,21 @@ static DSCustomTabsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabMetadata*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabMetadata*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabMetadata*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSTabMetadata*)data, error);
+                           }
           ];
 }
 
@@ -586,21 +564,16 @@ static DSCustomTabsApi* singletonAPI = nil;
 ///
 /// Deletes custom tab information.
 /// Deletes the custom from the specified account.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param customTabId 
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param customTabId 
+/// 
+/// 
+/// 
 ///  @returns void
--(NSNumber*) deleteWithCompletionBlock: (NSString*) accountId
-         customTabId: (NSString*) customTabId
-        
+-(NSNumber*) deleteWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
      
-    		
-		
-        
-        completionHandler: (void (^)(NSError* error))completionBlock { 
+    
+    completionHandler: (void (^)(NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -667,22 +640,21 @@ static DSCustomTabsApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"DELETE"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: nil
-                                      completionBlock: ^(id data, NSError *error) {
-                  completionBlock(error);
-                  
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"DELETE"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: nil
+                           completionBlock: ^(id data, NSError *error) {
+                               handler(error);
+                           }
           ];
 }
 

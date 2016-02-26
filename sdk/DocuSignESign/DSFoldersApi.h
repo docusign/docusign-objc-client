@@ -26,25 +26,13 @@
 
 @interface DSFoldersApi_SearchOptions : DSObject
 /*
- * includeRecipients When set to **true**, the recipient information is returned in the response.
+ * startPosition Specifies the the starting location in the result set of the items that are returned.
  */
-@property NSString* includeRecipients;
-/*
- * all Specifies that all envelopes that match the criteria are returned.
- */
-@property NSString* all;
-/*
- * order Specifies the order in which the list is returned. Valid values are: `asc` for ascending order, and `desc` for descending order.
- */
-@property NSString* order;
+@property NSString* startPosition;
 /*
  * count Specifies the number of records returned in the cache. The number must be greater than 0 and less than or equal to 100.
  */
 @property NSString* count;
-/*
- * startPosition Specifies the the starting location in the result set of the items that are returned.
- */
-@property NSString* startPosition;
 /*
  * fromDate Specifies the start of the date range to return. If no value is provided, the default search is the previous 30 days.
  */
@@ -57,6 +45,18 @@
  * orderBy Specifies the property used to sort the list. Valid values are: `action_required`, `created`, `completed`, `sent`, `signer_list`, `status`, or `subject`.
  */
 @property NSString* orderBy;
+/*
+ * order Specifies the order in which the list is returned. Valid values are: `asc` for ascending order, and `desc` for descending order.
+ */
+@property NSString* order;
+/*
+ * includeRecipients When set to **true**, the recipient information is returned in the response.
+ */
+@property NSString* includeRecipients;
+/*
+ * all Specifies that all envelopes that match the criteria are returned.
+ */
+@property NSString* all;
 
 @end
 
@@ -84,13 +84,10 @@
 ///
 ///
 /// @return DSFoldersResponse*
-
--(NSNumber*) listWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listWithAccountId:(NSString*) accountId 
      
     
-    
-    completionHandler: (void (^)(DSFoldersResponse* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSFoldersResponse* output, NSError* error)) handler;
 
 
 	
@@ -109,14 +106,10 @@
 ///
 ///
 /// @return DSFolderItemsResponse*
-
--(NSNumber*) listItemsWithCompletionBlock :(NSString*) accountId 
-     folderId:(NSString*) folderId  
+-(NSNumber*) listItemsWithAccountId:(NSString*) accountId  folderId:(NSString*) folderId 
      
     
-    
-    completionHandler: (void (^)(DSFolderItemsResponse* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSFolderItemsResponse* output, NSError* error)) handler;
 
 
 	
@@ -127,7 +120,7 @@
 ///
 ///
 /// Moves an envelope from its current folder to the specified folder.
-/// Moves an envelope from its current folder to the specified folder.\n\n### Note: You can use this endpoint to delete envelopes by specifying `recyclebin' in the `folderId` parameter of the endpoint. Placing an in process envelope (envelope status of `sent` or `delivered`) in the recycle bin voids the envelope. You can also use this endpoint to delete templates by specifying a template ID instead of an envelope ID in the 'envelopeIds' property and specifying `recyclebin` in the `folderId` parameter.
+/// Moves an envelope from its current folder to the specified folder.\n\n#### Note: You can use this endpoint to delete envelopes by specifying `recyclebin' in the `folderId` parameter of the endpoint. Placing an in process envelope (envelope status of `sent` or `delivered`) in the recycle bin voids the envelope. You can also use this endpoint to delete templates by specifying a template ID instead of an envelope ID in the 'envelopeIds' property and specifying `recyclebin` in the `folderId` parameter.
 ///
 ///  @param accountId The external account number (int) or account ID Guid.
 ///  @param folderId The ID of the folder being accessed.
@@ -135,14 +128,10 @@
 /// @param foldersRequest TBD Description 
 ///
 /// @return DSFoldersResponse*
-
--(NSNumber*) moveEnvelopesWithCompletionBlock :(NSString*) accountId 
-     folderId:(NSString*) folderId  
+-(NSNumber*) moveEnvelopesWithAccountId:(NSString*) accountId  folderId:(NSString*) folderId 
     foldersRequest:(DSFoldersRequest*) foldersRequest 
     
-    
-    completionHandler: (void (^)(DSFoldersResponse* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSFoldersResponse* output, NSError* error)) handler;
 
 
 	
@@ -181,14 +170,10 @@
 ///
 /// @param DSFoldersApi_SearchOptions  Options for modifying the request.
 /// @return DSFolderItemResponse*
-
--(NSNumber*) searchWithCompletionBlock :(NSString*) accountId 
-     searchFolderId:(NSString*) searchFolderId  
+-(NSNumber*) searchWithAccountId:(NSString*) accountId  searchFolderId:(NSString*) searchFolderId 
      
      options:(DSFoldersApi_SearchOptions*) options
-    
-    completionHandler: (void (^)(DSFolderItemResponse* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSFolderItemResponse* output, NSError* error)) handler;
 
 
 	

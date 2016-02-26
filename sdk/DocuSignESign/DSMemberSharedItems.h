@@ -8,8 +8,8 @@
  */
 
 #import "DSErrorDetails.h"
-#import "DSUserInfo.h"
 #import "DSSharedItem.h"
+#import "DSUserInfo.h"
 
 
 @protocol DSMemberSharedItems

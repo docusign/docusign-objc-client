@@ -15,10 +15,10 @@
 
 @interface DSNameValue : DSObject
 
-/*  [optional]
+/* The name or key of a name/value pair. [optional]
  */
 @property(nonatomic) NSString* name;
-/* Specifies the value of the tab. [optional]
+/* The value field of a name/value pair. [optional]
  */
 @property(nonatomic) NSString* value;
 

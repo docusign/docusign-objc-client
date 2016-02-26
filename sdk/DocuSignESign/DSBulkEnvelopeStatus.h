@@ -15,22 +15,22 @@
 
 @interface DSBulkEnvelopeStatus : DSObject
 
-/*  [optional]
+/* The number of items returned in this response. [optional]
  */
 @property(nonatomic) NSString* batchSize;
-/*  [optional]
+/* Specifies an identifier which can be used to retrieve a more detailed status of individual bulk recipient batches. [optional]
  */
 @property(nonatomic) NSString* batchId;
 /* Reserved: TBD [optional]
  */
 @property(nonatomic) NSString* bulkEnvelopesBatchUri;
-/* Entries with a failed status. [optional]
+/* The number of entries with a status of failed. [optional]
  */
 @property(nonatomic) NSString* failed;
-/* Retrieves entries with a status of queued. [optional]
+/* The number of entries with a status of queued. [optional]
  */
 @property(nonatomic) NSString* queued;
-/*  [optional]
+/* The number of entries with a status of sent. [optional]
  */
 @property(nonatomic) NSString* sent;
 /*  [optional]
@@ -45,7 +45,7 @@
 /* The last position in the result set. [optional]
  */
 @property(nonatomic) NSString* endPosition;
-/* The total number of items available in the result set. This will always be greater than or equal to the value of the `resultSetSize` property. [optional]
+/* The total number of items available in the result set. This will always be greater than or equal to the value of the property returning the results in the in the response. [optional]
  */
 @property(nonatomic) NSString* totalSetSize;
 /* The URI to the next chunk of records based on the search request. If the endPosition is the entire results of the search, this is null. [optional]

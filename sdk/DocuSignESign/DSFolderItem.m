@@ -2,13 +2,24 @@
 
 @implementation DSFolderItem
 
+- (instancetype)init {
+  self = [super init];
+
+  if (self) {
+    // initalise property's default value, if any
+    
+  }
+
+  return self;
+}
+
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
 + (JSONKeyMapper *)keyMapper
 {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"ownerName": @"ownerName", @"envelopeId": @"envelopeId", @"envelopeUri": @"envelopeUri", @"status": @"status", @"senderName": @"senderName", @"senderEmail": @"senderEmail", @"createdDateTime": @"createdDateTime", @"sentDateTime": @"sentDateTime", @"completedDateTime": @"completedDateTime", @"subject": @"subject", @"templateId": @"templateId", @"name": @"name", @"shared": @"shared", @"password": @"password", @"description": @"_description", @"lastModified": @"lastModified", @"pageCount": @"pageCount", @"uri": @"uri", @"is21CFRPart11": @"is21CFRPart11", @"customFields": @"customFields" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"ownerName": @"ownerName", @"envelopeId": @"envelopeId", @"envelopeUri": @"envelopeUri", @"status": @"status", @"senderName": @"senderName", @"senderEmail": @"senderEmail", @"createdDateTime": @"createdDateTime", @"sentDateTime": @"sentDateTime", @"completedDateTime": @"completedDateTime", @"subject": @"subject", @"templateId": @"templateId", @"name": @"name", @"shared": @"shared", @"password": @"password", @"description": @"_description", @"lastModified": @"lastModified", @"pageCount": @"pageCount", @"uri": @"uri", @"is21CFRPart11": @"is21CFRPart11", @"isUniversalSignatureEnvelope": @"isUniversalSignatureEnvelope", @"customFields": @"customFields" }];
 }
 
 /**
@@ -18,7 +29,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName
 {
-  NSArray *optionalProperties = @[@"ownerName", @"envelopeId", @"envelopeUri", @"status", @"senderName", @"senderEmail", @"createdDateTime", @"sentDateTime", @"completedDateTime", @"subject", @"templateId", @"name", @"shared", @"password", @"_description", @"lastModified", @"pageCount", @"uri", @"is21CFRPart11", @"customFields"];
+  NSArray *optionalProperties = @[@"ownerName", @"envelopeId", @"envelopeUri", @"status", @"senderName", @"senderEmail", @"createdDateTime", @"sentDateTime", @"completedDateTime", @"subject", @"templateId", @"name", @"shared", @"password", @"_description", @"lastModified", @"pageCount", @"uri", @"is21CFRPart11", @"isUniversalSignatureEnvelope", @"customFields"];
 
   if ([optionalProperties containsObject:propertyName]) {
     return YES;

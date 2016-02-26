@@ -16,7 +16,7 @@
 
 @interface DSEventNotification : DSObject
 
-/* The endpoint where envelope updates are sent. This will accept XML unless �useSoapInterface� is set to true. [optional]
+/* Specifies the endpoint to which envelope updates are sent. Udpates are sent as XML unless `useSoapInterface` property is set to **true**. [optional]
  */
 @property(nonatomic) NSString* url;
 /* When set to **true**, logging is turned on for envelope events on the Web Console Connect page. [optional]
@@ -25,13 +25,13 @@
 /* When set to **true**, the DocuSign Connect service checks that the message was received and retries on failures. [optional]
  */
 @property(nonatomic) NSString* requireAcknowledgment;
-/* The list of envelope-level events statuses that will trigger Connect to send updates to the url. [optional]
+/* A list of envelope-level event statuses that will trigger Connect to send updates to the endpoint specified in the `url` property. \n\nTo receive notifications, you must include either an `envelopeEvents` node or a `recipientEvents` node. You do not need to specify both. [optional]
  */
 @property(nonatomic) NSArray<DSEnvelopeEvent>* envelopeEvents;
-/* The list of recipient event statuses that will trigger Connect to send updates to the url. [optional]
+/* A list of recipient event statuses that will trigger Connect to send updates to   the endpoint specified in the url property.\n\nTo receive notifications, you must include either an `envelopeEvents` node or a `recipientEvents` node. You do not need to specify both. [optional]
  */
 @property(nonatomic) NSArray<DSRecipientEvent>* recipientEvents;
-/* When set to **true**, this tells the Connect service that the user�s endpoint has implemented a SOAP interface. [optional]
+/* When set to **true**, this tells the Connect service that the user's endpoint has implemented a SOAP interface. [optional]
  */
 @property(nonatomic) NSString* useSoapInterface;
 /* This lists the namespace in the SOAP listener provided. [optional]
@@ -55,7 +55,7 @@
 /* When set to **true**, the sender account ID is included as a envelope custom field in the data. [optional]
  */
 @property(nonatomic) NSString* includeSenderAccountAsCustomField;
-/* When set to **true**, the Document Fields associated with envelope documents are included in the data. Document Fields are optional custom name-value pairs added to documents using the API [optional]
+/* When set to **true**, the Document Fields associated with envelope documents are included in the data. Document Fields are optional custom name-value pairs added to documents using the API. [optional]
  */
 @property(nonatomic) NSString* includeDocumentFields;
 /* When set to **true**, the Connect Service includes the Certificate of Completion with completed envelopes. [optional]

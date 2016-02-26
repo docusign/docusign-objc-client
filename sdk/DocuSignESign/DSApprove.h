@@ -7,8 +7,8 @@
  * Do not edit the class manually.
  */
 
-#import "DSMergeField.h"
 #import "DSErrorDetails.h"
+#import "DSMergeField.h"
 
 
 @protocol DSApprove
@@ -16,7 +16,7 @@
 
 @interface DSApprove : DSObject
 
-/* Specifies the text displayed in the tab. [optional]
+/* Specifies the approval text displayed in the tab. [optional]
  */
 @property(nonatomic) NSString* buttonText;
 /* Width of the tab in pixels. [optional]
@@ -76,13 +76,13 @@
 /* When set to **true**, this tab is ignored if anchorString is not found in the document. [optional]
  */
 @property(nonatomic) NSString* anchorIgnoreIfNotPresent;
-/* Reserved: [optional]
+/* When set to **true**, the anchor string does not consider case when matching strings in the document. The default value is **true**. [optional]
  */
 @property(nonatomic) NSString* anchorCaseSensitive;
-/* Reserved: [optional]
+/* When set to **true**, the anchor string in this tab matches whole words only (strings embedded in other strings are ignored.) The default value is **true**. [optional]
  */
 @property(nonatomic) NSString* anchorMatchWholeWord;
-/* Reserved: [optional]
+/* Specifies the alignment of anchor tabs with anchor strings. Possible values are **left** or **right**. The default value is **left**. [optional]
  */
 @property(nonatomic) NSString* anchorHorizontalAlignment;
 /* The unique identifier for the tab. The tabid can be retrieved with the [ML:GET call]. [optional]

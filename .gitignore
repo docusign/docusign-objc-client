@@ -1,0 +1,5 @@
+test/SdkTests/SdkTestsTests/DSTestConfig.m
+test/SdkTests/Pods
+test/SdkTests/Podfile.lock
+test/Sdktests/SdkTests.xcworkspace
+test/SdkTests/SdkTests.xcodeproj/project.xcworkspace/xcuserdata

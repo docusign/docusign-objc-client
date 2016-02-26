@@ -7,8 +7,8 @@
  * Do not edit the class manually.
  */
 
-#import "DSTextCustomField.h"
 #import "DSListCustomField.h"
+#import "DSTextCustomField.h"
 
 
 @protocol DSCustomFields

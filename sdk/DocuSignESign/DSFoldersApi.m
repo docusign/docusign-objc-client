@@ -85,19 +85,15 @@ static DSFoldersApi* singletonAPI = nil;
 ///
 /// Gets a list of the folders for the account.
 /// Retrieves a list of the folders for the account, including the folder hierarchy. You can specify whether to return just the template folder or template folder and normal folders by setting the `template` query string parameter.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+/// 
+/// 
+/// 
 ///  @returns DSFoldersResponse*
--(NSNumber*) listWithCompletionBlock: (NSString*) accountId
-        
+-(NSNumber*) listWithAccountId:(NSString*) accountId 
      
-    		
-		
-        completionHandler: (void (^)(DSFoldersResponse* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSFoldersResponse* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -156,22 +152,21 @@ static DSFoldersApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSFoldersResponse*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSFoldersResponse*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSFoldersResponse*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSFoldersResponse*)data, error);
+                           }
           ];
 }
 
@@ -181,21 +176,16 @@ static DSFoldersApi* singletonAPI = nil;
 ///
 /// Gets a list of the envelopes in the specified folder.
 /// Retrieves a list of the envelopes in the specified folder. You can narrow the query by specifying search criteria in the query string parameters.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param folderId The ID of the folder being accessed.
-///
-///
-///
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param folderId The ID of the folder being accessed.
+/// 
+/// 
+/// 
 ///  @returns DSFolderItemsResponse*
--(NSNumber*) listItemsWithCompletionBlock: (NSString*) accountId
-         folderId: (NSString*) folderId
-        
+-(NSNumber*) listItemsWithAccountId:(NSString*) accountId  folderId:(NSString*) folderId 
      
-    		
-		
-        completionHandler: (void (^)(DSFolderItemsResponse* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSFolderItemsResponse* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -262,22 +252,21 @@ static DSFoldersApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSFolderItemsResponse*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSFolderItemsResponse*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSFolderItemsResponse*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSFolderItemsResponse*)data, error);
+                           }
           ];
 }
 
@@ -286,22 +275,17 @@ static DSFoldersApi* singletonAPI = nil;
 
 ///
 /// Moves an envelope from its current folder to the specified folder.
-/// Moves an envelope from its current folder to the specified folder.\n\n### Note: You can use this endpoint to delete envelopes by specifying `recyclebin' in the `folderId` parameter of the endpoint. Placing an in process envelope (envelope status of `sent` or `delivered`) in the recycle bin voids the envelope. You can also use this endpoint to delete templates by specifying a template ID instead of an envelope ID in the 'envelopeIds' property and specifying `recyclebin` in the `folderId` parameter.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param folderId The ID of the folder being accessed.
-///
-/// @param foldersRequest TBD Description 
-///
+/// Moves an envelope from its current folder to the specified folder.\n\n#### Note: You can use this endpoint to delete envelopes by specifying `recyclebin' in the `folderId` parameter of the endpoint. Placing an in process envelope (envelope status of `sent` or `delivered`) in the recycle bin voids the envelope. You can also use this endpoint to delete templates by specifying a template ID instead of an envelope ID in the 'envelopeIds' property and specifying `recyclebin` in the `folderId` parameter.
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param folderId The ID of the folder being accessed.
+/// 
+///  @param foldersRequest TBD Description 
+/// 
 ///  @returns DSFoldersResponse*
--(NSNumber*) moveEnvelopesWithCompletionBlock: (NSString*) accountId
-         folderId: (NSString*) folderId
-        
+-(NSNumber*) moveEnvelopesWithAccountId:(NSString*) accountId  folderId:(NSString*) folderId 
     foldersRequest:(DSFoldersRequest*) foldersRequest 
-    		
-		
-        completionHandler: (void (^)(DSFoldersResponse* output, NSError* error))completionBlock { 
-        
+    
+    completionHandler: (void (^)(DSFoldersResponse* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -368,22 +352,21 @@ static DSFoldersApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"PUT"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSFoldersResponse*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSFoldersResponse*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSFoldersResponse*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSFoldersResponse*)data, error);
+                           }
           ];
 }
 
@@ -469,7 +452,7 @@ static DSFoldersApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
+    return [self.apiClient requestWithPath: resourcePath
                                                method: @"GET"
                                            pathParams: pathParams
                                           queryParams: queryParams
@@ -494,21 +477,16 @@ static DSFoldersApi* singletonAPI = nil;
 ///
 /// Gets a list of envelopes in folders matching the specified criteria.
 /// Retrieves a list of envelopes that match the criteria specified in the query.\n\nIf the user ID of the user making the call is the same as the user ID for any returned recipient, then the userId property is added to the returned information for those recipients.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///  @param searchFolderId Specifies the envelope group that is searched by the request. These are logical groupings, not actual folder names. Valid values are: drafts, awaiting_my_signature, completed, out_for_signature.
-///
-///
-/// @param DSFoldersApi_SearchOptions  Options for modifying the request.
+///   @param accountId The external account number (int) or account ID Guid.
+///   @param searchFolderId Specifies the envelope group that is searched by the request. These are logical groupings, not actual folder names. Valid values are: drafts, awaiting_my_signature, completed, out_for_signature.
+/// 
+/// 
+///  @param DSFoldersApi_SearchOptions  Options for modifying the request.
 ///  @returns DSFolderItemResponse*
--(NSNumber*) searchWithCompletionBlock: (NSString*) accountId
-         searchFolderId: (NSString*) searchFolderId
-        
+-(NSNumber*) searchWithAccountId:(NSString*) accountId  searchFolderId:(NSString*) searchFolderId 
      
-    options:(DSFoldersApi_SearchOptions*) options		
-		
-        completionHandler: (void (^)(DSFolderItemResponse* output, NSError* error))completionBlock { 
-        
+     options:(DSFoldersApi_SearchOptions*) options
+    completionHandler: (void (^)(DSFolderItemResponse* output, NSError* error)) handler {
 
     
     // verify the required parameter 'accountId' is set
@@ -542,25 +520,13 @@ static DSFoldersApi* singletonAPI = nil;
 	
 	
 	if (options != nil) {
-		if(options.includeRecipients != nil) {
+		if(options.startPosition != nil) {
 			
-			queryParams[@"include_recipients"] = options.includeRecipients;
-		}
-		if(options.all != nil) {
-			
-			queryParams[@"all"] = options.all;
-		}
-		if(options.order != nil) {
-			
-			queryParams[@"order"] = options.order;
+			queryParams[@"start_position"] = options.startPosition;
 		}
 		if(options.count != nil) {
 			
 			queryParams[@"count"] = options.count;
-		}
-		if(options.startPosition != nil) {
-			
-			queryParams[@"start_position"] = options.startPosition;
 		}
 		if(options.fromDate != nil) {
 			
@@ -573,6 +539,18 @@ static DSFoldersApi* singletonAPI = nil;
 		if(options.orderBy != nil) {
 			
 			queryParams[@"order_by"] = options.orderBy;
+		}
+		if(options.order != nil) {
+			
+			queryParams[@"order"] = options.order;
+		}
+		if(options.includeRecipients != nil) {
+			
+			queryParams[@"include_recipients"] = options.includeRecipients;
+		}
+		if(options.all != nil) {
+			
+			queryParams[@"all"] = options.all;
 		}
 		
 	}
@@ -611,22 +589,21 @@ static DSFoldersApi* singletonAPI = nil;
     
 
     
-    return [self.apiClient requestWithCompletionBlock: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSFolderItemResponse*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSFolderItemResponse*)data, error);
-              }
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: files
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSFolderItemResponse*"
+                           completionBlock: ^(id data, NSError *error) {
+                               handler((DSFolderItemResponse*)data, error);
+                           }
           ];
 }
 

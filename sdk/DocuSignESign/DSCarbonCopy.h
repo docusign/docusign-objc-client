@@ -7,16 +7,16 @@
  * Do not edit the class manually.
  */
 
-#import "DSRecipientPhoneAuthentication.h"
-#import "DSIdCheckInformationInput.h"
-#import "DSRecipientEmailNotification.h"
-#import "DSSocialAuthentication.h"
-#import "DSRecipientSAMLAuthentication.h"
-#import "DSErrorDetails.h"
-#import "DSUserInfo.h"
 #import "DSAttachment.h"
 #import "DSAuthenticationStatus.h"
+#import "DSErrorDetails.h"
+#import "DSIdCheckInformationInput.h"
+#import "DSRecipientEmailNotification.h"
+#import "DSRecipientPhoneAuthentication.h"
+#import "DSRecipientSAMLAuthentication.h"
 #import "DSRecipientSMSAuthentication.h"
+#import "DSSocialAuthentication.h"
+#import "DSUserInfo.h"
 
 
 @protocol DSCarbonCopy

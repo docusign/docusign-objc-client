@@ -73,13 +73,10 @@
 ///
 /// @param DSCustomTabsApi_ListOptions  Options for modifying the request.
 /// @return DSTabMetadataList*
-
--(NSNumber*) listWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) listWithAccountId:(NSString*) accountId 
      
      options:(DSCustomTabsApi_ListOptions*) options
-    
-    completionHandler: (void (^)(DSTabMetadataList* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabMetadataList* output, NSError* error)) handler;
 
 
 	
@@ -97,13 +94,10 @@
 /// @param tabMetadata TBD Description 
 ///
 /// @return DSTabMetadata*
-
--(NSNumber*) createWithCompletionBlock :(NSString*) accountId  
+-(NSNumber*) createWithAccountId:(NSString*) accountId 
     tabMetadata:(DSTabMetadata*) tabMetadata 
     
-    
-    completionHandler: (void (^)(DSTabMetadata* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler;
 
 
 	
@@ -122,14 +116,10 @@
 ///
 ///
 /// @return DSTabMetadata*
-
--(NSNumber*) getWithCompletionBlock :(NSString*) accountId 
-     customTabId:(NSString*) customTabId  
+-(NSNumber*) getWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
      
     
-    
-    completionHandler: (void (^)(DSTabMetadata* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler;
 
 
 	
@@ -148,14 +138,10 @@
 /// @param tabMetadata TBD Description 
 ///
 /// @return DSTabMetadata*
-
--(NSNumber*) updateWithCompletionBlock :(NSString*) accountId 
-     customTabId:(NSString*) customTabId  
+-(NSNumber*) updateWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
     tabMetadata:(DSTabMetadata*) tabMetadata 
     
-    
-    completionHandler: (void (^)(DSTabMetadata* output, NSError* error))completionBlock;
-    
+    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler;
 
 
 	
@@ -174,14 +160,10 @@
 ///
 ///
 /// @return 
-
--(NSNumber*) deleteWithCompletionBlock :(NSString*) accountId 
-     customTabId:(NSString*) customTabId  
+-(NSNumber*) deleteWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
      
     
-    
-    
-    completionHandler: (void (^)(NSError* error))completionBlock;
+    completionHandler: (void (^)(NSError* error)) handler;
 
 
 	

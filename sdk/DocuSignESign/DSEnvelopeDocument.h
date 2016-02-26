@@ -8,6 +8,7 @@
  */
 
 #import "DSErrorDetails.h"
+#import "DSSignatureType.h"
 
 
 @protocol DSEnvelopeDocument
@@ -36,6 +37,9 @@
 /*  [optional]
  */
 @property(nonatomic) NSString* containsPdfFormFields;
+/*  [optional]
+ */
+@property(nonatomic) NSArray<DSSignatureType>* availableDocumentTypes;
 
 @property(nonatomic) DSErrorDetails* errorDetails;
 

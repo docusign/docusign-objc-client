@@ -1,0 +1,58 @@
+#import "DSTestConfig.h"
+
+@implementation DSTestConfig
+
+/**
+ * Maps json key to property name.
+ * This method is used by `JSONModel`.
+ */
++ (JSONKeyMapper *)keyMapper
+{
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"username": @"username", @"password": @"password", @"integratorKey": @"integratorKey", @"accountId": @"accountId", @"envelopeId": @"envelopeId", @"templateId": @"templateId", @"host": @"host", @"returnUrl": @"returnUrl", @"recipientEmail": @"recipientEmail", @"recipientName": @"recipientName", @"templateRoleName": @"templateRoleName", @"apiClient": @"apiClient", @"headerKey": @"headerKey", @"headerValue": @"headerValue", @"clientUserId": @"clientUserId" }];
+}
+
+/**
+ * Indicates whether the property with the given name is optional.
+ * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
+ * This method is used by `JSONModel`.
+ */
++ (BOOL)propertyIsOptional:(NSString *)propertyName
+{
+  NSArray *optionalProperties = @[@"username", @"password", @"integratorKey", @"accountId", @"envelopeId", @"templateId", @"host", @"returnUrl", @"recipientEmail", @"recipientName", @"templateRoleName", @"apiClient", @"headerKey", @"headerValue", @"clientUserId"];
+
+  if ([optionalProperties containsObject:propertyName]) {
+    return YES;
+  }
+  else {
+    return NO;
+  }
+}
+
+/**
+ * Gets the string presentation of the object.
+ * This method will be called when logging model object using `NSLog`.
+ */
+- (NSString *)description {
+    return [[self toDictionary] description];
+}
+
+- (instancetype)init {
+    if (self) {
+        self.username = @"REQUIRED";
+        self.password = @"REQUIRED";
+        self.integratorKey = @"REQUIRED";
+        self.recipientEmail = @"REQUIRED";
+        self.recipientName = @"REQUIRED";
+        self.templateRoleName = @"REQUIRED";
+        self.templateId = @"REQUIRED";
+        self.returnUrl = @"https://www.docusign.com/devcenter";
+        self.host = @"https://demo.docusign.net/restapi";
+        self.clientUserId = @"1234";
+        self.headerKey = @"X-DocuSign-Authentication";
+        self.headerValue = [NSString stringWithFormat:@"{\"IntegratorKey\":\"%@\", \"Username\":\"%@\", \"Password\":\"%@\"}", self.integratorKey, self.username, self.password];
+        self.apiClient = [[DSApiClient alloc] initWithBaseURL:[[NSURL alloc] initWithString:self.host]];
+    }
+    return self;
+}
+
+@end

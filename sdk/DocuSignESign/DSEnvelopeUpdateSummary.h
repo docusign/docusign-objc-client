@@ -7,9 +7,9 @@
  * Do not edit the class manually.
  */
 
-#import "DSLockInformation.h"
-#import "DSErrorDetails.h"
 #import "DSBulkEnvelopeStatus.h"
+#import "DSErrorDetails.h"
+#import "DSLockInformation.h"
 
 
 @protocol DSEnvelopeUpdateSummary

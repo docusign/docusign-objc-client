@@ -87,13 +87,13 @@
 /* When set to **true**, this tab is ignored if anchorString is not found in the document. [optional]
  */
 @property(nonatomic) NSString* anchorIgnoreIfNotPresent;
-/*  [optional]
+/* When set to **true**, the anchor string in this tab matches whole words only (strings embedded in other strings are ignored.) The default value is **true**. [optional]
  */
 @property(nonatomic) NSString* anchorMatchWholeWord;
-/*  [optional]
+/* When set to **true**, the anchor string does not consider case when matching strings in the document. The default value is **true**. [optional]
  */
 @property(nonatomic) NSString* anchorCaseSensitive;
-/*  [optional]
+/* Specifies the alignment of anchor tabs with anchor strings. Possible values are **left** or **right**. The default value is **left**. [optional]
  */
 @property(nonatomic) NSString* anchorHorizontalAlignment;
 /*  [optional]

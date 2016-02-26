@@ -26,7 +26,7 @@
 /* A string containing the longitude of the device location at the time of signing. [optional]
  */
 @property(nonatomic) NSString* gpsLongitude;
-/* A string with GUID of the account. This can be retrieved with the [ML:Get Disclosure] call. [optional]
+/* A GUID identifying the account associated with the consumer disclosure [optional]
  */
 @property(nonatomic) NSString* accountEsignId;
 /*  [optional]

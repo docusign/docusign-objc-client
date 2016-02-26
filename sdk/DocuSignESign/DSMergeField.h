@@ -14,7 +14,7 @@
 
 @interface DSMergeField : DSObject
 
-/*  [optional]
+/* If merge field's are being used, specifies the type of the merge field. The only  supported value is **salesforce**. [optional]
  */
 @property(nonatomic) NSString* configurationType;
 /* Sets the object associated with the custom tab. Currently this is the Salesforce Object. [optional]
@@ -26,5 +26,8 @@
 /* When set to **true**, the sender can modify the value of the custom tab during the sending process. [optional]
  */
 @property(nonatomic) NSString* allowSenderToEdit;
+/* Specifies the row number in a Salesforce table that the merge field value corresponds to. [optional]
+ */
+@property(nonatomic) NSString* row;
 
 @end

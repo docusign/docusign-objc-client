@@ -21,7 +21,7 @@
 /* The number of results returned in this response. [optional]
  */
 @property(nonatomic) NSString* resultSetSize;
-/* The total number of items available in the result set. This will always be greater than or equal to the value of the `resultSetSize` property. [optional]
+/* The total number of items available in the result set. This will always be greater than or equal to the value of the property returning the results in the in the response. [optional]
  */
 @property(nonatomic) NSString* totalSetSize;
 /* Starting position of the current result set. [optional]

@@ -2,6 +2,17 @@
 
 @implementation DSTextCustomField
 
+- (instancetype)init {
+  self = [super init];
+
+  if (self) {
+    // initalise property's default value, if any
+    
+  }
+
+  return self;
+}
+
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
