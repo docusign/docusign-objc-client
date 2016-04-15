@@ -49,9 +49,9 @@ To initialize the client and make the Login API Call:
 #import <DocuSignESign/DSEnvelopesApi.h>
 
 int main(int argc, char * argv[]) {
-        NSString *IntegratorKey = @"[INTEGRATOR_KEY]";
-        NSString *username = @"[EMAIL]";
-        NSString *password = @"[PASSWORD]";
+        NSString *IntegratorKey = @"<#INTEGRATOR_KEY#>";
+        NSString *username = @"<#EMAIL#>";
+        NSString *password = @"<#PASSWORD#>";
         NSString *host = @"https://demo.docusign.net/restapi";
         
         // create authentication JSON string and header
