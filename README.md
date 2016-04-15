@@ -34,9 +34,9 @@ Copy the source files directly into your existing project’s source directories
 
 ### Dependencies 
 
-AFNetworking ~> 2.3
-JSONModel ~> 1.1
-ISO8601 ~> 0.3
+ - AFNetworking ~> 2.3
+ - JSONModel ~> 1.1
+ - ISO8601 ~> 0.3
 
 Usage
 =====
