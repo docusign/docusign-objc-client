@@ -52,7 +52,7 @@ int main(int argc, char * argv[]) {
         NSString *IntegratorKey = @"[INTEGRATOR_KEY]";
         NSString *username = @"[EMAIL]";
         NSString *password = @"[PASSWORD]";
-        NSString *host = @"[HOST]";
+        NSString *host = @"https://demo.docusign.net/restapi";
         
         // create authentication JSON string and header
         NSString *const DS_AUTH = [NSMutableString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\",\"IntegratorKey\":\"%@\"}", username, password, IntegratorKey];
