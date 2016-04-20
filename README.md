@@ -49,9 +49,9 @@ To initialize the client and make the Login API Call:
 #import <DocuSignESign/DSEnvelopesApi.h>
 
 int main(int argc, char * argv[]) {
-    NSString *IntegratorKey = @"<#IntegratorKey#>";
-    NSString *username = @"<#Email#> ";
-    NSString *password = @"<#Password#>";
+    NSString *IntegratorKey = @"<#INTEGRATOR_KEY#>";
+    NSString *username = @"<#EMAIL#>";
+    NSString *password = @"<#PASSWORD#>";
     NSString *host = @"https://demo.docusign.net/restapi";
     
     // create authentication JSON string and header
@@ -87,14 +87,14 @@ int main(int argc, char * argv[]) {
         envelopeDefinition.emailSubject = @"[DocuSign ObjC SDK] - Sample Signature Request from Template";
         
         // to use a template we must reference the correct template id
-            envelopeDefinition.templateId = @"[TEMPLATE_ID]";
+            envelopeDefinition.templateId = @"<#TEMPLATE_ID#>";
         
         // assign recipient to template role by setting name, email, and role name.  Note that the
         // template role name must match the placeholder role name saved in your account template.
         DSTemplateRole* templateRole = [[DSTemplateRole alloc] init];
-            templateRole.email = @"[RECIPIENT_EMAIL]";
-            templateRole.name = @"[RECIPIENT_NAME]";
-            templateRole.roleName = @"[ROLE_NAME]";
+            templateRole.email = @"<#RECIPIENT_EMAIL#>";
+            templateRole.name = @"<#RECIPIENT_NAME#>";
+            templateRole.roleName = @"<#ROLE_NAME#>";
         
         // add the role to the envelope and assign valid templateId from your account
         envelopeDefinition.templateRoles = [NSArray<DSTemplateRole> arrayWithObjects:templateRole, nil];;
