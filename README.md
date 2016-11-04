@@ -77,6 +77,10 @@ int main(int argc, char * argv[]) {
         }
         DSLoginAccount *loginAccount = [output.loginAccounts objectAtIndex: 0];
         accountId = loginAccount.accountId;
+	
+	// Update ApiCLient with the new base url from login call
+        NSString *newHost = [[loginAccount.baseUrl componentsSeparatedByString:@"/v2"] objectAtIndex:0];
+        DSApiClient* apiClient = [[DSApiClient alloc] initWithBaseURL:[[NSURL alloc] initWithString:newHost]];
         
         // instantiate a new envelope
         DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:apiClient];
