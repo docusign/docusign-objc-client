@@ -23,11 +23,11 @@ Pod::Spec.new do |s|
 
     s.homepage     = "https://docusign.com/api"
     s.license      = "Proprietary"
-    s.source       = { :git => "https://github.com/docusign/docusign-objc-client", :tag => "#{s.version}" }
+    s.source       = { :git => "https://github.com/docusign/docusign-objc-client.git", :tag => "#{s.version}" }
     s.author       = { "Swagger" => "devcenter@docusign.com" }
 
-    s.source_files = 'DocuSignESign/**/*.{m,h}'
-    s.public_header_files = 'DocuSignESign/**/*.h'
+    s.source_files = 'sdk/DocuSignESign/*.{m,h}'
+    s.public_header_files = 'sdk/DocuSignESign/*.h'
 
 
     s.dependency 'AFNetworking', '~> 3.1'
