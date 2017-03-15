@@ -20,7 +20,7 @@ Create a podfile, run pod install, then use the `.xcworkspace` project file movi
    2. Create a file in your root project directory called `Podfile` with the following content.  Replace the two references to **PROJECT** below with your unique project name:
    
 ```
-	pod 'DocuSignESign', '~> 2.0.0'
+	pod 'DocuSignESign', '~> 3.0.0’
 ```	
 
    3. Run the following command in the same directory as your Podfile:
@@ -166,8 +166,3 @@ License
 =======
 
 The DocuSign Objc Client is licensed under the following [License](LICENSE).
-
-Notes
-=======
-
-This version of the client library does not implement all of the DocuSign REST API methods. The current client omits methods in the Accounts, Billing, Cloud Storage, Connect, Groups (Branding), and Templates (Bulk Recipients) categories. The client's methods support the core set of use cases that most integrations will encounter. For a complete list of omitted endpoints, see [Omitted Endpoints](./omitted_endpoints.md).

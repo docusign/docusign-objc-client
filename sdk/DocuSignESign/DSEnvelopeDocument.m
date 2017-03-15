@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"documentId": @"documentId", @"name": @"name", @"type": @"type", @"uri": @"uri", @"order": @"order", @"pages": @"pages", @"containsPdfFormFields": @"containsPdfFormFields", @"availableDocumentTypes": @"availableDocumentTypes", @"errorDetails": @"errorDetails" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"attachmentTabId": @"attachmentTabId", @"availableDocumentTypes": @"availableDocumentTypes", @"containsPdfFormFields": @"containsPdfFormFields", @"display": @"display", @"documentFields": @"documentFields", @"documentGroup": @"documentGroup", @"documentId": @"documentId", @"errorDetails": @"errorDetails", @"includeInDownload": @"includeInDownload", @"name": @"name", @"order": @"order", @"pages": @"pages", @"signerMustAcknowledge": @"signerMustAcknowledge", @"templateLocked": @"templateLocked", @"templateRequired": @"templateRequired", @"type": @"type", @"uri": @"uri" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"documentId", @"name", @"type", @"uri", @"order", @"pages", @"containsPdfFormFields", @"availableDocumentTypes", @"errorDetails"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"attachmentTabId", @"availableDocumentTypes", @"containsPdfFormFields", @"display", @"documentFields", @"documentGroup", @"documentId", @"errorDetails", @"includeInDownload", @"name", @"order", @"pages", @"signerMustAcknowledge", @"templateLocked", @"templateRequired", @"type", @"uri"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

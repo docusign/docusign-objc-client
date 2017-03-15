@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"name": @"name", @"tabLabel": @"tabLabel", @"scaleValue": @"scaleValue", @"optional": @"optional", @"documentId": @"documentId", @"recipientId": @"recipientId", @"pageNumber": @"pageNumber", @"xPosition": @"xPosition", @"yPosition": @"yPosition", @"anchorString": @"anchorString", @"anchorXOffset": @"anchorXOffset", @"anchorYOffset": @"anchorYOffset", @"anchorUnits": @"anchorUnits", @"anchorIgnoreIfNotPresent": @"anchorIgnoreIfNotPresent", @"anchorCaseSensitive": @"anchorCaseSensitive", @"anchorMatchWholeWord": @"anchorMatchWholeWord", @"anchorHorizontalAlignment": @"anchorHorizontalAlignment", @"tabId": @"tabId", @"templateLocked": @"templateLocked", @"templateRequired": @"templateRequired", @"conditionalParentLabel": @"conditionalParentLabel", @"conditionalParentValue": @"conditionalParentValue", @"customTabId": @"customTabId", @"mergeField": @"mergeField", @"status": @"status", @"errorDetails": @"errorDetails" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"anchorCaseSensitive": @"anchorCaseSensitive", @"anchorHorizontalAlignment": @"anchorHorizontalAlignment", @"anchorIgnoreIfNotPresent": @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord": @"anchorMatchWholeWord", @"anchorString": @"anchorString", @"anchorUnits": @"anchorUnits", @"anchorXOffset": @"anchorXOffset", @"anchorYOffset": @"anchorYOffset", @"conditionalParentLabel": @"conditionalParentLabel", @"conditionalParentValue": @"conditionalParentValue", @"customTabId": @"customTabId", @"documentId": @"documentId", @"errorDetails": @"errorDetails", @"mergeField": @"mergeField", @"name": @"name", @"optional": @"optional", @"pageNumber": @"pageNumber", @"recipientId": @"recipientId", @"scaleValue": @"scaleValue", @"status": @"status", @"tabId": @"tabId", @"tabLabel": @"tabLabel", @"tabOrder": @"tabOrder", @"templateLocked": @"templateLocked", @"templateRequired": @"templateRequired", @"xPosition": @"xPosition", @"yPosition": @"yPosition" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"name", @"tabLabel", @"scaleValue", @"optional", @"documentId", @"recipientId", @"pageNumber", @"xPosition", @"yPosition", @"anchorString", @"anchorXOffset", @"anchorYOffset", @"anchorUnits", @"anchorIgnoreIfNotPresent", @"anchorCaseSensitive", @"anchorMatchWholeWord", @"anchorHorizontalAlignment", @"tabId", @"templateLocked", @"templateRequired", @"conditionalParentLabel", @"conditionalParentValue", @"customTabId", @"mergeField", @"status", @"errorDetails"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"anchorCaseSensitive", @"anchorHorizontalAlignment", @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord", @"anchorString", @"anchorUnits", @"anchorXOffset", @"anchorYOffset", @"conditionalParentLabel", @"conditionalParentValue", @"customTabId", @"documentId", @"errorDetails", @"mergeField", @"name", @"optional", @"pageNumber", @"recipientId", @"scaleValue", @"status", @"tabId", @"tabLabel", @"tabOrder", @"templateLocked", @"templateRequired", @"xPosition", @"yPosition"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

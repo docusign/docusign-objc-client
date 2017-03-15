@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"envelopeActivation": @"envelopeActivation", @"envelopeComplete": @"envelopeComplete", @"carbonCopyNotification": @"carbonCopyNotification", @"certifiedDeliveryNotification": @"certifiedDeliveryNotification", @"envelopeDeclined": @"envelopeDeclined", @"envelopeVoided": @"envelopeVoided", @"envelopeCorrected": @"envelopeCorrected", @"reassignedSigner": @"reassignedSigner", @"purgeDocuments": @"purgeDocuments", @"faxReceived": @"faxReceived", @"documentMarkupActivation": @"documentMarkupActivation", @"agentNotification": @"agentNotification", @"offlineSigningFailed": @"offlineSigningFailed" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"agentNotification": @"agentNotification", @"carbonCopyNotification": @"carbonCopyNotification", @"certifiedDeliveryNotification": @"certifiedDeliveryNotification", @"documentMarkupActivation": @"documentMarkupActivation", @"envelopeActivation": @"envelopeActivation", @"envelopeComplete": @"envelopeComplete", @"envelopeCorrected": @"envelopeCorrected", @"envelopeDeclined": @"envelopeDeclined", @"envelopeVoided": @"envelopeVoided", @"faxReceived": @"faxReceived", @"offlineSigningFailed": @"offlineSigningFailed", @"purgeDocuments": @"purgeDocuments", @"reassignedSigner": @"reassignedSigner", @"whenSigningGroupMember": @"whenSigningGroupMember" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"envelopeActivation", @"envelopeComplete", @"carbonCopyNotification", @"certifiedDeliveryNotification", @"envelopeDeclined", @"envelopeVoided", @"envelopeCorrected", @"reassignedSigner", @"purgeDocuments", @"faxReceived", @"documentMarkupActivation", @"agentNotification", @"offlineSigningFailed"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"agentNotification", @"carbonCopyNotification", @"certifiedDeliveryNotification", @"documentMarkupActivation", @"envelopeActivation", @"envelopeComplete", @"envelopeCorrected", @"envelopeDeclined", @"envelopeVoided", @"faxReceived", @"offlineSigningFailed", @"purgeDocuments", @"reassignedSigner", @"whenSigningGroupMember"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

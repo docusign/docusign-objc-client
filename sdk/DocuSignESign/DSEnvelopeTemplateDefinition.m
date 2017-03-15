@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"templateId": @"templateId", @"name": @"name", @"shared": @"shared", @"password": @"password", @"newPassword": @"varNewPassword", @"description": @"_description", @"lastModified": @"lastModified", @"lastModifiedBy": @"lastModifiedBy", @"pageCount": @"pageCount", @"uri": @"uri", @"folderName": @"folderName", @"folderId": @"folderId", @"folderUri": @"folderUri", @"parentFolderUri": @"parentFolderUri", @"owner": @"owner" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"_description": @"description", @"folderId": @"folderId", @"folderName": @"folderName", @"folderUri": @"folderUri", @"lastModified": @"lastModified", @"lastModifiedBy": @"lastModifiedBy", @"name": @"name", @"varNewPassword": @"newPassword", @"owner": @"owner", @"pageCount": @"pageCount", @"parentFolderUri": @"parentFolderUri", @"password": @"password", @"shared": @"shared", @"templateId": @"templateId", @"uri": @"uri" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"templateId", @"name", @"shared", @"password", @"varNewPassword", @"_description", @"lastModified", @"lastModifiedBy", @"pageCount", @"uri", @"folderName", @"folderId", @"folderUri", @"parentFolderUri", @"owner"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"_description", @"folderId", @"folderName", @"folderUri", @"lastModified", @"lastModifiedBy", @"name", @"varNewPassword", @"owner", @"pageCount", @"parentFolderUri", @"password", @"shared", @"templateId", @"uri"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

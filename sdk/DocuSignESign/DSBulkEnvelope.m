@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"transactionId": @"transactionId", @"submittedDateTime": @"submittedDateTime", @"envelopeId": @"envelopeId", @"envelopeUri": @"envelopeUri", @"bulkRecipientRow": @"bulkRecipientRow", @"name": @"name", @"email": @"email", @"bulkStatus": @"bulkStatus", @"errorDetails": @"errorDetails" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"bulkRecipientRow": @"bulkRecipientRow", @"bulkStatus": @"bulkStatus", @"email": @"email", @"envelopeId": @"envelopeId", @"envelopeUri": @"envelopeUri", @"errorDetails": @"errorDetails", @"name": @"name", @"submittedDateTime": @"submittedDateTime", @"transactionId": @"transactionId" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"transactionId", @"submittedDateTime", @"envelopeId", @"envelopeUri", @"bulkRecipientRow", @"name", @"email", @"bulkStatus", @"errorDetails"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"bulkRecipientRow", @"bulkStatus", @"email", @"envelopeId", @"envelopeUri", @"errorDetails", @"name", @"submittedDateTime", @"transactionId"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

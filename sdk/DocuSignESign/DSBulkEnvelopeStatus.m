@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"batchSize": @"batchSize", @"batchId": @"batchId", @"bulkEnvelopesBatchUri": @"bulkEnvelopesBatchUri", @"failed": @"failed", @"queued": @"queued", @"sent": @"sent", @"submittedDate": @"submittedDate", @"resultSetSize": @"resultSetSize", @"startPosition": @"startPosition", @"endPosition": @"endPosition", @"totalSetSize": @"totalSetSize", @"nextUri": @"nextUri", @"previousUri": @"previousUri", @"bulkEnvelopes": @"bulkEnvelopes" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"batchId": @"batchId", @"batchSize": @"batchSize", @"bulkEnvelopes": @"bulkEnvelopes", @"bulkEnvelopesBatchUri": @"bulkEnvelopesBatchUri", @"endPosition": @"endPosition", @"failed": @"failed", @"nextUri": @"nextUri", @"previousUri": @"previousUri", @"queued": @"queued", @"resultSetSize": @"resultSetSize", @"sent": @"sent", @"startPosition": @"startPosition", @"submittedDate": @"submittedDate", @"totalSetSize": @"totalSetSize" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"batchSize", @"batchId", @"bulkEnvelopesBatchUri", @"failed", @"queued", @"sent", @"submittedDate", @"resultSetSize", @"startPosition", @"endPosition", @"totalSetSize", @"nextUri", @"previousUri", @"bulkEnvelopes"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"batchId", @"batchSize", @"bulkEnvelopes", @"bulkEnvelopesBatchUri", @"endPosition", @"failed", @"nextUri", @"previousUri", @"queued", @"resultSetSize", @"sent", @"startPosition", @"submittedDate", @"totalSetSize"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

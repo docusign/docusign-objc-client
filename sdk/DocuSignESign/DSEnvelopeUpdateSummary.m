@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"envelopeId": @"envelopeId", @"bulkEnvelopeStatus": @"bulkEnvelopeStatus", @"lockInformation": @"lockInformation", @"errorDetails": @"errorDetails" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"bulkEnvelopeStatus": @"bulkEnvelopeStatus", @"envelopeId": @"envelopeId", @"errorDetails": @"errorDetails", @"listCustomFieldUpdateResults": @"listCustomFieldUpdateResults", @"lockInformation": @"lockInformation", @"recipientUpdateResults": @"recipientUpdateResults", @"tabUpdateResults": @"tabUpdateResults", @"textCustomFieldUpdateResults": @"textCustomFieldUpdateResults" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"envelopeId", @"bulkEnvelopeStatus", @"lockInformation", @"errorDetails"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"bulkEnvelopeStatus", @"envelopeId", @"errorDetails", @"listCustomFieldUpdateResults", @"lockInformation", @"recipientUpdateResults", @"tabUpdateResults", @"textCustomFieldUpdateResults"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

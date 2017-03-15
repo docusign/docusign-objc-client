@@ -2,14 +2,15 @@
 
 @interface DSConfiguration ()
 
-@property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKey;
-@property (readwrite, nonatomic, strong) NSMutableDictionary *mutableApiKeyPrefix;
+@property (nonatomic, strong) NSMutableDictionary *mutableDefaultHeaders;
+@property (nonatomic, strong) NSMutableDictionary *mutableApiKey;
+@property (nonatomic, strong) NSMutableDictionary *mutableApiKeyPrefix;
 
 @end
 
 @implementation DSConfiguration
 
-#pragma mark - Singletion Methods
+#pragma mark - Singleton Methods
 
 + (instancetype) sharedConfig {
     static DSConfiguration *shardConfig = nil;
@@ -29,12 +30,13 @@
         self.host = @"https://www.docusign.net/restapi";
         self.username = @"";
         self.password = @"";
-        self.tempFolderPath = nil;
-        self.debug = NO;
+        self.accessToken= @"";
         self.verifySSL = YES;
-        self.loggingFile = nil;
         self.mutableApiKey = [NSMutableDictionary dictionary];
         self.mutableApiKeyPrefix = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders = [NSMutableDictionary dictionary];
+        self.mutableDefaultHeaders[@"User-Agent"] = [NSString stringWithFormat:@"Swagger-Codegen/v2/objc (%@; iOS %@; Scale/%0.2f)",[[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
+        self.logger = [DSLogger sharedLogger];
     }
     return self;
 }
@@ -42,23 +44,38 @@
 #pragma mark - Instance Methods
 
 - (NSString *) getApiKeyWithPrefix:(NSString *)key {
-    if ([self.apiKeyPrefix objectForKey:key] && [self.apiKey objectForKey:key]) {
-        return [NSString stringWithFormat:@"%@ %@", [self.apiKeyPrefix objectForKey:key], [self.apiKey objectForKey:key]];
+    NSString *prefix = self.apiKeyPrefix[key];
+    NSString *apiKey = self.apiKey[key];
+    if (prefix && apiKey != (id)[NSNull null] && apiKey.length > 0) { // both api key prefix and api key are set
+        return [NSString stringWithFormat:@"%@ %@", prefix, apiKey];
     }
-    else if ([self.apiKey objectForKey:key]) {
-        return [NSString stringWithFormat:@"%@", [self.apiKey objectForKey:key]];
+    else if (apiKey != (id)[NSNull null] && apiKey.length > 0) { // only api key, no api key prefix
+        return [NSString stringWithFormat:@"%@", self.apiKey[key]];
     }
-    else {
+    else { // return empty string if nothing is set
         return @"";
     }
 }
 
 - (NSString *) getBasicAuthToken {
+    // return empty string if username and password are empty
+    if (self.username.length == 0 && self.password.length == 0){
+        return  @"";
+    }
+
     NSString *basicAuthCredentials = [NSString stringWithFormat:@"%@:%@", self.username, self.password];
     NSData *data = [basicAuthCredentials dataUsingEncoding:NSUTF8StringEncoding];
     basicAuthCredentials = [NSString stringWithFormat:@"Basic %@", [data base64EncodedStringWithOptions:0]];
 
     return basicAuthCredentials;
+}
+
+- (NSString *) getAccessToken {
+    if (self.accessToken.length == 0) { // token not set, return empty string
+        return @"";
+    } else {
+        return [NSString stringWithFormat:@"Bearer %@", self.accessToken];
+    }
 }
 
 #pragma mark - Setter Methods
@@ -79,20 +96,6 @@
     [self.mutableApiKeyPrefix removeObjectForKey:identifier];
 }
 
-- (void) setLoggingFile:(NSString *)loggingFile {
-    // close old file handler
-    if ([self.loggingFileHanlder isKindOfClass:[NSFileHandle class]]) {
-        [self.loggingFileHanlder closeFile];
-    }
-
-    _loggingFile = loggingFile;
-    _loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
-    if (_loggingFileHanlder == nil) {
-        [[NSFileManager defaultManager] createFileAtPath:_loggingFile contents:nil attributes:nil];
-        _loggingFileHanlder = [NSFileHandle fileHandleForWritingAtPath:_loggingFile];
-    }
-}
-
 #pragma mark - Getter Methods
 
 - (NSDictionary *) apiKey {
@@ -108,6 +111,36 @@
 - (NSDictionary *) authSettings {
     return @{
                };
+}
+
+-(BOOL)debug {
+    return self.logger.isEnabled;
+}
+
+-(void)setDebug:(BOOL)debug {
+    self.logger.enabled = debug;
+}
+
+
+
+- (void)setDefaultHeaderValue:(NSString *)value forKey:(NSString *)key {
+    if(!value) {
+        [self.mutableDefaultHeaders removeObjectForKey:key];
+        return;
+    }
+    self.mutableDefaultHeaders[key] = value;
+}
+
+-(void) removeDefaultHeaderForKey:(NSString*)key {
+    [self.mutableDefaultHeaders removeObjectForKey:key];
+}
+
+- (NSString *)defaultHeaderForKey:(NSString *)key {
+    return self.mutableDefaultHeaders[key];
+}
+
+- (NSDictionary *)defaultHeaders {
+    return [self.mutableDefaultHeaders copy];
 }
 
 @end

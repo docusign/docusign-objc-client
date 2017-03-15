@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"accessCodeResult": @"accessCodeResult", @"phoneAuthResult": @"phoneAuthResult", @"idLookupResult": @"idLookupResult", @"idQuestionsResult": @"idQuestionsResult", @"ageVerifyResult": @"ageVerifyResult", @"sTANPinResult": @"sTANPinResult", @"ofacResult": @"ofacResult", @"liveIDResult": @"liveIDResult", @"facebookResult": @"facebookResult", @"googleResult": @"googleResult", @"linkedinResult": @"linkedinResult", @"salesforceResult": @"salesforceResult", @"twitterResult": @"twitterResult", @"openIDResult": @"openIDResult", @"anySocialIDResult": @"anySocialIDResult", @"yahooResult": @"yahooResult", @"smsAuthResult": @"smsAuthResult" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"accessCodeResult": @"accessCodeResult", @"ageVerifyResult": @"ageVerifyResult", @"anySocialIDResult": @"anySocialIDResult", @"facebookResult": @"facebookResult", @"googleResult": @"googleResult", @"idLookupResult": @"idLookupResult", @"idQuestionsResult": @"idQuestionsResult", @"linkedinResult": @"linkedinResult", @"liveIDResult": @"liveIDResult", @"ofacResult": @"ofacResult", @"openIDResult": @"openIDResult", @"phoneAuthResult": @"phoneAuthResult", @"salesforceResult": @"salesforceResult", @"smsAuthResult": @"smsAuthResult", @"sTANPinResult": @"sTANPinResult", @"twitterResult": @"twitterResult", @"yahooResult": @"yahooResult" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"accessCodeResult", @"phoneAuthResult", @"idLookupResult", @"idQuestionsResult", @"ageVerifyResult", @"sTANPinResult", @"ofacResult", @"liveIDResult", @"facebookResult", @"googleResult", @"linkedinResult", @"salesforceResult", @"twitterResult", @"openIDResult", @"anySocialIDResult", @"yahooResult", @"smsAuthResult"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"accessCodeResult", @"ageVerifyResult", @"anySocialIDResult", @"facebookResult", @"googleResult", @"idLookupResult", @"idQuestionsResult", @"linkedinResult", @"liveIDResult", @"ofacResult", @"openIDResult", @"phoneAuthResult", @"salesforceResult", @"smsAuthResult", @"sTANPinResult", @"twitterResult", @"yahooResult"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

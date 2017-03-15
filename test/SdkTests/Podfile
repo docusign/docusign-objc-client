@@ -1,2 +1,3 @@
-link_with 'SdkTestsTests'
-pod "DocuSignESign", :path => "../../sdk"
+target 'SdkTestsTests' do
+  pod "DocuSignESign", :path => "../../sdk"
+end
