@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"name": @"name", @"accountId": @"accountId", @"accountIdGuid": @"accountIdGuid", @"baseUrl": @"baseUrl", @"isDefault": @"isDefault", @"userName": @"userName", @"userId": @"userId", @"email": @"email", @"siteDescription": @"siteDescription", @"loginAccountSettings": @"loginAccountSettings", @"loginUserSettings": @"loginUserSettings" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"accountId": @"accountId", @"accountIdGuid": @"accountIdGuid", @"baseUrl": @"baseUrl", @"email": @"email", @"isDefault": @"isDefault", @"loginAccountSettings": @"loginAccountSettings", @"loginUserSettings": @"loginUserSettings", @"name": @"name", @"siteDescription": @"siteDescription", @"userId": @"userId", @"userName": @"userName" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"name", @"accountId", @"accountIdGuid", @"baseUrl", @"isDefault", @"userName", @"userId", @"email", @"siteDescription", @"loginAccountSettings", @"loginUserSettings"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"accountId", @"accountIdGuid", @"baseUrl", @"email", @"isDefault", @"loginAccountSettings", @"loginUserSettings", @"name", @"siteDescription", @"userId", @"userName"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

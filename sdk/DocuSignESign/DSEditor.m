@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"name": @"name", @"email": @"email", @"emailRecipientPostSigningURL": @"emailRecipientPostSigningURL", @"signingGroupId": @"signingGroupId", @"signingGroupName": @"signingGroupName", @"signingGroupUsers": @"signingGroupUsers", @"recipientId": @"recipientId", @"recipientIdGuid": @"recipientIdGuid", @"accessCode": @"accessCode", @"addAccessCodeToEmail": @"addAccessCodeToEmail", @"requireIdLookup": @"requireIdLookup", @"idCheckConfigurationName": @"idCheckConfigurationName", @"socialAuthentications": @"socialAuthentications", @"phoneAuthentication": @"phoneAuthentication", @"samlAuthentication": @"samlAuthentication", @"smsAuthentication": @"smsAuthentication", @"userId": @"userId", @"clientUserId": @"clientUserId", @"embeddedRecipientStartURL": @"embeddedRecipientStartURL", @"customFields": @"customFields", @"routingOrder": @"routingOrder", @"idCheckInformationInput": @"idCheckInformationInput", @"recipientAttachments": @"recipientAttachments", @"note": @"note", @"roleName": @"roleName", @"status": @"status", @"signedDateTime": @"signedDateTime", @"deliveredDateTime": @"deliveredDateTime", @"declinedDateTime": @"declinedDateTime", @"sentDateTime": @"sentDateTime", @"declinedReason": @"declinedReason", @"deliveryMethod": @"deliveryMethod", @"faxNumber": @"faxNumber", @"templateLocked": @"templateLocked", @"templateRequired": @"templateRequired", @"emailNotification": @"emailNotification", @"inheritEmailNotificationConfiguration": @"inheritEmailNotificationConfiguration", @"errorDetails": @"errorDetails", @"recipientAuthenticationStatus": @"recipientAuthenticationStatus", @"totalTabCount": @"totalTabCount" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"accessCode": @"accessCode", @"addAccessCodeToEmail": @"addAccessCodeToEmail", @"clientUserId": @"clientUserId", @"customFields": @"customFields", @"declinedDateTime": @"declinedDateTime", @"declinedReason": @"declinedReason", @"deliveredDateTime": @"deliveredDateTime", @"deliveryMethod": @"deliveryMethod", @"documentVisibility": @"documentVisibility", @"email": @"email", @"emailNotification": @"emailNotification", @"emailRecipientPostSigningURL": @"emailRecipientPostSigningURL", @"embeddedRecipientStartURL": @"embeddedRecipientStartURL", @"errorDetails": @"errorDetails", @"faxNumber": @"faxNumber", @"idCheckConfigurationName": @"idCheckConfigurationName", @"idCheckInformationInput": @"idCheckInformationInput", @"inheritEmailNotificationConfiguration": @"inheritEmailNotificationConfiguration", @"name": @"name", @"note": @"note", @"phoneAuthentication": @"phoneAuthentication", @"recipientAttachments": @"recipientAttachments", @"recipientAuthenticationStatus": @"recipientAuthenticationStatus", @"recipientId": @"recipientId", @"recipientIdGuid": @"recipientIdGuid", @"requireIdLookup": @"requireIdLookup", @"roleName": @"roleName", @"routingOrder": @"routingOrder", @"samlAuthentication": @"samlAuthentication", @"sentDateTime": @"sentDateTime", @"signedDateTime": @"signedDateTime", @"signingGroupId": @"signingGroupId", @"signingGroupName": @"signingGroupName", @"signingGroupUsers": @"signingGroupUsers", @"smsAuthentication": @"smsAuthentication", @"socialAuthentications": @"socialAuthentications", @"status": @"status", @"templateLocked": @"templateLocked", @"templateRequired": @"templateRequired", @"totalTabCount": @"totalTabCount", @"userId": @"userId" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"name", @"email", @"emailRecipientPostSigningURL", @"signingGroupId", @"signingGroupName", @"signingGroupUsers", @"recipientId", @"recipientIdGuid", @"accessCode", @"addAccessCodeToEmail", @"requireIdLookup", @"idCheckConfigurationName", @"socialAuthentications", @"phoneAuthentication", @"samlAuthentication", @"smsAuthentication", @"userId", @"clientUserId", @"embeddedRecipientStartURL", @"customFields", @"routingOrder", @"idCheckInformationInput", @"recipientAttachments", @"note", @"roleName", @"status", @"signedDateTime", @"deliveredDateTime", @"declinedDateTime", @"sentDateTime", @"declinedReason", @"deliveryMethod", @"faxNumber", @"templateLocked", @"templateRequired", @"emailNotification", @"inheritEmailNotificationConfiguration", @"errorDetails", @"recipientAuthenticationStatus", @"totalTabCount"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"accessCode", @"addAccessCodeToEmail", @"clientUserId", @"customFields", @"declinedDateTime", @"declinedReason", @"deliveredDateTime", @"deliveryMethod", @"documentVisibility", @"email", @"emailNotification", @"emailRecipientPostSigningURL", @"embeddedRecipientStartURL", @"errorDetails", @"faxNumber", @"idCheckConfigurationName", @"idCheckInformationInput", @"inheritEmailNotificationConfiguration", @"name", @"note", @"phoneAuthentication", @"recipientAttachments", @"recipientAuthenticationStatus", @"recipientId", @"recipientIdGuid", @"requireIdLookup", @"roleName", @"routingOrder", @"samlAuthentication", @"sentDateTime", @"signedDateTime", @"signingGroupId", @"signingGroupName", @"signingGroupUsers", @"smsAuthentication", @"socialAuthentications", @"status", @"templateLocked", @"templateRequired", @"totalTabCount", @"userId"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

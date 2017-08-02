@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"replyEmailAddressOverride": @"replyEmailAddressOverride", @"replyEmailNameOverride": @"replyEmailNameOverride", @"bccEmailAddresses": @"bccEmailAddresses" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"bccEmailAddresses": @"bccEmailAddresses", @"replyEmailAddressOverride": @"replyEmailAddressOverride", @"replyEmailNameOverride": @"replyEmailNameOverride" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"replyEmailAddressOverride", @"replyEmailNameOverride", @"bccEmailAddresses"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"bccEmailAddresses", @"replyEmailAddressOverride", @"replyEmailNameOverride"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

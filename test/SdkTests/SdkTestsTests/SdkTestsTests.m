@@ -35,7 +35,7 @@
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test User Login"];
     
     DSAuthenticationApi *authApi = [[DSAuthenticationApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [authApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [authApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     // Example of using options
     DSAuthenticationApi_LoginOptions* loginOptions = [[DSAuthenticationApi_LoginOptions alloc] init];
@@ -74,13 +74,12 @@
     doc.name = @"Test.pdf";
     doc.documentId = @"1";
     
-    NSString* docName = @"Test";
-    NSBundle* bundle = [NSBundle mainBundle];
-    NSString* path = [bundle pathForResource:docName ofType:@"pdf"];
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"Test" ofType:@"pdf"];
     NSData *myData = [NSData dataWithContentsOfFile:path];
     doc.documentBase64 = [myData base64EncodedStringWithOptions:0];
     envDef.documents = [NSArray<DSDocument> arrayWithObjects:doc, nil];
-
+    
     // create a signature tab
     DSSignHere *signHere = [[DSSignHere alloc] init];
     signHere.documentId = @"1";
@@ -119,7 +118,7 @@
     
     // Create and send the envelope
     DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     DSEnvelopesApi_CreateEnvelopeOptions* createEnvelopeOptions = [[DSEnvelopesApi_CreateEnvelopeOptions alloc] init];
     createEnvelopeOptions.cdseMode = @"true";
@@ -155,18 +154,18 @@
 
 - (void)testRequestSignatureOnTemplate {
     [self login];
-
+    
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test Request Signature On template"];
     
     // Create and send the envelope
     DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     // Create envelope with single document, single signer and one signature tab.
     DSEnvelopeDefinition* envelopeDefinition = [[DSEnvelopeDefinition alloc] init];
     envelopeDefinition.emailSubject = @"Please Sign Objc Envelope On Template";
     envelopeDefinition.emailBlurb = @"Hello, Please sign my Objective-C Envelope";
-
+    
     // assign recipient to template role by setting name, email, and role name.  Note that the
     // template role name must match the placeholder role name saved in your account template.
     DSTemplateRole* templateRole = [[DSTemplateRole alloc] init];
@@ -174,11 +173,11 @@
     templateRole.name = self.testConfig.recipientName;
     templateRole.roleName = self.testConfig.templateRoleName;
     // add the role to the envelope and assign valid templateId from your account
-
+    
     envelopeDefinition.templateRoles = [NSArray<DSTemplateRole> arrayWithObjects:templateRole, nil];;
     envelopeDefinition.templateId = self.testConfig.templateId;
     envelopeDefinition.status = @"sent";
-
+    
     DSEnvelopesApi_CreateEnvelopeOptions* createEnvelopeOptions = [[DSEnvelopesApi_CreateEnvelopeOptions alloc] init];
     createEnvelopeOptions.cdseMode = @"true";
     createEnvelopeOptions.mergeRolesOnDraft = @"false";
@@ -204,9 +203,9 @@
     XCTAssertNotNil(self.testConfig.envelopeId);
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test Get Envelope Information"];
-
+    
     DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     DSEnvelopesApi_GetEnvelopeOptions* options = [[DSEnvelopesApi_GetEnvelopeOptions alloc] init];
     options.include = nil;
@@ -233,13 +232,19 @@
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test List Recipients"];
     
     DSEnvelopesApi* envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
-    [envelopesApi listRecipientsWithAccountId:self.testConfig.accountId envelopeId:self.testConfig.envelopeId completionHandler:^(DSRecipients *output, NSError *error) {
+    DSEnvelopesApi_ListRecipientsOptions* options = [[DSEnvelopesApi_ListRecipientsOptions alloc] init];
+    options.includeAnchorTabLocations = @"true";
+    options.includeExtended = @"true";
+    options.includeMetadata = @"true";
+    options.includeTabs = @"true";
+    
+    [envelopesApi listRecipientsWithAccountId:self.testConfig.accountId envelopeId:self.testConfig.envelopeId options:options completionHandler:^(DSRecipients *output, NSError *error) {
         if (error) {
             XCTFail(@"%@", error);
         }
-
+        
         XCTAssertNotNil(output);
         XCTAssertTrue(output.recipientCount > 0);
         
@@ -257,7 +262,7 @@
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test List Status Changes"];
     
     DSEnvelopesApi* envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     DSEnvelopesApi_ListStatusChangesOptions* options = [[DSEnvelopesApi_ListStatusChangesOptions alloc] init];
     options.count = @"10";
@@ -291,9 +296,18 @@
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test Document Download"];
     
     DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
-    [envelopesApi getDocumentWithAccountId:self.testConfig.accountId envelopeId:self.testConfig.envelopeId documentId:@"combined" completionHandler:^(NSURL *output, NSError *error) {
+    DSEnvelopesApi_GetDocumentOptions* options = [[DSEnvelopesApi_GetDocumentOptions alloc] init];
+    //    options.certificate = @"";
+    //    options.encoding = @"";
+    //    options.encrypt = @"";
+    //    options.language = @"";
+    //    options.recipientId = @"";
+    //    options.showChanges = @"";
+    //    options.watermark = @"";
+    
+    [envelopesApi getDocumentWithAccountId:self.testConfig.accountId envelopeId:self.testConfig.envelopeId  documentId:@"combined" options:options completionHandler:^(NSURL *output, NSError *error) {
         if (error) {
             XCTFail(@"%@", error);
         }
@@ -319,7 +333,7 @@
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test Embedded Sending View"];
     
     DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     DSReturnUrlRequest* returnUrlRequest = [[DSReturnUrlRequest alloc] init];
     returnUrlRequest.returnUrl = self.testConfig.returnUrl;
@@ -352,7 +366,7 @@
     viewRequest.authenticationMethod = @"email";
     
     DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     [envelopesApi createRecipientViewWithAccountId:self.testConfig.accountId envelopeId:self.testConfig.envelopeId recipientViewRequest:viewRequest completionHandler:^(DSViewUrl *output, NSError *error) {
         if (error) {
@@ -374,14 +388,14 @@
     XCTAssertNotNil(self.testConfig.envelopeId);
     
     XCTestExpectation* expectation = [self expectationWithDescription:@"Test Embedded Recipient View"];
-
+    
     DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:self.testConfig.apiClient];
-    [envelopesApi addHeader:self.testConfig.headerValue forKey:self.testConfig.headerKey];
+    [envelopesApi setDefaultHeaderValue:self.testConfig.headerValue forKey:self.testConfig.headerKey];
     
     DSConsoleViewRequest* viewRequest = [[DSConsoleViewRequest alloc] init];
     viewRequest.envelopeId = self.testConfig.envelopeId;
     viewRequest.returnUrl = self.testConfig.returnUrl;
-
+    
     [envelopesApi createConsoleViewWithAccountId:self.testConfig.accountId consoleViewRequest:viewRequest completionHandler:^(DSViewUrl *output, NSError *error) {
         if (error) {
             XCTFail(@"%@", error);
@@ -397,150 +411,3 @@
 }
 
 @end
-//- (void)setUp {
-//    [super setUp];
-//    // Put setup code here. This method is called before the invocation of each test method in the class.
-//
-//    DS_AUTH = [NSString stringWithFormat: @"<DocuSignCredentials><IntegratorKey>%@</IntegratorKey><Username>%@</Username><Password>%@</Password></DocuSignCredentials>", IntegratorKey, EmailLogin, Password];
-//}
-//
-//- (void)tearDown {
-//    // Put teardown code here. This method is called after the invocation of each test method in the class.
-//    [super tearDown];
-//}
-//
-//- (void) testGetLogin {
-//    XCTestExpectation *expectation = [self expectationWithDescription:@"test user login"];
-//
-//    DSAuthenticationApi *authApi = [[DSAuthenticationApi alloc]init];
-//    [authApi addHeader:DS_AUTH forKey:DS_AUTH_HEADER];
-//
-//    // Example of using options
-//    DSAuthenticationApi_LoginOptions *loginOptions = [[DSAuthenticationApi_LoginOptions alloc] init];
-//    loginOptions.loginSettings = @"none";
-//    loginOptions.apiPassword = @"true";
-//    loginOptions.includeAccountIdGuid = @"true";
-//
-//    [authApi loginWithCompletionBlock:^(DSLoginInformation *output, NSError *error) {
-////     loginWithCompletionBlock:loginOptions completionHandler:^(DSLoginInformation *output, NSError *error) {
-//        if (error) {
-//            XCTFail(@"got error %@", error);
-//        }
-//        if (!output) {
-//            XCTFail(@"response can't be nil");
-//        }
-//
-//        XCTAssertTrue(output.loginAccounts.count>0);
-//
-//        DSLoginAccount *loginAccount = [output.loginAccounts objectAtIndex: 0];
-//        NSLog(@"Account Name: %@", loginAccount.name);
-//
-//
-//        NSLog(@"Api Passord: %@", output.apiPassword);
-//        NSLog(@"Login Accounts: %@", output.loginAccounts);
-//
-//        [expectation fulfill];
-//
-//    }];
-//
-//    [self waitForExpectationsWithTimeout:10.0 handler:nil];
-//}
-//
-//- (void) testRequestASignature {
-//    XCTestExpectation *expectation = [self expectationWithDescription:@"test user login"];
-//
-//    // Create envelope with single document, single signer and one signature tab.
-//    DSEnvelopeDefinition *envDef = [[DSEnvelopeDefinition alloc] init];
-//    envDef.emailSubject = @"Please Sign my Objc Envelope";
-//    envDef.emailBlurb = @"Hello, Please sign my Objective-C Envelope";
-//
-//    DSDocument *doc = [[DSDocument alloc] init];
-//    doc.name = @"TestFile.pdf";
-//    doc.documentId = @"1";
-//
-//    NSString* docName = @"Test";
-//    NSBundle* bundle = [NSBundle mainBundle];
-//    NSString* path = [bundle pathForResource:docName ofType:@"pdf"];
-//    NSData *myData = [NSData dataWithContentsOfFile:path];
-//    doc.documentBase64 = [myData base64EncodedStringWithOptions:0];
-//    envDef.documents = [NSArray<DSDocument> arrayWithObjects:doc, nil];
-//
-//
-//    // Add a recipient to sign the document
-//    DSSigner *signer = [[DSSigner alloc] init];
-//    signer.email = EmailLogin;
-//    signer.name = @"Pat Developer";
-//    signer.recipientId = @"1";
-//
-//
-//    // create a signature tab
-//    DSSignHere *signHere = [[DSSignHere alloc] init];
-//    signHere.documentId = @"1";
-//    signHere.pageNumber = @"1";
-//    signHere.recipientId = @"1";
-//    signHere.xPosition = @"100";
-//    signHere.yPosition = @"100";
-//
-//    // Add the tab to the signer.
-//    signer.tabs = [[DSTabs alloc] init];
-//    signer.tabs.signHereTabs = [NSArray<DSSignHere> arrayWithObjects:signHere, nil];
-//
-//    DSRecipients *recipient = [[DSRecipients alloc] init];
-//
-//    NSMutableArray<DSSigner> *signers = [[NSMutableArray<DSSigner> alloc]init];
-//    recipient.signers = signers;
-//    [signers addObject: signer];
-//    envDef.recipients = recipient;
-//
-//
-//    // set status to sent to trigger sending the envelope. Otherwise the envelope will stay in the Drafts folder.
-//    envDef.status = @"sent";
-//
-//    NSLog(@"Envelope being sent %@", envDef);
-//
-//
-//    expectation = [self expectationWithDescription:@"test Request A Signature - sendEnvelope"];
-//
-//    DSApiClient* apiClient = [[DSApiClient alloc] initWithBaseURL:[NSURL URLWithString:BaseUrl]];
-//
-//    // Create and send the envelope
-//    DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:apiClient];
-//    [envelopesApi addHeader:DS_AUTH forKey:DS_AUTH_HEADER];
-//
-//    [envelopesApi createEnvelopeWithCompletionBlock:@"1385721" envelopeDefinition:envDef completionHandler:^(DSEnvelopeSummary *output, NSError *error) {
-////    [envelopesApi createEnvelopeWithCompletionBlock:accountId envelopeDefinition:envDef completionHandler:^(DSEnvelopeSummary *output, NSError *error) {
-//        if (error) {
-//            XCTFail(@"got error %@", error);
-//        }
-//        if (!output) {
-//            XCTFail(@"response can't be nil");
-//        }
-//        XCTAssertNotNil(output.envelopeId);
-//        NSLog(@"Envelope Created. ID: %@", output.envelopeId);
-//
-//        [expectation fulfill];
-//    }];
-//
-//    [self waitForExpectationsWithTimeout:10.0 handler:^(NSError * _Nullable error) {
-//        XCTAssertNil(error, "Error");
-//    }];
-//}
-//
-//
-//- (void)testExample {
-//    // This is an example of a functional test case.
-//    // Use XCTAssert and related functions to verify your tests produce the correct results.
-//
-//    NSString* path = [[NSBundle mainBundle] pathForResource:@"../Test" ofType:@"pdf"];
-//    NSLog(@"#############%@", [NSBundle mainBundle]);
-//    NSLog(@"#############%@", path);
-//
-//}
-//
-//- (void)testPerformanceExample {
-//    // This is an example of a performance test case.
-//    [self measureBlock:^{
-//        // Put the code you want to measure the time of here.
-//    }];
-//}
-

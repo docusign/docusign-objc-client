@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"signers": @"signers", @"agents": @"agents", @"editors": @"editors", @"intermediaries": @"intermediaries", @"carbonCopies": @"carbonCopies", @"certifiedDeliveries": @"certifiedDeliveries", @"inPersonSigners": @"inPersonSigners", @"recipientCount": @"recipientCount", @"currentRoutingOrder": @"currentRoutingOrder", @"errorDetails": @"errorDetails" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"agents": @"agents", @"carbonCopies": @"carbonCopies", @"certifiedDeliveries": @"certifiedDeliveries", @"currentRoutingOrder": @"currentRoutingOrder", @"editors": @"editors", @"errorDetails": @"errorDetails", @"inPersonSigners": @"inPersonSigners", @"intermediaries": @"intermediaries", @"recipientCount": @"recipientCount", @"signers": @"signers" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"signers", @"agents", @"editors", @"intermediaries", @"carbonCopies", @"certifiedDeliveries", @"inPersonSigners", @"recipientCount", @"currentRoutingOrder", @"errorDetails"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"agents", @"carbonCopies", @"certifiedDeliveries", @"currentRoutingOrder", @"editors", @"errorDetails", @"inPersonSigners", @"intermediaries", @"recipientCount", @"signers"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

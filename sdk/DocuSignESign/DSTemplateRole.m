@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"email": @"email", @"roleName": @"roleName", @"name": @"name", @"signingGroupId": @"signingGroupId", @"inPersonSignerName": @"inPersonSignerName", @"clientUserId": @"clientUserId", @"embeddedRecipientStartURL": @"embeddedRecipientStartURL", @"defaultRecipient": @"defaultRecipient", @"accessCode": @"accessCode", @"routingOrder": @"routingOrder", @"emailNotification": @"emailNotification", @"tabs": @"tabs" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"accessCode": @"accessCode", @"clientUserId": @"clientUserId", @"defaultRecipient": @"defaultRecipient", @"email": @"email", @"emailNotification": @"emailNotification", @"embeddedRecipientStartURL": @"embeddedRecipientStartURL", @"inPersonSignerName": @"inPersonSignerName", @"name": @"name", @"roleName": @"roleName", @"routingOrder": @"routingOrder", @"signingGroupId": @"signingGroupId", @"tabs": @"tabs" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"email", @"roleName", @"name", @"signingGroupId", @"inPersonSignerName", @"clientUserId", @"embeddedRecipientStartURL", @"defaultRecipient", @"accessCode", @"routingOrder", @"emailNotification", @"tabs"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"accessCode", @"clientUserId", @"defaultRecipient", @"email", @"emailNotification", @"embeddedRecipientStartURL", @"inPersonSignerName", @"name", @"roleName", @"routingOrder", @"signingGroupId", @"tabs"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

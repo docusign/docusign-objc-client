@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"url": @"url", @"loggingEnabled": @"loggingEnabled", @"requireAcknowledgment": @"requireAcknowledgment", @"envelopeEvents": @"envelopeEvents", @"recipientEvents": @"recipientEvents", @"useSoapInterface": @"useSoapInterface", @"soapNameSpace": @"soapNameSpace", @"includeCertificateWithSoap": @"includeCertificateWithSoap", @"signMessageWithX509Cert": @"signMessageWithX509Cert", @"includeDocuments": @"includeDocuments", @"includeEnvelopeVoidReason": @"includeEnvelopeVoidReason", @"includeTimeZone": @"includeTimeZone", @"includeSenderAccountAsCustomField": @"includeSenderAccountAsCustomField", @"includeDocumentFields": @"includeDocumentFields", @"includeCertificateOfCompletion": @"includeCertificateOfCompletion" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"envelopeEvents": @"envelopeEvents", @"includeCertificateOfCompletion": @"includeCertificateOfCompletion", @"includeCertificateWithSoap": @"includeCertificateWithSoap", @"includeDocumentFields": @"includeDocumentFields", @"includeDocuments": @"includeDocuments", @"includeEnvelopeVoidReason": @"includeEnvelopeVoidReason", @"includeSenderAccountAsCustomField": @"includeSenderAccountAsCustomField", @"includeTimeZone": @"includeTimeZone", @"loggingEnabled": @"loggingEnabled", @"recipientEvents": @"recipientEvents", @"requireAcknowledgment": @"requireAcknowledgment", @"signMessageWithX509Cert": @"signMessageWithX509Cert", @"soapNameSpace": @"soapNameSpace", @"url": @"url", @"useSoapInterface": @"useSoapInterface" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"url", @"loggingEnabled", @"requireAcknowledgment", @"envelopeEvents", @"recipientEvents", @"useSoapInterface", @"soapNameSpace", @"includeCertificateWithSoap", @"signMessageWithX509Cert", @"includeDocuments", @"includeEnvelopeVoidReason", @"includeTimeZone", @"includeSenderAccountAsCustomField", @"includeDocumentFields", @"includeCertificateOfCompletion"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"envelopeEvents", @"includeCertificateOfCompletion", @"includeCertificateWithSoap", @"includeDocumentFields", @"includeDocuments", @"includeEnvelopeVoidReason", @"includeSenderAccountAsCustomField", @"includeTimeZone", @"loggingEnabled", @"recipientEvents", @"requireAcknowledgment", @"signMessageWithX509Cert", @"soapNameSpace", @"url", @"useSoapInterface"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"font": @"font", @"bold": @"bold", @"italic": @"italic", @"underline": @"underline", @"fontColor": @"fontColor", @"fontSize": @"fontSize", @"height": @"height", @"width": @"width", @"customTabId": @"customTabId", @"initialValue": @"initialValue", @"includedInEmail": @"includedInEmail", @"disableAutoSize": @"disableAutoSize", @"concealValueOnDocument": @"concealValueOnDocument", @"locked": @"locked", @"required": @"required", @"shared": @"shared", @"items": @"items", @"tabLabel": @"tabLabel", @"maximumLength": @"maximumLength", @"anchor": @"anchor", @"anchorXOffset": @"anchorXOffset", @"anchorYOffset": @"anchorYOffset", @"anchorUnits": @"anchorUnits", @"anchorIgnoreIfNotPresent": @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord": @"anchorMatchWholeWord", @"anchorCaseSensitive": @"anchorCaseSensitive", @"anchorHorizontalAlignment": @"anchorHorizontalAlignment", @"name": @"name", @"type": @"type", @"validationMessage": @"validationMessage", @"validationPattern": @"validationPattern", @"lastModifiedByUserId": @"lastModifiedByUserId", @"lastModifiedByDisplayName": @"lastModifiedByDisplayName", @"lastModified": @"lastModified", @"createdByUserId": @"createdByUserId", @"createdByDisplayName": @"createdByDisplayName", @"editable": @"editable", @"mergeField": @"mergeField" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"anchor": @"anchor", @"anchorCaseSensitive": @"anchorCaseSensitive", @"anchorHorizontalAlignment": @"anchorHorizontalAlignment", @"anchorIgnoreIfNotPresent": @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord": @"anchorMatchWholeWord", @"anchorUnits": @"anchorUnits", @"anchorXOffset": @"anchorXOffset", @"anchorYOffset": @"anchorYOffset", @"bold": @"bold", @"concealValueOnDocument": @"concealValueOnDocument", @"createdByDisplayName": @"createdByDisplayName", @"createdByUserId": @"createdByUserId", @"customTabId": @"customTabId", @"disableAutoSize": @"disableAutoSize", @"editable": @"editable", @"font": @"font", @"fontColor": @"fontColor", @"fontSize": @"fontSize", @"height": @"height", @"includedInEmail": @"includedInEmail", @"initialValue": @"initialValue", @"italic": @"italic", @"items": @"items", @"lastModified": @"lastModified", @"lastModifiedByDisplayName": @"lastModifiedByDisplayName", @"lastModifiedByUserId": @"lastModifiedByUserId", @"locked": @"locked", @"maximumLength": @"maximumLength", @"mergeField": @"mergeField", @"name": @"name", @"required": @"required", @"scaleValue": @"scaleValue", @"shared": @"shared", @"tabLabel": @"tabLabel", @"type": @"type", @"underline": @"underline", @"validationMessage": @"validationMessage", @"validationPattern": @"validationPattern", @"width": @"width" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"font", @"bold", @"italic", @"underline", @"fontColor", @"fontSize", @"height", @"width", @"customTabId", @"initialValue", @"includedInEmail", @"disableAutoSize", @"concealValueOnDocument", @"locked", @"required", @"shared", @"items", @"tabLabel", @"maximumLength", @"anchor", @"anchorXOffset", @"anchorYOffset", @"anchorUnits", @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord", @"anchorCaseSensitive", @"anchorHorizontalAlignment", @"name", @"type", @"validationMessage", @"validationPattern", @"lastModifiedByUserId", @"lastModifiedByDisplayName", @"lastModified", @"createdByUserId", @"createdByDisplayName", @"editable", @"mergeField"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"anchor", @"anchorCaseSensitive", @"anchorHorizontalAlignment", @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord", @"anchorUnits", @"anchorXOffset", @"anchorYOffset", @"bold", @"concealValueOnDocument", @"createdByDisplayName", @"createdByUserId", @"customTabId", @"disableAutoSize", @"editable", @"font", @"fontColor", @"fontSize", @"height", @"includedInEmail", @"initialValue", @"italic", @"items", @"lastModified", @"lastModifiedByDisplayName", @"lastModifiedByUserId", @"locked", @"maximumLength", @"mergeField", @"name", @"required", @"scaleValue", @"shared", @"tabLabel", @"type", @"underline", @"validationMessage", @"validationPattern", @"width"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

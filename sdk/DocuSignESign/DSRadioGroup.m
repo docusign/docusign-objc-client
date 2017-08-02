@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"documentId": @"documentId", @"recipientId": @"recipientId", @"conditionalParentLabel": @"conditionalParentLabel", @"conditionalParentValue": @"conditionalParentValue", @"groupName": @"groupName", @"radios": @"radios", @"shared": @"shared", @"requireInitialOnSharedChange": @"requireInitialOnSharedChange", @"requireAll": @"requireAll" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"conditionalParentLabel": @"conditionalParentLabel", @"conditionalParentValue": @"conditionalParentValue", @"documentId": @"documentId", @"groupName": @"groupName", @"radios": @"radios", @"recipientId": @"recipientId", @"requireAll": @"requireAll", @"requireInitialOnSharedChange": @"requireInitialOnSharedChange", @"shared": @"shared" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"documentId", @"recipientId", @"conditionalParentLabel", @"conditionalParentValue", @"groupName", @"radios", @"shared", @"requireInitialOnSharedChange", @"requireAll"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"conditionalParentLabel", @"conditionalParentValue", @"documentId", @"groupName", @"radios", @"recipientId", @"requireAll", @"requireInitialOnSharedChange", @"shared"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

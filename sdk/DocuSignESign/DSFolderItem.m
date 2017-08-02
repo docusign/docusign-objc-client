@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"ownerName": @"ownerName", @"envelopeId": @"envelopeId", @"envelopeUri": @"envelopeUri", @"status": @"status", @"senderName": @"senderName", @"senderEmail": @"senderEmail", @"createdDateTime": @"createdDateTime", @"sentDateTime": @"sentDateTime", @"completedDateTime": @"completedDateTime", @"subject": @"subject", @"templateId": @"templateId", @"name": @"name", @"shared": @"shared", @"password": @"password", @"description": @"_description", @"lastModified": @"lastModified", @"pageCount": @"pageCount", @"uri": @"uri", @"is21CFRPart11": @"is21CFRPart11", @"isUniversalSignatureEnvelope": @"isUniversalSignatureEnvelope", @"customFields": @"customFields" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"completedDateTime": @"completedDateTime", @"createdDateTime": @"createdDateTime", @"customFields": @"customFields", @"_description": @"description", @"envelopeId": @"envelopeId", @"envelopeUri": @"envelopeUri", @"is21CFRPart11": @"is21CFRPart11", @"isSignatureProviderEnvelope": @"isSignatureProviderEnvelope", @"lastModified": @"lastModified", @"name": @"name", @"ownerName": @"ownerName", @"pageCount": @"pageCount", @"password": @"password", @"senderEmail": @"senderEmail", @"senderName": @"senderName", @"sentDateTime": @"sentDateTime", @"shared": @"shared", @"status": @"status", @"subject": @"subject", @"templateId": @"templateId", @"uri": @"uri" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"ownerName", @"envelopeId", @"envelopeUri", @"status", @"senderName", @"senderEmail", @"createdDateTime", @"sentDateTime", @"completedDateTime", @"subject", @"templateId", @"name", @"shared", @"password", @"_description", @"lastModified", @"pageCount", @"uri", @"is21CFRPart11", @"isUniversalSignatureEnvelope", @"customFields"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"completedDateTime", @"createdDateTime", @"customFields", @"_description", @"envelopeId", @"envelopeUri", @"is21CFRPart11", @"isSignatureProviderEnvelope", @"lastModified", @"name", @"ownerName", @"pageCount", @"password", @"senderEmail", @"senderName", @"sentDateTime", @"shared", @"status", @"subject", @"templateId", @"uri"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

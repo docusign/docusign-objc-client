@@ -1,35 +1,37 @@
 #import "DSCustomTabsApi.h"
 #import "DSQueryParamCollection.h"
-#import "DSTabMetadataList.h"
 #import "DSErrorDetails.h"
 #import "DSTabMetadata.h"
-
+#import "DSTabMetadataList.h"
 
 
 @implementation DSCustomTabsApi_ListOptions
 @end
 
-
-
 @interface DSCustomTabsApi ()
-    @property (readwrite, nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
+@property (nonatomic, strong) NSMutableDictionary *defaultHeaders;
+
 @end
 
 @implementation DSCustomTabsApi
 
-static DSCustomTabsApi* singletonAPI = nil;
+NSString* kDSCustomTabsApiErrorDomain = @"DSCustomTabsApiErrorDomain";
+NSInteger kDSCustomTabsApiMissingParamErrorCode = 234513;
+
+@synthesize apiClient = _apiClient;
 
 #pragma mark - Initialize methods
 
-- (id) init {
+- (instancetype) init {
     self = [super init];
     if (self) {
         DSConfiguration *config = [DSConfiguration sharedConfig];
         if (config.apiClient == nil) {
             config.apiClient = [[DSApiClient alloc] init];
         }
-        self.apiClient = config.apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = config.apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -37,315 +39,107 @@ static DSCustomTabsApi* singletonAPI = nil;
 - (id) initWithApiClient:(DSApiClient *)apiClient {
     self = [super init];
     if (self) {
-        self.apiClient = apiClient;
-        self.defaultHeaders = [NSMutableDictionary dictionary];
+        _apiClient = apiClient;
+        _defaultHeaders = [NSMutableDictionary dictionary];
     }
     return self;
 }
 
 #pragma mark -
 
-+(DSCustomTabsApi*) apiWithHeader:(NSString*)headerValue key:(NSString*)key {
-
-    if (singletonAPI == nil) {
-        singletonAPI = [[DSCustomTabsApi alloc] init];
-        [singletonAPI addHeader:headerValue forKey:key];
-    }
-    return singletonAPI;
++ (instancetype)sharedAPI {
+    static DSCustomTabsApi *sharedAPI;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        sharedAPI = [[self alloc] init];
+    });
+    return sharedAPI;
 }
 
-+(DSCustomTabsApi*) sharedAPI {
-
-    if (singletonAPI == nil) {
-        singletonAPI = [[DSCustomTabsApi alloc] init];
-    }
-    return singletonAPI;
+-(NSString*) defaultHeaderForKey:(NSString*)key {
+    return self.defaultHeaders[key];
 }
 
 -(void) addHeader:(NSString*)value forKey:(NSString*)key {
+    [self setDefaultHeaderValue:value forKey:key];
+}
+
+-(void) setDefaultHeaderValue:(NSString*) value forKey:(NSString*)key {
     [self.defaultHeaders setValue:value forKey:key];
 }
 
--(void) setHeaderValue:(NSString*) value
-           forKey:(NSString*)key {
-    [self.defaultHeaders setValue:value forKey:key];
-}
-
--(unsigned long) requestQueueSize {
+-(NSUInteger) requestQueueSize {
     return [DSApiClient requestQueueSize];
 }
 
 #pragma mark - Api Methods
 
-
-///
-/// Gets a list of all account tabs.
-/// Retrieves a list of all tabs associated with the account.
-///
-///  @param accountId The external account number (int) or account ID Guid.
-///
-///
-///  @returns DSTabMetadataList*
--(NSNumber*) listWithCompletionBlock: (NSString*) accountId
-        
-     
-		
-        completionHandler: (void (^)(DSTabMetadataList* output, NSError* error))completionBlock { 
-        
-
-   
-    // verify the required parameter 'accountId' is set
-    if (accountId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `accountId` when calling `list`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (accountId != nil) {
-        pathParams[@"accountId"] = accountId;
-    }
-    
-
-	// this version doesn't use query params
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-	
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [DSApiClient selectHeaderAccept:@[@"application/json"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [DSApiClient selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
-    
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                               method: @"GET"
-                                           pathParams: pathParams
-                                          queryParams: queryParams
-                                           formParams: formParams
-                                                files: files
-                                                 body: bodyParam
-                                         headerParams: headerParams
-                                         authSettings: authSettings
-                                   requestContentType: requestContentType
-                                  responseContentType: responseContentType
-                                         responseType: @"DSTabMetadataList*"
-                                      completionBlock: ^(id data, NSError *error) {
-                  
-                  completionBlock((DSTabMetadataList*)data, error);
-              }
-          ];
-}
-
-
-
-
-///
-/// Gets a list of all account tabs.
-/// Retrieves a list of all tabs associated with the account.
-///   @param accountId The external account number (int) or account ID Guid.
-/// 
-/// 
-///  @param DSCustomTabsApi_ListOptions  Options for modifying the request.
-///  @returns DSTabMetadataList*
--(NSNumber*) listWithAccountId:(NSString*) accountId 
-     
-     options:(DSCustomTabsApi_ListOptions*) options
-    completionHandler: (void (^)(DSTabMetadataList* output, NSError* error)) handler {
-
-    
-    // verify the required parameter 'accountId' is set
-    if (accountId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `accountId` when calling `list`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (accountId != nil) {
-        pathParams[@"accountId"] = accountId;
-    }
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-	
-	
-	if (options != nil) {
-		if(options.customTabOnly != nil) {
-			
-			queryParams[@"custom_tab_only"] = options.customTabOnly;
-		}
-		
-	}
-	
-	
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [DSApiClient selectHeaderAccept:@[@"application/json"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [DSApiClient selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
-    
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"GET"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: files
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: @"DSTabMetadataList*"
-                           completionBlock: ^(id data, NSError *error) {
-                               handler((DSTabMetadataList*)data, error);
-                           }
-          ];
-}
-
-
-
-
 ///
 /// Creates a custom tab.
-/// Creates a tab with pre-defined properties, such as a text tab with a certain font type and validation pattern. Users can access the custom tabs when sending documents through the DocuSign web application.\n\nCustom tabs can be created for approve, checkbox, company, date, date signed, decline, email, email address, envelope ID, first name, formula, full name, initial here, last name, list, note, number, radio, sign here, signer attachment, SSN, text, title, and zip tabs.
-///   @param accountId The external account number (int) or account ID Guid.
-/// 
-///  @param tabMetadata TBD Description 
-/// 
-///  @returns DSTabMetadata*
--(NSNumber*) createWithAccountId:(NSString*) accountId 
-    tabMetadata:(DSTabMetadata*) tabMetadata 
-    
-    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
+/// Creates a tab with pre-defined properties, such as a text tab with a certain font type and validation pattern. Users can access the custom tabs when sending documents through the DocuSign web application.  Custom tabs can be created for approve, checkbox, company, date, date signed, decline, email, email address, envelope ID, first name, formula, full name, initial here, last name, list, note, number, radio, sign here, signer attachment, SSN, text, title, and zip tabs.
+/// @param accountId The external account number (int) or account ID Guid.
+/// @param tabMetadata  (optional)
 
-    
+///  code:201 message:"Successful response.",
+///  code:400 message:"Error encountered."
+/// @return DSTabMetadata*
+-(NSNumber*) createWithAccountId:
+(NSString*) accountId 
+ tabMetadata:(DSTabMetadata*) tabMetadata
+
+ completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
     // verify the required parameter 'accountId' is set
     if (accountId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `accountId` when calling `create`"];
+        NSParameterAssert(accountId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"accountId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions"];
 
     // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (accountId != nil) {
         pathParams[@"accountId"] = accountId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-	
-	
-	
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
-    
 
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    headerParams[@"Accept"] = [DSApiClient selectHeaderAccept:@[@"application/json"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
     }
 
     // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [DSApiClient selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
     bodyParam = tabMetadata;
-    
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"POST"
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -353,246 +147,52 @@ static DSCustomTabsApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: @"DSTabMetadata*"
                            completionBlock: ^(id data, NSError *error) {
-                               handler((DSTabMetadata*)data, error);
+                                if(handler) {
+                                    handler((DSTabMetadata*)data, error);
+                                }
                            }
           ];
 }
-
-
-
-
-///
-/// Gets custom tab information.
-/// Retrieves information about the requested custom tab on the specified account.
-///   @param accountId The external account number (int) or account ID Guid.
-///   @param customTabId 
-/// 
-/// 
-/// 
-///  @returns DSTabMetadata*
--(NSNumber*) getWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
-     
-    
-    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
-
-    
-    // verify the required parameter 'accountId' is set
-    if (accountId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `accountId` when calling `get`"];
-    }
-    
-    // verify the required parameter 'customTabId' is set
-    if (customTabId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `customTabId` when calling `get`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions/{customTabId}"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (accountId != nil) {
-        pathParams[@"accountId"] = accountId;
-    }
-    if (customTabId != nil) {
-        pathParams[@"customTabId"] = customTabId;
-    }
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-	
-	
-	
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [DSApiClient selectHeaderAccept:@[@"application/json"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [DSApiClient selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
-    
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"GET"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: files
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: @"DSTabMetadata*"
-                           completionBlock: ^(id data, NSError *error) {
-                               handler((DSTabMetadata*)data, error);
-                           }
-          ];
-}
-
-
-
-
-///
-/// Updates custom tab information.
-/// Updates the information in a custom tab for the specified account.
-///   @param accountId The external account number (int) or account ID Guid.
-///   @param customTabId 
-/// 
-///  @param tabMetadata TBD Description 
-/// 
-///  @returns DSTabMetadata*
--(NSNumber*) updateWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
-    tabMetadata:(DSTabMetadata*) tabMetadata 
-    
-    completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
-
-    
-    // verify the required parameter 'accountId' is set
-    if (accountId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `accountId` when calling `update`"];
-    }
-    
-    // verify the required parameter 'customTabId' is set
-    if (customTabId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `customTabId` when calling `update`"];
-    }
-    
-
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions/{customTabId}"];
-
-    // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-    if (accountId != nil) {
-        pathParams[@"accountId"] = accountId;
-    }
-    if (customTabId != nil) {
-        pathParams[@"customTabId"] = customTabId;
-    }
-    
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-	
-	
-	
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
-
-    
-
-    // HTTP header `Accept`
-    headerParams[@"Accept"] = [DSApiClient selectHeaderAccept:@[@"application/json"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
-    }
-
-    // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
-
-    // request content type
-    NSString *requestContentType = [DSApiClient selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
-    bodyParam = tabMetadata;
-    
-
-    
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"PUT"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: files
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: @"DSTabMetadata*"
-                           completionBlock: ^(id data, NSError *error) {
-                               handler((DSTabMetadata*)data, error);
-                           }
-          ];
-}
-
-
-
 
 ///
 /// Deletes custom tab information.
 /// Deletes the custom from the specified account.
-///   @param accountId The external account number (int) or account ID Guid.
-///   @param customTabId 
-/// 
-/// 
-/// 
-///  @returns void
--(NSNumber*) deleteWithAccountId:(NSString*) accountId  customTabId:(NSString*) customTabId 
-     
-    
-    completionHandler: (void (^)(NSError* error)) handler {
+/// @param accountId The external account number (int) or account ID Guid./// @param customTabId 
 
-    
+
+///  code:200 message:"Successful response.",
+///  code:400 message:"Error encountered."
+-(NSNumber*) deleteWithAccountId:
+(NSString*) accountId  customTabId:(NSString*) customTabId 
+
+
+ completionHandler: (void (^)(NSError* error)) handler {
     // verify the required parameter 'accountId' is set
     if (accountId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `accountId` when calling `delete`"];
+        NSParameterAssert(accountId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"accountId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
-    
+
     // verify the required parameter 'customTabId' is set
     if (customTabId == nil) {
-        [NSException raise:@"Invalid parameter" format:@"Missing the required parameter `customTabId` when calling `delete`"];
+        NSParameterAssert(customTabId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"customTabId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(error);
+        }
+        return nil;
     }
-    
 
     NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions/{customTabId}"];
 
     // remove format in URL if needed
-    if ([resourcePath rangeOfString:@".{format}"].location != NSNotFound) {
-        [resourcePath replaceCharactersInRange: [resourcePath rangeOfString:@".{format}"] withString:@".json"];
-    }
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
 
     NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
     if (accountId != nil) {
@@ -601,51 +201,37 @@ static DSCustomTabsApi* singletonAPI = nil;
     if (customTabId != nil) {
         pathParams[@"customTabId"] = customTabId;
     }
-    
 
     NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-	
-	
-	
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.defaultHeaders];
 
-    
 
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
     // HTTP header `Accept`
-    headerParams[@"Accept"] = [DSApiClient selectHeaderAccept:@[@"application/json"]];
-    if ([headerParams[@"Accept"] length] == 0) {
-        [headerParams removeObjectForKey:@"Accept"];
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
     }
 
     // response content type
-    NSString *responseContentType;
-    if ([headerParams objectForKey:@"Accept"]) {
-        responseContentType = [headerParams[@"Accept"] componentsSeparatedByString:@", "][0];
-    }
-    else {
-        responseContentType = @"";
-    }
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
 
     // request content type
-    NSString *requestContentType = [DSApiClient selectHeaderContentType:@[]];
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
 
     // Authentication setting
     NSArray *authSettings = @[];
 
     id bodyParam = nil;
     NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *files = [[NSMutableDictionary alloc] init];
-    
-    
-    
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
 
-    
     return [self.apiClient requestWithPath: resourcePath
                                     method: @"DELETE"
                                 pathParams: pathParams
                                queryParams: queryParams
                                 formParams: formParams
-                                     files: files
+                                     files: localVarFiles
                                       body: bodyParam
                               headerParams: headerParams
                               authSettings: authSettings
@@ -653,11 +239,283 @@ static DSCustomTabsApi* singletonAPI = nil;
                        responseContentType: responseContentType
                               responseType: nil
                            completionBlock: ^(id data, NSError *error) {
-                               handler(error);
+                                if(handler) {
+                                    handler(error);
+                                }
                            }
           ];
 }
 
+///
+/// Gets custom tab information.
+/// Retrieves information about the requested custom tab on the specified account.
+/// @param accountId The external account number (int) or account ID Guid./// @param customTabId 
+
+
+///  code:200 message:"Successful response.",
+///  code:400 message:"Error encountered."
+/// @return DSTabMetadata*
+-(NSNumber*) getWithAccountId:
+(NSString*) accountId  customTabId:(NSString*) customTabId 
+
+
+ completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
+    // verify the required parameter 'accountId' is set
+    if (accountId == nil) {
+        NSParameterAssert(accountId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"accountId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    // verify the required parameter 'customTabId' is set
+    if (customTabId == nil) {
+        NSParameterAssert(customTabId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"customTabId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions/{customTabId}"];
+
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (accountId != nil) {
+        pathParams[@"accountId"] = accountId;
+    }
+    if (customTabId != nil) {
+        pathParams[@"customTabId"] = customTabId;
+    }
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+
+
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabMetadata*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((DSTabMetadata*)data, error);
+                                }
+                           }
+          ];
+}
+
+///
+/// Gets a list of all account tabs.
+/// Retrieves a list of all tabs associated with the account.
+/// @param accountId The external account number (int) or account ID Guid.
+
+/// @param DSCustomTabsApi_ListOptions Options for modifying the behavior of the function.
+///  code:200 message:"Successful response.",
+///  code:400 message:"Error encountered."
+/// @return DSTabMetadataList*
+-(NSNumber*) listWithAccountId:
+(NSString*) accountId 
+
+ options:(DSCustomTabsApi_ListOptions*) options
+ completionHandler: (void (^)(DSTabMetadataList* output, NSError* error)) handler {
+    // verify the required parameter 'accountId' is set
+    if (accountId == nil) {
+        NSParameterAssert(accountId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"accountId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions"];
+
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (accountId != nil) {
+        pathParams[@"accountId"] = accountId;
+    }
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+
+    if (options != nil) {
+        if(options.customTabOnly != nil) {
+            queryParams[@"custom_tab_only"] = options.customTabOnly;
+        }
+    }
+
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"GET"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabMetadataList*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((DSTabMetadataList*)data, error);
+                                }
+                           }
+          ];
+}
+
+///
+/// Updates custom tab information.  
+/// Updates the information in a custom tab for the specified account.
+/// @param accountId The external account number (int) or account ID Guid./// @param customTabId 
+/// @param tabMetadata  (optional)
+
+///  code:200 message:"Successful response.",
+///  code:400 message:"Error encountered."
+/// @return DSTabMetadata*
+-(NSNumber*) updateWithAccountId:
+(NSString*) accountId  customTabId:(NSString*) customTabId 
+ tabMetadata:(DSTabMetadata*) tabMetadata
+
+ completionHandler: (void (^)(DSTabMetadata* output, NSError* error)) handler {
+    // verify the required parameter 'accountId' is set
+    if (accountId == nil) {
+        NSParameterAssert(accountId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"accountId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    // verify the required parameter 'customTabId' is set
+    if (customTabId == nil) {
+        NSParameterAssert(customTabId);
+        if(handler) {
+            NSDictionary * userInfo = @{NSLocalizedDescriptionKey : [NSString stringWithFormat:NSLocalizedString(@"Missing required parameter '%@'", nil),@"customTabId"] };
+            NSError* error = [NSError errorWithDomain:kDSCustomTabsApiErrorDomain code:kDSCustomTabsApiMissingParamErrorCode userInfo:userInfo];
+            handler(nil, error);
+        }
+        return nil;
+    }
+
+    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/v2/accounts/{accountId}/tab_definitions/{customTabId}"];
+
+    // remove format in URL if needed
+    [resourcePath replaceOccurrencesOfString:@".{format}" withString:@".json" options:0 range:NSMakeRange(0,resourcePath.length)];
+
+    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+    if (accountId != nil) {
+        pathParams[@"accountId"] = accountId;
+    }
+    if (customTabId != nil) {
+        pathParams[@"customTabId"] = customTabId;
+    }
+
+    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+
+
+    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
+    [headerParams addEntriesFromDictionary:self.defaultHeaders];
+    // HTTP header `Accept`
+    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
+    if(acceptHeader.length > 0) {
+        headerParams[@"Accept"] = acceptHeader;
+    }
+
+    // response content type
+    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+    // request content type
+    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
+
+    // Authentication setting
+    NSArray *authSettings = @[];
+
+    id bodyParam = nil;
+    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+    bodyParam = tabMetadata;
+
+    return [self.apiClient requestWithPath: resourcePath
+                                    method: @"PUT"
+                                pathParams: pathParams
+                               queryParams: queryParams
+                                formParams: formParams
+                                     files: localVarFiles
+                                      body: bodyParam
+                              headerParams: headerParams
+                              authSettings: authSettings
+                        requestContentType: requestContentType
+                       responseContentType: responseContentType
+                              responseType: @"DSTabMetadata*"
+                           completionBlock: ^(id data, NSError *error) {
+                                if(handler) {
+                                    handler((DSTabMetadata*)data, error);
+                                }
+                           }
+          ];
+}
 
 
 @end

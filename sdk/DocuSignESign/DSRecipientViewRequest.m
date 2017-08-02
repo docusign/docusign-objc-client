@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"clientUserId": @"clientUserId", @"userId": @"userId", @"userName": @"userName", @"email": @"email", @"recipientId": @"recipientId", @"returnUrl": @"returnUrl", @"pingUrl": @"pingUrl", @"pingFrequency": @"pingFrequency", @"authenticationMethod": @"authenticationMethod", @"assertionId": @"assertionId", @"authenticationInstant": @"authenticationInstant", @"securityDomain": @"securityDomain" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"assertionId": @"assertionId", @"authenticationInstant": @"authenticationInstant", @"authenticationMethod": @"authenticationMethod", @"clientUserId": @"clientUserId", @"email": @"email", @"pingFrequency": @"pingFrequency", @"pingUrl": @"pingUrl", @"recipientId": @"recipientId", @"returnUrl": @"returnUrl", @"securityDomain": @"securityDomain", @"userId": @"userId", @"userName": @"userName", @"xFrameOptions": @"xFrameOptions", @"xFrameOptionsAllowFromUrl": @"xFrameOptionsAllowFromUrl" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"clientUserId", @"userId", @"userName", @"email", @"recipientId", @"returnUrl", @"pingUrl", @"pingFrequency", @"authenticationMethod", @"assertionId", @"authenticationInstant", @"securityDomain"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"assertionId", @"authenticationInstant", @"authenticationMethod", @"clientUserId", @"email", @"pingFrequency", @"pingUrl", @"recipientId", @"returnUrl", @"securityDomain", @"userId", @"userName", @"xFrameOptions", @"xFrameOptionsAllowFromUrl"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

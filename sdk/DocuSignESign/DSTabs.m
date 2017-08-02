@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"signHereTabs": @"signHereTabs", @"initialHereTabs": @"initialHereTabs", @"signerAttachmentTabs": @"signerAttachmentTabs", @"approveTabs": @"approveTabs", @"declineTabs": @"declineTabs", @"fullNameTabs": @"fullNameTabs", @"dateSignedTabs": @"dateSignedTabs", @"envelopeIdTabs": @"envelopeIdTabs", @"companyTabs": @"companyTabs", @"titleTabs": @"titleTabs", @"textTabs": @"textTabs", @"numberTabs": @"numberTabs", @"ssnTabs": @"ssnTabs", @"dateTabs": @"dateTabs", @"zipTabs": @"zipTabs", @"emailTabs": @"emailTabs", @"noteTabs": @"noteTabs", @"checkboxTabs": @"checkboxTabs", @"radioGroupTabs": @"radioGroupTabs", @"listTabs": @"listTabs", @"firstNameTabs": @"firstNameTabs", @"lastNameTabs": @"lastNameTabs", @"emailAddressTabs": @"emailAddressTabs", @"formulaTabs": @"formulaTabs" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"approveTabs": @"approveTabs", @"checkboxTabs": @"checkboxTabs", @"companyTabs": @"companyTabs", @"dateSignedTabs": @"dateSignedTabs", @"dateTabs": @"dateTabs", @"declineTabs": @"declineTabs", @"emailAddressTabs": @"emailAddressTabs", @"emailTabs": @"emailTabs", @"envelopeIdTabs": @"envelopeIdTabs", @"firstNameTabs": @"firstNameTabs", @"formulaTabs": @"formulaTabs", @"fullNameTabs": @"fullNameTabs", @"initialHereTabs": @"initialHereTabs", @"lastNameTabs": @"lastNameTabs", @"listTabs": @"listTabs", @"noteTabs": @"noteTabs", @"numberTabs": @"numberTabs", @"radioGroupTabs": @"radioGroupTabs", @"signerAttachmentTabs": @"signerAttachmentTabs", @"signHereTabs": @"signHereTabs", @"ssnTabs": @"ssnTabs", @"textTabs": @"textTabs", @"titleTabs": @"titleTabs", @"viewTabs": @"viewTabs", @"zipTabs": @"zipTabs" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"signHereTabs", @"initialHereTabs", @"signerAttachmentTabs", @"approveTabs", @"declineTabs", @"fullNameTabs", @"dateSignedTabs", @"envelopeIdTabs", @"companyTabs", @"titleTabs", @"textTabs", @"numberTabs", @"ssnTabs", @"dateTabs", @"zipTabs", @"emailTabs", @"noteTabs", @"checkboxTabs", @"radioGroupTabs", @"listTabs", @"firstNameTabs", @"lastNameTabs", @"emailAddressTabs", @"formulaTabs"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"approveTabs", @"checkboxTabs", @"companyTabs", @"dateSignedTabs", @"dateTabs", @"declineTabs", @"emailAddressTabs", @"emailTabs", @"envelopeIdTabs", @"firstNameTabs", @"formulaTabs", @"fullNameTabs", @"initialHereTabs", @"lastNameTabs", @"listTabs", @"noteTabs", @"numberTabs", @"radioGroupTabs", @"signerAttachmentTabs", @"signHereTabs", @"ssnTabs", @"textTabs", @"titleTabs", @"viewTabs", @"zipTabs"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end

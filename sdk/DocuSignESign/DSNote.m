@@ -4,22 +4,20 @@
 
 - (instancetype)init {
   self = [super init];
-
   if (self) {
-    // initalise property's default value, if any
+    // initialize property's default value, if any
     
   }
-
   return self;
 }
+
 
 /**
  * Maps json key to property name.
  * This method is used by `JSONModel`.
  */
-+ (JSONKeyMapper *)keyMapper
-{
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"width": @"width", @"height": @"height", @"shared": @"shared", @"value": @"value", @"name": @"name", @"tabLabel": @"tabLabel", @"font": @"font", @"bold": @"bold", @"italic": @"italic", @"underline": @"underline", @"fontColor": @"fontColor", @"fontSize": @"fontSize", @"documentId": @"documentId", @"recipientId": @"recipientId", @"pageNumber": @"pageNumber", @"xPosition": @"xPosition", @"yPosition": @"yPosition", @"anchorString": @"anchorString", @"anchorXOffset": @"anchorXOffset", @"anchorYOffset": @"anchorYOffset", @"anchorUnits": @"anchorUnits", @"anchorIgnoreIfNotPresent": @"anchorIgnoreIfNotPresent", @"anchorCaseSensitive": @"anchorCaseSensitive", @"anchorMatchWholeWord": @"anchorMatchWholeWord", @"anchorHorizontalAlignment": @"anchorHorizontalAlignment", @"tabId": @"tabId", @"templateLocked": @"templateLocked", @"templateRequired": @"templateRequired", @"conditionalParentLabel": @"conditionalParentLabel", @"conditionalParentValue": @"conditionalParentValue", @"customTabId": @"customTabId", @"mergeField": @"mergeField", @"status": @"status", @"errorDetails": @"errorDetails" }];
++ (JSONKeyMapper *)keyMapper {
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"anchorCaseSensitive": @"anchorCaseSensitive", @"anchorHorizontalAlignment": @"anchorHorizontalAlignment", @"anchorIgnoreIfNotPresent": @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord": @"anchorMatchWholeWord", @"anchorString": @"anchorString", @"anchorUnits": @"anchorUnits", @"anchorXOffset": @"anchorXOffset", @"anchorYOffset": @"anchorYOffset", @"bold": @"bold", @"conditionalParentLabel": @"conditionalParentLabel", @"conditionalParentValue": @"conditionalParentValue", @"customTabId": @"customTabId", @"documentId": @"documentId", @"errorDetails": @"errorDetails", @"font": @"font", @"fontColor": @"fontColor", @"fontSize": @"fontSize", @"height": @"height", @"italic": @"italic", @"mergeField": @"mergeField", @"name": @"name", @"pageNumber": @"pageNumber", @"recipientId": @"recipientId", @"shared": @"shared", @"status": @"status", @"tabId": @"tabId", @"tabLabel": @"tabLabel", @"tabOrder": @"tabOrder", @"templateLocked": @"templateLocked", @"templateRequired": @"templateRequired", @"underline": @"underline", @"value": @"value", @"width": @"width", @"xPosition": @"xPosition", @"yPosition": @"yPosition" }];
 }
 
 /**
@@ -27,24 +25,10 @@
  * If `propertyName` is optional, then return `YES`, otherwise return `NO`.
  * This method is used by `JSONModel`.
  */
-+ (BOOL)propertyIsOptional:(NSString *)propertyName
-{
-  NSArray *optionalProperties = @[@"width", @"height", @"shared", @"value", @"name", @"tabLabel", @"font", @"bold", @"italic", @"underline", @"fontColor", @"fontSize", @"documentId", @"recipientId", @"pageNumber", @"xPosition", @"yPosition", @"anchorString", @"anchorXOffset", @"anchorYOffset", @"anchorUnits", @"anchorIgnoreIfNotPresent", @"anchorCaseSensitive", @"anchorMatchWholeWord", @"anchorHorizontalAlignment", @"tabId", @"templateLocked", @"templateRequired", @"conditionalParentLabel", @"conditionalParentValue", @"customTabId", @"mergeField", @"status", @"errorDetails"];
++ (BOOL)propertyIsOptional:(NSString *)propertyName {
 
-  if ([optionalProperties containsObject:propertyName]) {
-    return YES;
-  }
-  else {
-    return NO;
-  }
-}
-
-/**
- * Gets the string presentation of the object.
- * This method will be called when logging model object using `NSLog`.
- */
-- (NSString *)description {
-    return [[self toDictionary] description];
+  NSArray *optionalProperties = @[@"anchorCaseSensitive", @"anchorHorizontalAlignment", @"anchorIgnoreIfNotPresent", @"anchorMatchWholeWord", @"anchorString", @"anchorUnits", @"anchorXOffset", @"anchorYOffset", @"bold", @"conditionalParentLabel", @"conditionalParentValue", @"customTabId", @"documentId", @"errorDetails", @"font", @"fontColor", @"fontSize", @"height", @"italic", @"mergeField", @"name", @"pageNumber", @"recipientId", @"shared", @"status", @"tabId", @"tabLabel", @"tabOrder", @"templateLocked", @"templateRequired", @"underline", @"value", @"width", @"xPosition", @"yPosition"];
+  return [optionalProperties containsObject:propertyName];
 }
 
 @end
