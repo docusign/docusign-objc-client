@@ -1,6 +1,5 @@
 target 'SdkTestsTests' do
   #link_with 'SdkTestsTests'
-  project 'SdkTests'
   workspace '../../sdk/DocuSignESign'
   pod "DocuSignESign", :path => "../../sdk"
 end
