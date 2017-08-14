@@ -1,2 +1,4 @@
-link_with 'SdkTestsTests'
+#link_with 'SdkTestsTests'
+xcodeproj 'SdkTests'
+workspace '../../sdk/DocuSignESign'
 pod "DocuSignESign", :path => "../../sdk"
