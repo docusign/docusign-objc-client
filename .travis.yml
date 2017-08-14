@@ -2,5 +2,5 @@ language: objective-c
 osx_image: xcode6.4
 xcode_project: test/SdkTests/SdkTests.xcodeproj
 xcode_scheme: test/SdkTests/SdkTestsTests
-podfile: test/Podfile
+podfile: test/SdkTests/Podfile
 script: pod install
