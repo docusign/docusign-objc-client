@@ -3,3 +3,4 @@ osx_image: xcode6.4
 xcode_project: test/SdkTests/SdkTests.xcodeproj
 xcode_scheme: SdkTestsTests
 podfile: test/SdkTests/Podfile
+script: pod install && xcodebuild test -project test/SdkTests/SdkTests.xcodeproj -scheme SdkTests -destination 'platform=iOS Simulator,name=iPhone 6,OS=9.3'
