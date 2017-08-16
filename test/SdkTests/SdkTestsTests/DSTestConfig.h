@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "DSObject.h"
-#import "DocuSignESign/DSApiClient.h"
+#import "../../../sdk/DocuSignESign/DSObject.h"
+#import "../../../sdk/DocuSignESign/DSApiClient.h"
 
 @protocol DSTestConfig
 @end

@@ -7,9 +7,9 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <DocuSignESign/DSAuthenticationApi.h>
-#import <DocuSignESign/DSEnvelopesApi.h>
-#import <DocuSignESign/DSApiClient.h>
+#import "../../../sdk/DocuSignESign/DSAuthenticationApi.h"
+#import "../../../sdk/DocuSignESign/DSEnvelopesApi.h"
+#import "../../../sdk/DocuSignESign/DSApiClient.h"
 #import "DSTestConfig.h"
 
 @interface SdkTestsTests : XCTestCase
