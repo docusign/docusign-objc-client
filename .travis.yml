@@ -6,4 +6,4 @@ osx_image: xcode6.4
 xcode_project: test/SdkTests/SdkTests.xcodeproj
 xcode_scheme: SdkTestsTests
 podfile: test/SdkTests/Podfile
-script: xcodebuild test -project test/SdkTests/SdkTests.xcodeproj -scheme SdkTests -destination 'platform=iOS Simulator,name=iPhone 6,OS=9.3'
+script: xcodebuild test -workspace test/SdkTests/SdkTests.xcworkspace -scheme SdkTests -sdk iphonesimulator -configuration Pods-SdkTestsTests.release -destination 'platform=iOS Simulator,name=iPhone 6,OS=9.3' TEST_AFTER_BUILD=YES
