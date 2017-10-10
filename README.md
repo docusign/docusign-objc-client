@@ -84,7 +84,6 @@ int main(int argc, char * argv[]) {
         
         // instantiate a new envelope
         DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:apiClient];
-        [envelopesApi addHeader:DS_AUTH forKey:DS_AUTH_HEADER];
         
         // create envelope with single document, single signer and one signature tab
         DSEnvelopeDefinition* envelopeDefinition = [[DSEnvelopeDefinition alloc] init];
