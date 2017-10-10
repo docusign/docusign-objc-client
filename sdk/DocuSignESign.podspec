@@ -21,10 +21,10 @@ Pod::Spec.new do |s|
 
     s.framework    = 'SystemConfiguration'
 
-    s.homepage     = "https://github.com/swagger-api/swagger-codegen"
+    s.homepage     = "https://docusign.com/api"
     s.license      = "Proprietary"
-    s.source       = { :git => "https://github.com/swagger-api/swagger-codegen.git", :tag => "#{s.version}" }
-    s.author       = { "Swagger" => "apiteam@swagger.io" }
+    s.source       = { :git => "https://github.com/docusign/docusign-objc-client.git", :tag => "#{s.version}" }
+    s.author       = { "DocuSign Inc." => "devcenter@docusign.com" }
 
     s.source_files = 'DocuSignESign/**/*.{m,h}'
     s.public_header_files = 'DocuSignESign/**/*.h'
