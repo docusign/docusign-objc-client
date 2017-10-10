@@ -5,7 +5,7 @@ You can sign up for a free [developer sandbox](https://www.docusign.com/develope
 Requirements
 ============
 
-Xcode 6.2 or later.  
+Xcode 7 or later.  
 
 Installation
 ============
@@ -20,7 +20,7 @@ Create a podfile, run pod install, then use the `.xcworkspace` project file movi
    2. Create a file in your root project directory called `Podfile` with the following content.  Replace the two references to **PROJECT** below with your unique project name:
    
 ```
-	pod 'DocuSignESign', '~> 2.0.0'
+	pod 'DocuSignESign', '~> 3.0.1'
 ```	
 
    3. Run the following command in the same directory as your Podfile:
@@ -37,6 +37,7 @@ Copy the source files directly into your existing project’s source directories
  - AFNetworking ~> 2.3
  - JSONModel ~> 1.1
  - ISO8601 ~> 0.3
+ - JWT ~> 3.0.0-beta
 
 Usage
 =====
@@ -49,85 +50,134 @@ To initialize the client and make the Login API Call:
 #import <DocuSignESign/DSEnvelopesApi.h>
 
 int main(int argc, char * argv[]) {
-    NSString *IntegratorKey = @"<#INTEGRATOR_KEY#>";
-    NSString *username = @"<#EMAIL#>";
-    NSString *password = @"<#PASSWORD#>";
+    NSString *integratorKey = @"<#INTEGRATOR_KEY#>";
+    NSString *userId = @"<#USER_ID#>";
+    NSString *oauthBasePath = @"<#OAUTH_BASE_PATH#>";
+    NSString *privateKeyFilename = @"<#PRIVATEKEY_FILENAME#>";
+    NSInteger jwtTokenExpiresInSeconds = 3600;
     NSString *host = @"https://demo.docusign.net/restapi";
-    
-    // create authentication JSON string and header
-    NSString *const DS_AUTH = [NSMutableString stringWithFormat:@"{\"Username\":\"%@\",\"Password\":\"%@\",\"IntegratorKey\":\"%@\"}", username, password, IntegratorKey];
-    NSString *const DS_AUTH_HEADER = @"X-DocuSign-Authentication";
     
     // instantiate api client, configure environment URL and assign auth data
     DSApiClient* apiClient = [[DSApiClient alloc] initWithBaseURL:[[NSURL alloc] initWithString:host]];
+    [apiClient configure_jwt_authorization_flow:integratorKey
+                                         userId:userId
+                                  oauthBasePath:oauthBasePath
+                             privateKeyFilename:privateKeyFilename
+                                      expiresIn:jwtTokenExpiresInSeconds
+     ];
+    
+    XCTestExpectation* expectation = [self expectationWithDescription:@"Get user account id"];
+    
     DSAuthenticationApi *authApi = [[DSAuthenticationApi alloc] initWithApiClient:apiClient];
-    [authApi addHeader:DS_AUTH forKey:DS_AUTH_HEADER];
     
-    __block NSString *accountId = nil;
+    // Example of using options
+    DSAuthenticationApi_LoginOptions* loginOptions = [[DSAuthenticationApi_LoginOptions alloc] init];
+    loginOptions.loginSettings = @"none";
+    loginOptions.apiPassword = @"true";
+    loginOptions.includeAccountIdGuid = @"true";
     
-    XCTestExpectation* expectation = [self expectationWithDescription:@"Sample Signature Request from Template"];
+    __block NSString *newHost = @"";
+    __block NSString *accountId = @"";
+    
+    [authApi loginWithApiPassword:loginOptions completionHandler:^(DSLoginInformation *output, NSError *error) {
+        if (output != nil && output.loginAccounts != nil && output.loginAccounts.count > 0) {
+            DSLoginAccount* loginAccount = [output.loginAccounts objectAtIndex: 0];
+            accountId = loginAccount.accountId;
+            newHost = [[loginAccount.baseUrl componentsSeparatedByString:@"/v2"] objectAtIndex:0];
 
-    // Login to get the account for the user (if you have the accountId then skip this part)
-    [authApi loginWithCompletionBlock:^(DSLoginInformation *output, NSError *error) {
-        if (error) {
-            NSLog(@"got error %@", error);
+            XCTAssertNotNil(loginAccount.accountId);
+        } else if(error !=nil) {
+            XCTFail(@"%@", error);
+        } else {
+            XCTFail(@"Unknow error occured. Please try again later.");
         }
-        if (!output) {
-            NSLog(@"response can't be nil");
-        }
-        DSLoginAccount *loginAccount = [output.loginAccounts objectAtIndex: 0];
-        accountId = loginAccount.accountId;
-	
-	// Update ApiCLient with the new base url from login call
-        NSString *newHost = [[loginAccount.baseUrl componentsSeparatedByString:@"/v2"] objectAtIndex:0];
-        DSApiClient* apiClient = [[DSApiClient alloc] initWithBaseURL:[[NSURL alloc] initWithString:newHost]];
-        
-        // instantiate a new envelope
-        DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:apiClient];
-        
-        // create envelope with single document, single signer and one signature tab
-        DSEnvelopeDefinition* envelopeDefinition = [[DSEnvelopeDefinition alloc] init];
-        envelopeDefinition.emailSubject = @"[DocuSign ObjC SDK] - Sample Signature Request from Template";
-        
-        // to use a template we must reference the correct template id
-            envelopeDefinition.templateId = @"<#TEMPLATE_ID#>";
-        
-        // assign recipient to template role by setting name, email, and role name.  Note that the
-        // template role name must match the placeholder role name saved in your account template.
-        DSTemplateRole* templateRole = [[DSTemplateRole alloc] init];
-            templateRole.email = @"<#RECIPIENT_EMAIL#>";
-            templateRole.name = @"<#RECIPIENT_NAME#>";
-            templateRole.roleName = @"<#ROLE_NAME#>";
-        
-        // add the role to the envelope and assign valid templateId from your account
-        envelopeDefinition.templateRoles = [NSArray<DSTemplateRole> arrayWithObjects:templateRole, nil];;
-        
-        // set envelope status to "sent" to immediately send signature request, otherwise it's saved as a draft
-        envelopeDefinition.status = @"sent";
-        
-        DSEnvelopesApi_CreateEnvelopeOptions* createEnvelopeOptions = [[DSEnvelopesApi_CreateEnvelopeOptions alloc] init];
-        createEnvelopeOptions.cdseMode = @"false";
-        createEnvelopeOptions.mergeRolesOnDraft = @"false";
-        
-        [envelopesApi createEnvelopeWithAccountId:accountId envelopeDefinition:envelopeDefinition options:createEnvelopeOptions completionHandler:^(DSEnvelopeSummary *output, NSError *error) {
-            if (output != nil && output.envelopeId != nil) {
-                XCTAssertNotNil(output.envelopeId);
-            } else if(error !=nil) {
-                XCTFail(@"%@", error);
-            } else {
-                XCTFail(@"Unknow error occured. Please try again later.");
-            }
-            
-        }]; // end createEnvelopeWithAccountId
         
         [expectation fulfill];
-    }]; // end login completion block
+    }];
     
+    [self waitForExpectationsWithTimeout:1.0 handler:nil];
+    
+    expectation = [self expectationWithDescription:@"Send envelope"];
+    
+    // Update ApiCLient with the new base url from login call
+    apiClient = [[DSApiClient alloc] initWithBaseURL:[[NSURL alloc] initWithString:newHost]];
+    [apiClient configure_jwt_authorization_flow:integratorKey
+                                         userId:userId
+                                  oauthBasePath:oauthBasePath
+                             privateKeyFilename:privateKeyFilename
+                                      expiresIn:jwtTokenExpiresInSeconds
+     ];
+    
+    // Create envelope with single document, single signer and one signature tab.
+    DSEnvelopeDefinition *envDef = [[DSEnvelopeDefinition alloc] init];
+    envDef.emailSubject = @"Please Sign Objc Envelope On Dcoument";
+    envDef.emailBlurb = @"Hello, Please sign my Objective-C Envelope";
+    
+    DSDocument *doc = [[DSDocument alloc] init];
+    doc.name = @"Test.pdf";
+    doc.documentId = @"1";
+    
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"Test" ofType:@"pdf"];
+    NSData *myData = [NSData dataWithContentsOfFile:path];
+    doc.documentBase64 = [myData base64EncodedStringWithOptions:0];
+    envDef.documents = [NSArray<DSDocument> arrayWithObjects:doc, nil];
+    
+    // create a signature tab
+    DSSignHere *signHere = [[DSSignHere alloc] init];
+    signHere.documentId = @"1";
+    signHere.pageNumber = @"1";
+    signHere.recipientId = @"1";
+    signHere.xPosition = @"100";
+    signHere.yPosition = @"100";
+    
+    // Add the tab to the signer.
+    DSTabs* tabs = [[DSTabs alloc] init];
+    tabs.signHereTabs = [NSArray<DSSignHere> arrayWithObjects:signHere, nil];
+    
+    // Add a recipient to sign the document
+    DSSigner *signer = [[DSSigner alloc] init];
+    signer.email = @"<#RECIPIENT_EMAIL#>";
+    signer.name = @"<#RECIPIENT_NAME#>";
+    signer.recipientId = @"1";
+    
+    signer.tabs = tabs;
+    
+    NSArray<DSSigner> *signers = [[NSArray<DSSigner> alloc] initWithObjects:signer, nil];
+    
+    DSRecipients* recipients = [[DSRecipients alloc] init];
+    recipients.signers = signers;
+    
+    envDef.recipients = recipients;
+    
+    // set status to sent to trigger sending the envelope. Otherwise the envelope will stay in the Drafts folder.
+    envDef.status = @"sent";
+    
+    // Create and send the envelope
+    DSEnvelopesApi *envelopesApi = [[DSEnvelopesApi alloc] initWithApiClient:apiClient];
+    
+    DSEnvelopesApi_CreateEnvelopeOptions* createEnvelopeOptions = [[DSEnvelopesApi_CreateEnvelopeOptions alloc] init];
+    createEnvelopeOptions.cdseMode = @"true";
+    createEnvelopeOptions.mergeRolesOnDraft = @"false";
+    
+    [envelopesApi createEnvelopeWithAccountId:accountId envelopeDefinition:envDef options:createEnvelopeOptions completionHandler:^(DSEnvelopeSummary *output, NSError *error) {
+        
+        if (output != nil && output.envelopeId != nil) {
+            XCTAssertNotNil(output.envelopeId);
+        } else if(error !=nil) {
+            XCTFail(@"%@", error);
+        } else {
+            XCTFail(@"Unknow error occured. Please try again later.");
+        }
+        
+        [expectation fulfill];
+    }];
+
     [self waitForExpectationsWithTimeout:2.0 handler:nil];
 }
 ```
 
-See [SdkTestsTests.m](https://github.com/docusign/docusign-objc-client/blob/master/test/SdkTests/SdkTestsTests/SdkTestsTests.m) for more examples.
+See [SdkTestsWithJwtAuth.m](https://github.com/docusign/docusign-objc-client/blob/master/test/SdkTests/SdkTestsTests/SdkTestsWithJwtAuth.m) for more examples.
 
 # Authentication
 
@@ -165,8 +215,3 @@ License
 =======
 
 The DocuSign Objc Client is licensed under the following [License](LICENSE).
-
-Notes
-=======
-
-This version of the client library does not implement all of the DocuSign REST API methods. The current client omits methods in the Accounts, Billing, Cloud Storage, Connect, Groups (Branding), and Templates (Bulk Recipients) categories. The client's methods support the core set of use cases that most integrations will encounter. For a complete list of omitted endpoints, see [Omitted Endpoints](./omitted_endpoints.md).
