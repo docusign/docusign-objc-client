@@ -7,13 +7,37 @@
 
 @interface DSTestConfig : DSObject
 
-/* username. [Required]
+/* username. [Required for Legacy Auth]
  */
 @property(nonatomic) NSString* username;
 
-/* password. [Required]
+/* password. [Required for Legacy Auth]
  */
 @property(nonatomic) NSString* password;
+
+/* headerKey. [Required for Legacy Auth]
+ */
+@property(nonatomic) NSString* headerKey;
+
+/* headerValue. [Required for Legacy Auth]
+ */
+@property(nonatomic) NSString* headerValue;
+
+/* headerKey. [Required for JWT Auth]
+ */
+@property(nonatomic) NSString* userId;
+
+/* headerValue. [Required for JWT Auth]
+ */
+@property(nonatomic) NSString* oauthBasePath;
+
+/* headerValue. [Required for JWT Auth]
+ */
+@property(nonatomic) NSString* privateKeyFilename;
+
+/* headerValue. [Required for JWT Auth]
+ */
+@property(nonatomic) NSInteger jwtTokenExpiresInSeconds;
 
 /* integratorKey. [Required]
  */
@@ -50,14 +74,6 @@
 /* templateRoleName. [Optional]
  */
 @property(nonatomic) NSString* templateRoleName;
-
-/* headerKey. [Required]
- */
-@property(nonatomic) NSString* headerKey;
-
-/* headerValue. [Required]
- */
-@property(nonatomic) NSString* headerValue;
 
 /* clientUserId. [Optional]
  */

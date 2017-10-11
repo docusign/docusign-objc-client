@@ -8,7 +8,7 @@
  */
 + (JSONKeyMapper *)keyMapper
 {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"username": @"username", @"password": @"password", @"integratorKey": @"integratorKey", @"accountId": @"accountId", @"envelopeId": @"envelopeId", @"templateId": @"templateId", @"host": @"host", @"returnUrl": @"returnUrl", @"recipientEmail": @"recipientEmail", @"recipientName": @"recipientName", @"templateRoleName": @"templateRoleName", @"apiClient": @"apiClient", @"headerKey": @"headerKey", @"headerValue": @"headerValue", @"clientUserId": @"clientUserId" }];
+  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"username": @"username", @"password": @"password", @"integratorKey": @"integratorKey", @"accountId": @"accountId", @"envelopeId": @"envelopeId", @"templateId": @"templateId", @"host": @"host", @"returnUrl": @"returnUrl", @"recipientEmail": @"recipientEmail", @"recipientName": @"recipientName", @"templateRoleName": @"templateRoleName", @"apiClient": @"apiClient", @"headerKey": @"headerKey", @"headerValue": @"headerValue", @"clientUserId": @"clientUserId", @"userId":@"userId", @"oauthBasePath":@"" }];
 }
 
 /**
@@ -18,7 +18,7 @@
  */
 + (BOOL)propertyIsOptional:(NSString *)propertyName
 {
-  NSArray *optionalProperties = @[@"username", @"password", @"integratorKey", @"accountId", @"envelopeId", @"templateId", @"host", @"returnUrl", @"recipientEmail", @"recipientName", @"templateRoleName", @"apiClient", @"headerKey", @"headerValue", @"clientUserId"];
+  NSArray *optionalProperties = @[@"username", @"password", @"integratorKey", @"accountId", @"envelopeId", @"templateId", @"host", @"returnUrl", @"recipientEmail", @"recipientName", @"templateRoleName", @"apiClient", @"headerKey", @"headerValue", @"clientUserId", @"userId", @""];
 
   if ([optionalProperties containsObject:propertyName]) {
     return YES;
@@ -38,18 +38,26 @@
 
 - (instancetype)init {
     if (self) {
-        self.username = @"REQUIRED";
-        self.password = @"REQUIRED";
-        self.integratorKey = @"REQUIRED";
-        self.recipientEmail = @"REQUIRED";
-        self.recipientName = @"REQUIRED";
-        self.templateRoleName = @"REQUIRED";
-        self.templateId = @"REQUIRED";
+        self.integratorKey = @"[REQUIRED]";
+
+        // Legacy Auth Settings
+        self.username = @"[REQUIRED]";
+        self.password = @"[REQUIRED]";
+        self.headerKey = @"X-DocuSign-Authentication";
+        self.headerValue = [NSString stringWithFormat:@"{\"IntegratorKey\":\"%@\", \"Username\":\"%@\", \"Password\":\"%@\"}", self.integratorKey, self.username, self.password];
+        
+        // JWT Auth Settings
+        self.userId = @"[REQUIRED]";
+        self.oauthBasePath = @"account-d.docusign.com";
+
+        self.recipientEmail = @"[REQUIRED]";
+        self.recipientName = @"[REQUIRED]";
+        self.templateRoleName = @"[REQUIRED]";
+        self.templateId = @"[REQUIRED]";
         self.returnUrl = @"https://www.docusign.com/devcenter";
         self.host = @"https://demo.docusign.net/restapi";
         self.clientUserId = @"1234";
-        self.headerKey = @"X-DocuSign-Authentication";
-        self.headerValue = [NSString stringWithFormat:@"{\"IntegratorKey\":\"%@\", \"Username\":\"%@\", \"Password\":\"%@\"}", self.integratorKey, self.username, self.password];
+        
         self.apiClient = [[DSApiClient alloc] initWithBaseURL:[[NSURL alloc] initWithString:self.host]];
     }
     return self;
