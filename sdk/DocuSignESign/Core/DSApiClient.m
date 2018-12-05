@@ -518,16 +518,17 @@ static NSString * DS__fileNameForResponse(NSURLResponse *response) {
 -(void) configure_jwt_authorization_flow:(NSString*) clientId
                                   userId:(NSString*) userId
                            oauthBasePath:(NSString*) oauthBasePath
-                      privateKeyFilename:(NSString*) privateKeyFilename
+                       privateKeyFileURL:(NSURL*) privateKeyFileURL
                                expiresIn:(NSInteger) expiresIn {
 
     long now = [[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
     long later = [[NSNumber numberWithDouble: [[[NSDate date] dateByAddingTimeInterval:expiresIn] timeIntervalSince1970]] integerValue];
-    
+
     NSString *scope = @"signature";
     NSString *algorithmName = @"RS256";
-    NSString *privatePemEncodedString = [JWTCryptoSecurity keyFromPemFileWithName:privateKeyFilename];
-    
+    JWTCryptoSecurityComponent * content = [[JWTCryptoSecurity componentsFromFile:privateKeyFileURL] componentsOfType:JWTCryptoSecurityComponents.PrivateKey].firstObject;
+    NSString *privatePemEncodedString = content.content;
+
     NSDictionary *payload = @{
                               @"iss": clientId,
                               @"sub": userId,
@@ -576,7 +577,6 @@ static NSString * DS__fileNameForResponse(NSURLResponse *response) {
         [body appendData:[[NSMutableString stringWithFormat:@"&assertion=%@",jwtToken] dataUsingEncoding:NSUTF8StringEncoding]];
         bodyParam = body;
 
-        __block BOOL isRunLoopNested = NO;
         __block BOOL isOperationCompleted = NO;
         
         [self requestWithPath: resourcePath
@@ -598,17 +598,11 @@ static NSString * DS__fileNameForResponse(NSURLResponse *response) {
                   }
 
                   isOperationCompleted = YES;
-                  if (isRunLoopNested) {
-                      CFRunLoopStop(CFRunLoopGetCurrent()); // CFRunLoopRun() returns
-                  }
-            
               }
         ];
 
-        if (!isOperationCompleted) {
-            isRunLoopNested = YES;
-            CFRunLoopRun();
-            isRunLoopNested = NO;
+        while(!isOperationCompleted) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
         }
     }
 }

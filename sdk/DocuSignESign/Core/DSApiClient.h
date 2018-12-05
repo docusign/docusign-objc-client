@@ -520,13 +520,13 @@ extern NSString *const DSResponseObjectErrorKey;
  * @param client id.
  * @param user id.
  * @param oauth base path.
- * @param private key filename.
+ * @param privatekey file url.
  * @param expires in seconds.
  */
 -(void) configure_jwt_authorization_flow:(NSString*) clientId
                                   userId:(NSString*) userId
                            oauthBasePath:(NSString*) oauthBasePath
-                      privateKeyFilename:(NSString*) privateKeyFilename
+                       privateKeyFileURL:(NSURL*) privateKeyFileURL
                                expiresIn:(NSInteger) expiresIn;
 
 @end
