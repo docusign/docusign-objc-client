@@ -33,6 +33,6 @@ Pod::Spec.new do |s|
     s.dependency 'AFNetworking', '~> 3.1'
     s.dependency 'JSONModel', '~> 1.4'
     s.dependency 'ISO8601', '~> 0.6'
-    s.dependency 'JWT', '~> 3.0.0-beta'
+    s.dependency 'JWT', '3.0.0-beta.11'
 end
 
