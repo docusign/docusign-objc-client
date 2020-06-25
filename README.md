@@ -53,7 +53,7 @@ int main(int argc, char * argv[]) {
     NSString *integratorKey = @"<#INTEGRATOR_KEY#>";
     NSString *userId = @"<#USER_ID#>";
     NSString *oauthBasePath = @"<#OAUTH_BASE_PATH#>";
-    NSString *privateKeyFilename = @"<#PRIVATEKEY_FILENAME#>";
+    NSString *privateKeyFileURL = @"<#PRIVATEKEY_FILE_PATH#>";
     NSInteger jwtTokenExpiresInSeconds = 3600;
     NSString *host = @"https://demo.docusign.net/restapi";
     
@@ -62,7 +62,7 @@ int main(int argc, char * argv[]) {
     [apiClient configure_jwt_authorization_flow:integratorKey
                                          userId:userId
                                   oauthBasePath:oauthBasePath
-                             privateKeyFilename:privateKeyFilename
+                              privateKeyFileURL:privateKeyFileURL
                                       expiresIn:jwtTokenExpiresInSeconds
      ];
     
@@ -104,7 +104,7 @@ int main(int argc, char * argv[]) {
     [apiClient configure_jwt_authorization_flow:integratorKey
                                          userId:userId
                                   oauthBasePath:oauthBasePath
-                             privateKeyFilename:privateKeyFilename
+                              privateKeyFileURL:privateKeyFileURL
                                       expiresIn:jwtTokenExpiresInSeconds
      ];
     

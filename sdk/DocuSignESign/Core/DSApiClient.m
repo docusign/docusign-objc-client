@@ -518,16 +518,17 @@ static NSString * DS__fileNameForResponse(NSURLResponse *response) {
 -(void) configure_jwt_authorization_flow:(NSString*) clientId
                                   userId:(NSString*) userId
                            oauthBasePath:(NSString*) oauthBasePath
-                      privateKeyFilename:(NSString*) privateKeyFilename
+                       privateKeyFileURL:(NSURL*) privateKeyFileURL
                                expiresIn:(NSInteger) expiresIn {
 
     long now = [[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
     long later = [[NSNumber numberWithDouble: [[[NSDate date] dateByAddingTimeInterval:expiresIn] timeIntervalSince1970]] integerValue];
-    
+
     NSString *scope = @"signature";
     NSString *algorithmName = @"RS256";
-    NSString *privatePemEncodedString = [JWTCryptoSecurity keyFromPemFileWithName:privateKeyFilename];
-    
+    JWTCryptoSecurityComponent * content = [[JWTCryptoSecurity componentsFromFile:privateKeyFileURL] componentsOfType:JWTCryptoSecurityComponents.PrivateKey].firstObject;
+    NSString *privatePemEncodedString = content.content;
+
     NSDictionary *payload = @{
                               @"iss": clientId,
                               @"sub": userId,
@@ -576,7 +577,6 @@ static NSString * DS__fileNameForResponse(NSURLResponse *response) {
         [body appendData:[[NSMutableString stringWithFormat:@"&assertion=%@",jwtToken] dataUsingEncoding:NSUTF8StringEncoding]];
         bodyParam = body;
 
-        __block BOOL isRunLoopNested = NO;
         __block BOOL isOperationCompleted = NO;
         
         [self requestWithPath: resourcePath
@@ -598,19 +598,103 @@ static NSString * DS__fileNameForResponse(NSURLResponse *response) {
                   }
 
                   isOperationCompleted = YES;
-                  if (isRunLoopNested) {
-                      CFRunLoopStop(CFRunLoopGetCurrent()); // CFRunLoopRun() returns
-                  }
-            
               }
         ];
 
-        if (!isOperationCompleted) {
-            isRunLoopNested = YES;
-            CFRunLoopRun();
-            isRunLoopNested = NO;
+        while(!isOperationCompleted) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
         }
     }
 }
 
+-(void) configureJWTAuthorization:(NSString*) clientId
+                                  userId:(NSString*) userId
+                           oauthBasePath:(NSString*) oauthBasePath
+                       privateKey:(NSString*) privateKey
+                               expiresIn:(NSInteger) expiresIn {
+    long now = [[NSNumber numberWithDouble: [[NSDate date] timeIntervalSince1970]] integerValue];
+    long later = [[NSNumber numberWithDouble: [[[NSDate date] dateByAddingTimeInterval:expiresIn] timeIntervalSince1970]] integerValue];
+
+    NSString *scope = @"signature";
+    NSString *algorithmName = @"RS256";
+//    JWTCryptoSecurityComponent * content = [[JWTCryptoSecurity componentsFromFile:privateKeyFileURL] componentsOfType:JWTCryptoSecurityComponents.PrivateKey].firstObject;
+    NSString *privatePemEncodedString = privateKey;
+
+    NSDictionary *payload = @{
+                              @"iss": clientId,
+                              @"sub": userId,
+                              @"aud": oauthBasePath,
+                              @"iat": @(now),
+                              @"exp": @(later),
+                              @"scope": scope
+                              };
+
+    id<JWTAlgorithmDataHolderProtocol> dataHolder = [JWTAlgorithmRSFamilyDataHolder new].keyExtractorType([JWTCryptoKeyExtractor privateKeyWithPEMBase64].type).algorithmName(algorithmName).secret(privatePemEncodedString);
+
+    JWTCodingBuilder *newBuilder = [JWTEncodingBuilder encodePayload:payload].addHolder(dataHolder);
+    JWTCodingResultType *result = newBuilder.result;
+    if (result.successResult) {
+        NSString *jwtToken = result.successResult.encoded;
+
+        NSMutableString *resourcePath = [NSMutableString stringWithFormat:@"%@%@%@", @"https://", oauthBasePath, @"/oauth/token"];
+
+        NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
+
+        NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
+
+        NSDictionary *headers = @{ @"Content-Type": @"application/x-www-form-urlencoded" };
+        NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.configuration.defaultHeaders];
+        [headerParams addEntriesFromDictionary:headers];
+        // HTTP header `Accept`
+        NSString *acceptHeader = [self.sanitizer selectHeaderAccept:@[@"application/json"]];
+        if(acceptHeader.length > 0) {
+            headerParams[@"Accept"] = acceptHeader;
+        }
+
+        // response content type
+        NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
+
+        // request content type
+        NSString *requestContentType = [self.sanitizer selectHeaderContentType:@[]];
+
+        // Authentication setting
+        NSArray *authSettings = @[];
+
+        id bodyParam = nil;
+        NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
+
+        NSMutableData *body = [[NSMutableData alloc] initWithData:[@"grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer" dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSMutableString stringWithFormat:@"&assertion=%@",jwtToken] dataUsingEncoding:NSUTF8StringEncoding]];
+        bodyParam = body;
+
+        __block BOOL isOperationCompleted = NO;
+
+        [self requestWithPath: resourcePath
+                       method: @"POST"
+                   pathParams: pathParams
+                  queryParams: queryParams
+                   formParams: formParams
+                        files: localVarFiles
+                         body: bodyParam
+                 headerParams: headerParams
+                 authSettings: authSettings
+           requestContentType: requestContentType
+          responseContentType: responseContentType
+                 responseType: @"NSObject"
+              completionBlock: ^(id data, NSError *error) {
+                  if(data) {
+                      NSString *authHeader = [NSMutableString stringWithFormat:@"%@ %@", data[@"token_type"], data[@"access_token"]];
+                      [self.configuration setDefaultHeaderValue:authHeader forKey:@"Authorization"];
+                  }
+
+                  isOperationCompleted = YES;
+              }
+         ];
+
+        while(!isOperationCompleted) {
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        }
+    }
+}
 @end

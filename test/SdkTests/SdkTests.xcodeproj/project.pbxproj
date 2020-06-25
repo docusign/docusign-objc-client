@@ -14,8 +14,6 @@
 		62294F231E787501001DF27D /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 9C2255491C73ED770011E0A3 /* Podfile */; };
 		9C22552D1C73EA5C0011E0A3 /* SdkTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C22552C1C73EA5C0011E0A3 /* SdkTests.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9C2255341C73EA5C0011E0A3 /* SdkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2255291C73EA5C0011E0A3 /* SdkTests.framework */; };
-		9C2AFD831F84A51C00330FB5 /* private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 9C2B17511F8472AF007CD74A /* private.pem */; };
-		9C2B17521F8472AF007CD74A /* private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 9C2B17511F8472AF007CD74A /* private.pem */; };
 		9C937E671F82B2650019357C /* SdkTestsWithJwtAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C937E651F82B2650019357C /* SdkTestsWithJwtAuth.m */; };
 		9C937E681F82B2650019357C /* SdkTestsWithLegacyAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C937E661F82B2650019357C /* SdkTestsWithLegacyAuth.m */; };
 		9CE6CACD1C73F83200E3CCE8 /* DSTestConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE6CACC1C73F83200E3CCE8 /* DSTestConfig.m */; };
@@ -42,7 +40,6 @@
 		9C22553A1C73EA5C0011E0A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C2255461C73EB940011E0A3 /* Test.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Test.pdf; sourceTree = "<group>"; };
 		9C2255491C73ED770011E0A3 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9C2B17511F8472AF007CD74A /* private.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = private.pem; sourceTree = "<group>"; };
 		9C937E651F82B2650019357C /* SdkTestsWithJwtAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SdkTestsWithJwtAuth.m; sourceTree = "<group>"; };
 		9C937E661F82B2650019357C /* SdkTestsWithLegacyAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SdkTestsWithLegacyAuth.m; sourceTree = "<group>"; };
 		9CE36E7B1F75A7F5002A23F8 /* libPods-SdkTestsTests.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SdkTestsTests.a"; path = "Pods/../build/Debug-iphoneos/libPods-SdkTestsTests.a"; sourceTree = "<group>"; };
@@ -93,7 +90,6 @@
 			children = (
 				9C2255491C73ED770011E0A3 /* Podfile */,
 				9C2255461C73EB940011E0A3 /* Test.pdf */,
-				9CE36E801F79D266002A23F8 /* RsaKeys */,
 				9C22552B1C73EA5C0011E0A3 /* SdkTests */,
 				9C2255371C73EA5C0011E0A3 /* SdkTestsTests */,
 				9C22552A1C73EA5C0011E0A3 /* Products */,
@@ -130,14 +126,6 @@
 				9C22553A1C73EA5C0011E0A3 /* Info.plist */,
 			);
 			path = SdkTestsTests;
-			sourceTree = "<group>";
-		};
-		9CE36E801F79D266002A23F8 /* RsaKeys */ = {
-			isa = PBXGroup;
-			children = (
-				9C2B17511F8472AF007CD74A /* private.pem */,
-			);
-			path = RsaKeys;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,7 +223,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				62294F211E7874F0001DF27D /* Podfile in Resources */,
-				9C2B17521F8472AF007CD74A /* private.pem in Resources */,
 				62294F221E7874F0001DF27D /* Test.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,7 +231,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C2AFD831F84A51C00330FB5 /* private.pem in Resources */,
 				62252DE21E787EF40025BE58 /* Test.pdf in Resources */,
 				62294F231E787501001DF27D /* Podfile in Resources */,
 			);

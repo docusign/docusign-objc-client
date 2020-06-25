@@ -520,13 +520,26 @@ extern NSString *const DSResponseObjectErrorKey;
  * @param client id.
  * @param user id.
  * @param oauth base path.
- * @param private key filename.
+ * @param privatekey file url.
  * @param expires in seconds.
  */
 -(void) configure_jwt_authorization_flow:(NSString*) clientId
                                   userId:(NSString*) userId
                            oauthBasePath:(NSString*) oauthBasePath
-                      privateKeyFilename:(NSString*) privateKeyFilename
+                       privateKeyFileURL:(NSURL*) privateKeyFileURL
                                expiresIn:(NSInteger) expiresIn;
+/**
+ Sets up the ApiClient for JWT auth work flow with PrivateKey
 
+ @param clientId clientId
+ @param userId userId
+ @param oauthBasePath oauthBasePath
+ @param privateKey privateKey Content
+ @param expiresIn expiresIn
+ */
+-(void) configureJWTAuthorization:(NSString*) clientId
+                                  userId:(NSString*) userId
+                           oauthBasePath:(NSString*) oauthBasePath
+                       privateKey:(NSString*) privateKey
+                               expiresIn:(NSInteger) expiresIn;
 @end
