@@ -9,14 +9,14 @@
 
 Pod::Spec.new do |s|
     s.name             = "DocuSignESign"
-    s.version          = "3.0.1"
+    s.version          = "3.0.2"
 
     s.summary          = "DocuSign REST API"
     s.description      = <<-DESC
                          The DocuSign REST API provides you with a powerful, convenient, and simple Web services API for interacting with DocuSign.
                          DESC
 
-    s.platform     = :ios, '7.0'
+    s.platform     = :ios, '9.0'
     s.requires_arc = true
 
     s.framework    = 'SystemConfiguration'
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
     s.public_header_files = 'sdk/DocuSignESign/**/*.h'
 
 
-    s.dependency 'AFNetworking', '~> 3.1'
+    s.dependency 'AFNetworking', '~> 4'
     s.dependency 'JSONModel', '~> 1.4'
     s.dependency 'ISO8601', '~> 0.6'
     s.dependency 'JWT', '~> 3.0.0-beta'
