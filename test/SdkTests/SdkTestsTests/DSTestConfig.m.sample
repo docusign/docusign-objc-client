@@ -8,7 +8,7 @@
  */
 + (JSONKeyMapper *)keyMapper
 {
-  return [[JSONKeyMapper alloc] initWithDictionary:@{ @"username": @"username", @"password": @"password", @"integratorKey": @"integratorKey", @"accountId": @"accountId", @"envelopeId": @"envelopeId", @"templateId": @"templateId", @"host": @"host", @"returnUrl": @"returnUrl", @"recipientEmail": @"recipientEmail", @"recipientName": @"recipientName", @"templateRoleName": @"templateRoleName", @"apiClient": @"apiClient", @"headerKey": @"headerKey", @"headerValue": @"headerValue", @"clientUserId": @"clientUserId", @"userId":@"userId", @"oauthBasePath":@"" }];
+  return [[JSONKeyMapper alloc] initWithModelToJSONDictionary:@{ @"username": @"username", @"password": @"password", @"integratorKey": @"integratorKey", @"accountId": @"accountId", @"envelopeId": @"envelopeId", @"templateId": @"templateId", @"host": @"host", @"returnUrl": @"returnUrl", @"recipientEmail": @"recipientEmail", @"recipientName": @"recipientName", @"templateRoleName": @"templateRoleName", @"apiClient": @"apiClient", @"headerKey": @"headerKey", @"headerValue": @"headerValue", @"clientUserId": @"clientUserId", @"userId":@"userId", @"oauthBasePath":@"" }];
 }
 
 /**
