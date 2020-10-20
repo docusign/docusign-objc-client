@@ -9,30 +9,30 @@
 
 Pod::Spec.new do |s|
     s.name             = "DocuSignESign"
-    s.version          = "3.0.1"
+    s.version          = "4.0.0"
 
     s.summary          = "DocuSign REST API"
     s.description      = <<-DESC
                          The DocuSign REST API provides you with a powerful, convenient, and simple Web services API for interacting with DocuSign.
                          DESC
 
-    s.platform     = :ios, '7.0'
+    s.platform     = :ios, '9.0'
     s.requires_arc = true
 
     s.framework    = 'SystemConfiguration'
 
-    s.homepage     = "https://docusign.com/api"
+    s.homepage     = "https://developers.docusign.com"
     s.license      = "Proprietary"
     s.source       = { :git => "https://github.com/docusign/docusign-objc-client.git", :tag => "#{s.version}" }
     s.author       = { "DocuSign Inc." => "devcenter@docusign.com" }
 
-    s.source_files = 'sdk/DocuSignESign/**/*.{m,h}'
-    s.public_header_files = 'sdk/DocuSignESign/**/*.h'
+    s.source_files = 'DocuSignESign/**/*.{m,h}'
+    s.public_header_files = 'DocuSignESign/**/*.h'
 
 
-    s.dependency 'AFNetworking', '~> 3.1'
+    s.dependency 'AFNetworking', '~> 4'
     s.dependency 'JSONModel', '~> 1.4'
     s.dependency 'ISO8601', '~> 0.6'
-    s.dependency 'JWT', '~> 3.0.0-beta'
+    s.dependency 'JWT', '~> 3.0.0-beta.10'
 end
 
