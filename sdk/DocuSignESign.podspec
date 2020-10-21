@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "DocuSignESign"
-    s.version          = "4.0.0"
+    s.version          = "4.0.0-beta"
 
     s.summary          = "DocuSign REST API"
     s.description      = <<-DESC
@@ -35,4 +35,3 @@ Pod::Spec.new do |s|
     s.dependency 'ISO8601', '~> 0.6'
     s.dependency 'JWT', '~> 3.0.0-beta.10'
 end
-
