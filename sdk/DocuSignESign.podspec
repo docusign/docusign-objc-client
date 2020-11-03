@@ -26,9 +26,8 @@ Pod::Spec.new do |s|
     s.source       = { :git => "https://github.com/docusign/docusign-objc-client.git", :tag => "#{s.version}" }
     s.author       = { "DocuSign Inc." => "devcenter@docusign.com" }
 
-    s.source_files = "DocuSignESign/{Api,Core,Model}/*"
-    s.public_header_files = 'DocuSignESign/{Api,Core,Model}/*.h'
-
+    s.source_files = 'sdk/DocuSignESign/**/*.{m,h}'
+    s.public_header_files = 'sdk/DocuSignESign/**/*.h'
 
     s.dependency 'AFNetworking', '~> 4'
     s.dependency 'JSONModel', '~> 1.4'
