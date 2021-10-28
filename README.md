@@ -1,11 +1,15 @@
-# The Official DocuSign Objective-C Client 
+# The DocuSign Objective-C Client 
 
 You can sign up for a free [developer sandbox](https://www.docusign.com/developer-center).
+
+## DocuSign recommends the [Native-iOS-SDK](https://github.com/docusign/native-ios-sdk) for the Captive-Signing, Templates, Offline-Signing and other similar use-cases. 
+
+**NOTE:** [Native-iOS-SDK](https://github.com/docusign/native-ios-sdk) also hosts the sample apps and various guides to help you with DocuSign specific integrations for iOS.
 
 Requirements
 ============
 
-Xcode 7 or later.  
+Xcode 12 or later.  
 
 Installation
 ============
